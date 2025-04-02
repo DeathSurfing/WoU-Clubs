@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { clubsData } from "@/data/clubs"
+import { eventsData } from "@/data/events"
+import { format } from "date-fns"
 import type { Club } from "@/types/club"
 import ClubCard from "@/components/club-card"
 
@@ -39,6 +41,8 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
   if (!club) {
     return notFound()
   }
+
+  const clubEvents = eventsData.filter(event => event.clubId === club.id)
 
   return (
     <div className="pt-16">
@@ -113,7 +117,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   >
                     <h2 className="mb-4 text-2xl font-bold">Upcoming Events</h2>
                     <div className="space-y-6">
-                      {club.events?.map((event, index) => (
+                      {clubEvents.map((event, index) => (
                         <div key={index} className="rounded-lg border p-6">
                           <div className="flex items-start gap-4">
                             <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -122,16 +126,32 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                             <div>
                               <h3 className="text-xl font-semibold">{event.title}</h3>
                               <p className="text-sm text-muted-foreground">
-                                {event.date} • {event.location}
+                                {format(event.startDate, "MMMM d, yyyy")}
+                                {event.startTime && ` • ${event.startTime}`}
+                                {event.endTime && ` - ${event.endTime}`}
+                                {event.location && ` • ${event.location}`}
                               </p>
                               <p className="mt-2">{event.description}</p>
+                              {event.image && (
+                                <div className="mt-4 relative h-48 w-full rounded-lg overflow-hidden">
+                                  <Image
+                                    src={event.image}
+                                    alt={event.title}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                              )}
                               <Button className="mt-4 bg-[#EE495C] hover:bg-[#EE495C]/90" size="sm">
                                 Register
                               </Button>
                             </div>
                           </div>
                         </div>
-                      )) || <p className="text-muted-foreground">No upcoming events at the moment. Check back soon!</p>}
+                      ))}
+                      {clubEvents.length === 0 && (
+                        <p className="text-muted-foreground">No upcoming events at the moment. Check back soon!</p>
+                      )}
                     </div>
                   </motion.div>
                 </TabsContent>
