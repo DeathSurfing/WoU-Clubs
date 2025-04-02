@@ -38,7 +38,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-[400px] overflow-hidden rounded-lg">
               <Image
-                src="/placeholder.svg?height=800&width=600&text=Woxsen+University"
+                src="/Woxsen University Campus.png?height=800&width=600&text=Woxsen+University"
                 alt="Woxsen University Campus"
                 fill
                 className="object-cover"
