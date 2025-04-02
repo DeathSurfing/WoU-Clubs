@@ -45,7 +45,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 dark:from-black/80 dark:to-black/60 z-10"></div>
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('Universitybackdrop.png?height=1080&width=1920')" }}
+        style={{ backgroundImage: "url('University Backdrop.webp?height=1080&width=1920')" }}
       ></div>
       <div className="container relative z-20 mx-auto px-4 text-center text-white">
         <motion.h1
