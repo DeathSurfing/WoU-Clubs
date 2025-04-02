@@ -1,17 +1,29 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { motion } from "framer-motion"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import ClubCard from "@/components/club-card"
-import { clubsData } from "@/data/clubs"
+
+// Lazy load only the ClubCard component
+const ClubCard = dynamic(() => import("@/components/club-card"), {
+  loading: () => <div className="h-64 w-full bg-muted rounded-lg animate-pulse" />
+})
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const [clubsData, setClubsData] = useState([])
+
+  // Lazy load clubs data
+  useEffect(() => {
+    import("@/data/clubs").then((module) => {
+      setClubsData(module.clubsData)
+    })
+  }, [])
 
   // Get unique categories from club data
   const categories = ["All", ...Array.from(new Set(clubsData.map((club) => club.category)))].sort()
@@ -27,42 +39,41 @@ export default function Home() {
     return matchesSearch && matchesCategory
   })
 
-  return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 dark:from-black/80 dark:to-black/60 z-10"></div>
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('Universitybackdrop.png?height=1080&width=1920')" }}
-        ></div>
-        <div className="container relative z-20 mx-auto px-4 text-center text-white">
-          <motion.h1
-            className="mb-6 text-4xl font-bold leading-tight tracking-tighter md:text-6xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Discover Your Passion at <span className="text-[#EE495C]">Woxsen</span>
-          </motion.h1>
-          <motion.p
-            className="mx-auto mb-8 max-w-2xl text-lg text-gray-200 md:text-xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Join our diverse community of clubs and activities to enhance your university experience
-          </motion.p>
-          <motion.div
-            className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white" size="lg" asChild>
-              <a href="#explore">Explore Clubs</a>
-            </Button>
-            <Button 
+  // Inline Hero Section Component
+  const HeroSection = () => (
+    <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 dark:from-black/80 dark:to-black/60 z-10"></div>
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('Universitybackdrop.png?height=1080&width=1920')" }}
+      ></div>
+      <div className="container relative z-20 mx-auto px-4 text-center text-white">
+        <motion.h1
+          className="mb-6 text-4xl font-bold leading-tight tracking-tighter md:text-6xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Discover Your Passion at <span className="text-[#EE495C]">Woxsen</span>
+        </motion.h1>
+        <motion.p
+          className="mx-auto mb-8 max-w-2xl text-lg text-gray-200 md:text-xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          Join our diverse community of clubs and activities to enhance your university experience
+        </motion.p>
+        <motion.div
+          className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white" size="lg" asChild>
+            <a href="#explore">Explore Clubs</a>
+          </Button>
+          <Button 
             variant="outline" 
             className="w-full border-white text-black dark:text-white hover:bg-[#EE495C]/10" 
             size="lg" 
@@ -70,9 +81,40 @@ export default function Home() {
           >
             <a href="/about">Learn More</a>
           </Button>
-          </motion.div>
-        </div>
-      </section>
+        </motion.div>
+      </div>
+    </section>
+  )
+
+  // Inline Category Card Component
+  const CategoryCard = ({ category, index }: { category: string, index: number }) => (
+    <motion.div
+      key={category}
+      className="group relative overflow-hidden rounded-lg"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 z-10"></div>
+      <div
+        className="h-64 w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+        style={{ backgroundImage: `url('/placeholder.svg?height=400&width=300&text=${category}')` }}
+      ></div>
+      <div className="absolute bottom-0 left-0 z-20 p-6 text-white">
+        <h3 className="mb-2 text-2xl font-bold">{category}</h3>
+        <p className="mb-4 text-sm text-gray-200">Explore {category.toLowerCase()} clubs and activities</p>
+        <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" asChild>
+          <a href={`/categories/${category.toLowerCase()}`}>View Clubs</a>
+        </Button>
+      </div>
+    </motion.div>
+  )
+
+  return (
+    <div className="flex flex-col">
+      {/* Hero Section */}
+      <HeroSection />
 
       {/* Search and Filter Section */}
       <section id="explore" className="py-16 bg-muted/50">
@@ -113,7 +155,12 @@ export default function Home() {
 
           {/* Club Grid */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredClubs.length > 0 ? (
+            {clubsData.length === 0 ? (
+              // Loading state for clubs
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="h-64 w-full bg-muted rounded-lg animate-pulse" />
+              ))
+            ) : filteredClubs.length > 0 ? (
               filteredClubs.slice(0, 6).map((club, index) => (
                 <motion.div
                   key={club.id}
@@ -154,27 +201,7 @@ export default function Home() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {["Academic", "Arts", "Literary", "Cultural", "Sports", "Media", "Social"].map((category, index) => (
-              <motion.div
-                key={category}
-                className="group relative overflow-hidden rounded-lg"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 z-10"></div>
-                <div
-                  className="h-64 w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundImage: `url('/placeholder.svg?height=400&width=300&text=${category}')` }}
-                ></div>
-                <div className="absolute bottom-0 left-0 z-20 p-6 text-white">
-                  <h3 className="mb-2 text-2xl font-bold">{category}</h3>
-                  <p className="mb-4 text-sm text-gray-200">Explore {category.toLowerCase()} clubs and activities</p>
-                  <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" asChild>
-                    <a href={`/categories/${category.toLowerCase()}`}>View Clubs</a>
-                  </Button>
-                </div>
-              </motion.div>
+              <CategoryCard key={category} category={category} index={index} />
             ))}
           </div>
         </div>
@@ -195,4 +222,3 @@ export default function Home() {
     </div>
   )
 }
-
