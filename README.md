@@ -47,7 +47,7 @@ This is a modern and dynamic website designed to showcase the various clubs and 
    ```
 3. Install dependencies:
    ```bash
-   npm install
+   npm install --legacy-peer-deps
    ```
 4. Start the development server:
    ```bash

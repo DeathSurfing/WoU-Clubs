@@ -45,7 +45,7 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold tracking-tight">
-            <span className="text-primary">Woxsen</span> Clubs
+            <span className="text-primary">WoU</span> Clubs
           </span>
         </Link>
 

@@ -16,21 +16,31 @@ interface DatePickerProps {
 
 export function DatePicker({ date, setDate, className }: DatePickerProps) {
   const [open, setOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Wait until component is mounted to avoid hydration mismatch
+  useState(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative flex items-center", className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+            className={cn(
+              "w-full justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+              date && "pr-10"
+            )}
             onClick={() => setOpen(true)}
             type="button"
             aria-expanded={open}
             aria-haspopup="dialog"
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
+            {isMounted ? (date ? format(date, "PPP") : <span>Pick a date</span>) : <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
@@ -39,45 +49,26 @@ export function DatePicker({ date, setDate, className }: DatePickerProps) {
             selected={date}
             onSelect={(date) => {
               setDate(date)
-              // Only close the popover when a date is selected
-              if (date) setOpen(false)
+              setOpen(false)
             }}
             initialFocus
           />
-          <div className="flex items-center justify-between border-t p-3">
-            <p className="text-sm text-muted-foreground">Select a date to filter events</p>
-            {date && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setDate(undefined)
-                  setOpen(false)
-                }}
-              >
-                Clear
-              </Button>
-            )}
-          </div>
         </PopoverContent>
       </Popover>
 
-      {date && (
+      {date && isMounted && (
         <Button
           variant="ghost"
-          size="icon"
-          className="absolute right-0 top-0 h-full"
+          size="sm"
+          className="absolute right-1 h-6 w-6 p-0 hover:bg-transparent"
           onClick={() => {
             setDate(undefined)
-            setOpen(false)
           }}
         >
-          <X className="h-4 w-4" />
+          <X className="h-4 w-4 opacity-70" />
           <span className="sr-only">Clear date</span>
         </Button>
       )}
     </div>
   )
 }
-
