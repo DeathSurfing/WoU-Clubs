@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -13,16 +13,17 @@ import { clubsData } from "@/data/clubs"
 import type { Club } from "@/types/club"
 import ClubCard from "@/components/club-card"
 
-export default function ClubPage({ params }: { params: { id: string } }) {
+export default function ClubPage({ params }: { params: Promise<{ id: string }> }) {
+  const unwrappedParams = use(params)
   const [club, setClub] = useState<Club | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Simulate data fetching
-    const foundClub = clubsData.find((c) => c.id === params.id)
+    const foundClub = clubsData.find((c) => c.id === unwrappedParams.id)
     setClub(foundClub || null)
     setIsLoading(false)
-  }, [params.id])
+  }, [unwrappedParams.id])
 
   if (isLoading) {
     return (
@@ -248,4 +249,3 @@ export default function ClubPage({ params }: { params: { id: string } }) {
     </div>
   )
 }
-
