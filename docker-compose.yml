@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/mydatabase
+      - MONGODB_URI=mongodb://mongo:27017/WoxsenWebApp
     depends_on:
       - mongo
 
@@ -18,7 +18,7 @@ services:
     volumes:
       - mongo_data:/data/db
     environment:
-      MONGO_INITDB_DATABASE: mydatabase
+      MONGO_INITDB_DATABASE: WoxsenWebApp
 
 volumes:
   mongo_data:
