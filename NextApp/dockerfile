@@ -4,8 +4,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Install system dependencies
-RUN apk update && \
-    apk add --no-cache bash curl tini
+RUN apk update && apk add --no-cache bash curl
 
 # Copy package files first for caching
 COPY package.json package-lock.json ./
@@ -34,28 +33,19 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Install runtime dependencies
-RUN apk update && \
-    apk add --no-cache bash curl tini && \
-    npm install -g pm2
+RUN apk update && apk add --no-cache bash curl
 
 # Copy built artifacts from builder
 COPY --from=builder /app/package.json /app/package-lock.json ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/cron.ts ./
 COPY --from=builder /app/lib ./lib
 COPY --from=builder /app/models ./models
-
-# Setup cron with log file
-RUN touch /var/log/cron.log && \
-    chmod 666 /var/log/cron.log && \
-    echo "0 0 * * * /usr/bin/node /app/cron.ts >> /var/log/cron.log 2>&1" > /etc/crontabs/root && \
-    chmod 0644 /etc/crontabs/root
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000 || exit 1
 
-# Start services
-CMD ["sh", "-c", "crond -f -L /dev/stdout & exec pm2-runtime start npm -- start"]
+# Start the application
+CMD ["npm", "start"]
