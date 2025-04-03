@@ -1,40 +1,58 @@
-# Use a stable Node.js version
+# Builder stage
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
+# Install system dependencies
+RUN apk update && \
+    apk add --no-cache bash curl tini busybox-suid
+
+# Copy package files first for better caching
 COPY package.json package-lock.json ./
-RUN npm install --legacy-peer-deps
 
-# Copy the app and build
+# Install dependencies
+RUN npm ci --legacy-peer-deps
+
+# Copy application files
 COPY . .
-RUN npm run build
 
-# Runtime image
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Install Cron for scheduling tasks
-RUN apk add --no-cache bash curl nodejs npm tini && \
-    npm install -g pm2
-
-# Set environment variables for MongoDB & Google Sheets
+# Build arguments
 ARG MONGODB_URI
 ARG SHEET_ID
 ENV MONGODB_URI=$MONGODB_URI
 ENV SHEET_ID=$SHEET_ID
+ENV NODE_ENV=production
 
-# Copy necessary build files
+# Build the application
+RUN npm run build
+
+# Runtime stage
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apk update && \
+    apk add --no-cache tini && \
+    npm install -g pm2
+
+# Copy built application from builder
 COPY --from=builder /app/package.json /app/package-lock.json ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/cron.ts ./cron.ts
 
-# Ensure cron job runs daily
-RUN echo "0 0 * * * node /app/cron.ts >> /var/log/cron.log 2>&1" > /etc/crontabs/root
+# Setup cron job
+RUN echo "0 0 * * * /usr/bin/node /app/cron.ts >> /var/log/cron.log 2>&1" > /etc/crontabs/root && \
+    chmod 0644 /etc/crontabs/root
 
-# Start Next.js & Cron using PM2
-CMD ["sh", "-c", "crond -b && pm2-runtime start 'npx next start'"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000/ || exit 1
+
+# Use tini as init system
+ENTRYPOINT ["/sbin/tini", "--"]
+
+# Start application through PM2
+CMD ["pm2-runtime", "start", "npm", "--", "start"]
