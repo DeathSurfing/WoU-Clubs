@@ -9,12 +9,14 @@ services:
         - MONGODB_URI=${MONGODB_URI}
         - SHEET_ID=${SHEET_ID}
         - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+        - RUN_ON_STARTUP=${RUN_ON_STARTUP}
     ports:
       - "3000:3000"
     environment:
       - MONGODB_URI=${MONGODB_URI}
       - SHEET_ID=${SHEET_ID}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - RUN_ON_STARTUP=${RUN_ON_STARTUP}
       - NODE_ENV=production
     depends_on:
       mongo:
@@ -22,7 +24,6 @@ services:
     volumes:
       - ./NextApp:/app
       - /app/node_modules
-      - /var/log/cron.log:/var/log/cron.log
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
@@ -36,7 +37,7 @@ services:
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_DATABASE=woxsen
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     volumes:

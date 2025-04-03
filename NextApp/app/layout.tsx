@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
+import '@fontsource/work-sans'
+
 
 const workSans = Work_Sans({
   subsets: ["latin"],
