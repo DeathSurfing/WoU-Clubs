@@ -3,16 +3,19 @@ version: "3.8"
 services:
   app:
     build:
-      context: ./NextApp  # Ensure it correctly points to the NextApp directory
+      context: ./NextApp  # Path to your Next.js app directory
       dockerfile: Dockerfile
+      args:
+        MONGODB_URI: ${MONGODB_URI}
+        SHEET_ID: ${SHEET_ID}
     ports:
       - "3000:3000"
     env_file:
-      - .env  # Loads environment variables
+      - .env  # Loads environment variables for runtime
     depends_on:
       - mongo
     volumes:
-      - ./NextApp:/app  # Mount local files for live updates
+      - ./NextApp:/app  # Live code mounting
     command: ["sh", "-c", "crond -b && pm2-runtime start 'npx next start'"]
 
   mongo:
@@ -23,7 +26,7 @@ services:
     volumes:
       - mongo_data:/data/db
     env_file:
-      - .env  # Optional: Load MongoDB env vars if needed
+      - .env  # Loads MongoDB env vars
 
 volumes:
   mongo_data:
