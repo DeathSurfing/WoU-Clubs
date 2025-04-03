@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app:
     build:
@@ -6,11 +8,13 @@ services:
       args:
         - MONGODB_URI=${MONGODB_URI}
         - SHEET_ID=${SHEET_ID}
+        - GOOGLE_API_KEY=${GOOGLE_API_KEY}
     ports:
       - "3000:3000"
     environment:
       - MONGODB_URI=${MONGODB_URI}
       - SHEET_ID=${SHEET_ID}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - NODE_ENV=production
     depends_on:
       mongo:
@@ -18,7 +22,13 @@ services:
     volumes:
       - ./NextApp:/app
       - /app/node_modules
+      - /var/log/cron.log:/var/log/cron.log
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mongo:
     image: mongo:6
