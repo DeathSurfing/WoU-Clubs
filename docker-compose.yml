@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - MONGODB_URI=mongodb://mongo:27017/WoxsenWebApp
+    env_file:
+      - .env  # Loads environment variables from .env file
     depends_on:
       - mongo
 
@@ -17,8 +17,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-    environment:
-      MONGO_INITDB_DATABASE: WoxsenWebApp
+    env_file:
+      - .env  # Optional: Load MongoDB env vars if needed
 
 volumes:
   mongo_data:
