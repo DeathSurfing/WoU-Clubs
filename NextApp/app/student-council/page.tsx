@@ -9,33 +9,44 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import OrganizationChart from "@/components/student-council/organization-chart"
-import TeamMemberCard from "@/components/student-council/team-member-card"
 import { councilData, teamMembers } from "@/data/student-council"
+import Image from "next/image"
+import { Mail, Linkedin, Twitter } from "lucide-react"
 
 export default function StudentCouncilPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
   const [selectedRole, setSelectedRole] = useState("All")
   const [selectedYear, setSelectedYear] = useState("All")
-  const [filteredMembers, setFilteredMembers] = useState(teamMembers)
+  const [filteredMembers, setFilteredMembers] = useState<typeof teamMembers>([])
   const [activeTab, setActiveTab] = useState("structure")
+  const [isClient, setIsClient] = useState(false)
 
   // Get unique departments, roles, and years from team members data
   const departments = ["All", ...Array.from(new Set(teamMembers.map((member) => member.department)))].sort()
   const roles = ["All", ...Array.from(new Set(teamMembers.map((member) => member.role)))].sort()
   const years = ["All", ...Array.from(new Set(teamMembers.map((member) => member.year)))].sort()
 
+  useEffect(() => {
+    setIsClient(true)
+    setFilteredMembers(teamMembers) // Initialize with all members
+  }, [])
+
   // Filter team members based on search query and selected filters
   useEffect(() => {
+    if (!isClient) return
+
     let filtered = [...teamMembers]
 
     // Filter by search query
-    if (searchQuery) {
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase().trim()
       filtered = filtered.filter(
         (member) =>
-          member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          member.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          member.department.toLowerCase().includes(searchQuery.toLowerCase()),
+          member.name.toLowerCase().includes(query) ||
+          member.role.toLowerCase().includes(query) ||
+          member.department.toLowerCase().includes(query) ||
+          (member.bio && member.bio.toLowerCase().includes(query)),
       )
     }
 
@@ -55,7 +66,7 @@ export default function StudentCouncilPage() {
     }
 
     setFilteredMembers(filtered)
-  }, [searchQuery, selectedDepartment, selectedRole, selectedYear])
+  }, [searchQuery, selectedDepartment, selectedRole, selectedYear, isClient])
 
   // Reset all filters
   const resetFilters = () => {
@@ -68,6 +79,24 @@ export default function StudentCouncilPage() {
   // Check if any filters are active
   const hasActiveFilters =
     searchQuery || selectedDepartment !== "All" || selectedRole !== "All" || selectedYear !== "All"
+
+  if (!isClient) {
+    return (
+      <div className="pt-24 pb-16">
+        <div className="container">
+          <div className="mb-12">
+            <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Student Council</h1>
+            <p className="text-lg text-muted-foreground">
+              Meet the dedicated student leaders who represent and advocate for the Woxsen University student body
+            </p>
+          </div>
+          <div className="h-[400px] flex items-center justify-center">
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="pt-24 pb-16">
@@ -293,15 +322,59 @@ export default function StudentCouncilPage() {
             {/* Team Members Grid */}
             {filteredMembers.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredMembers.map((member, index) => (
-                  <motion.div
-                    key={member.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                  >
-                    <TeamMemberCard member={member} />
-                  </motion.div>
+                {filteredMembers.map((member) => (
+                  <div key={member.id} className="border rounded-lg overflow-hidden">
+                    <div className="relative h-64 w-full">
+                      <Image
+                        src={member.photo || "/placeholder.svg?height=300&width=300&text=Photo"}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <Badge className="absolute right-2 top-2 bg-[#EE495C]">{member.role}</Badge>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-xl font-bold">{member.name}</h3>
+                      <p className="text-sm text-muted-foreground">{member.department}</p>
+                      <p className="mt-2 text-sm">{member.year}</p>
+
+                      <div className="mt-4 space-y-2">
+                        {member.bio && <p className="text-sm text-muted-foreground line-clamp-3">{member.bio}</p>}
+
+                        <div className="flex justify-between items-center mt-4">
+                          <div className="flex space-x-2">
+                            {member.email && (
+                              <Button variant="outline" size="icon" asChild>
+                                <a href={`mailto:${member.email}`} aria-label="Email">
+                                  <Mail className="h-4 w-4" />
+                                </a>
+                              </Button>
+                            )}
+                            {member.linkedin && (
+                              <Button variant="outline" size="icon" asChild>
+                                <a
+                                  href={member.linkedin}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  aria-label="LinkedIn"
+                                >
+                                  <Linkedin className="h-4 w-4" />
+                                </a>
+                              </Button>
+                            )}
+                            {member.twitter && (
+                              <Button variant="outline" size="icon" asChild>
+                                <a href={member.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                                  <Twitter className="h-4 w-4" />
+                                </a>
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -321,4 +394,3 @@ export default function StudentCouncilPage() {
     </div>
   )
 }
-
