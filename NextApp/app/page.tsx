@@ -189,24 +189,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section id="categories" className="py-16">
-        <div className="container">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">Club Categories</h2>
-            <p className="mx-auto max-w-2xl text-muted-foreground">
-              Explore clubs by category to find the perfect match for your interests
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {["Academic", "Arts", "Literary", "Cultural", "Sports", "Media", "Social"].map((category, index) => (
-              <CategoryCard key={category} category={category} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="bg-[#EE495C] py-16 text-white">
         <div className="container text-center">
