@@ -13,6 +13,7 @@ import { useMobile } from "@/hooks/use-mobile"
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Clubs", path: "/clubs" },
+  { name: "Student Council", path: "/student-council" },
   { name: "Events", path: "/events" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
