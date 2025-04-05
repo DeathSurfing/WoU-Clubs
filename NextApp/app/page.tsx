@@ -125,7 +125,7 @@ export default function Home() {
               <div className="relative h-[400px] w-full">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
                 <Image
-                  src="/placeholder.svg?height=800&width=600&text=Student+Council"
+                  src="/CouncilLead.webp?height=800&width=600&text=Student+Council"
                   alt="Student Council"
                   fill
                   className="object-cover"
