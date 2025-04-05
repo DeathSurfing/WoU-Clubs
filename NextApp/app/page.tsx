@@ -133,7 +133,14 @@ export default function Home() {
                 <div className="absolute bottom-0 left-0 z-20 p-6 text-white">
                   <h3 className="text-2xl font-bold mb-2">Leadership Structure</h3>
                   <p className="mb-4">Explore our hierarchical council organization</p>
-                  <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" asChild>
+                  <Button 
+                    variant="outline" 
+                    className="
+                      border-primary text-primary hover:bg-primary hover:text-primary-foreground
+                      dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black
+                    " 
+                    asChild
+                  >
                     <Link href="/student-council">View Structure</Link>
                   </Button>
                 </div>

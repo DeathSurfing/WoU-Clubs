@@ -46,11 +46,11 @@ export default function Header() {
     >
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="relative h-30 w-30 md:h-32 md:w-32"> {/* Increased logo size */}
+          <div className="relative h-8 w-8 md:h-24 md:w-24"> {/* Reduced logo size */}
             {/* Light mode logo */}
             <div className="dark:hidden">
               <Image
-                src="/woxsenLight.webp?height=40&width=40&text=W"
+                src="/woxsenLight.webp"
                 alt="Woxsen University Logo"
                 fill
                 className="object-contain"
@@ -59,16 +59,17 @@ export default function Header() {
             {/* Dark mode logo */}
             <div className="hidden dark:block">
               <Image
-                src="/woxsenDark.webp?height=40&width=40&text=W"
+                src="/woxsenDark.webp"
                 alt="Woxsen University Logo"
                 fill
                 className="object-contain"
               />
             </div>
           </div>
-          <span className="text-xl font-bold tracking-tight">
-            <span className="text-primary">Student</span> Affairs
-          </span>
+          <div className="flex flex-col leading-none"> {/* Changed to leading-none */}
+            <span className="text-lg font-bold text-primary">Student</span>
+            <span className="text-lg font-bold tracking-tight -mt-1">Affairs</span> {/* Added negative margin-top */}
+          </div>
         </Link>
 
         {isMobile ? (
@@ -131,4 +132,3 @@ export default function Header() {
     </motion.header>
   )
 }
-
