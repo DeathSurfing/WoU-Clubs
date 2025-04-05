@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Menu, X } from "lucide-react"
@@ -13,8 +14,8 @@ import { useMobile } from "@/hooks/use-mobile"
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Clubs", path: "/clubs" },
-  { name: "Student Council", path: "/student-council" },
   { name: "Events", path: "/events" },
+  { name: "Student Council", path: "/student-council" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
 ]
@@ -45,8 +46,28 @@ export default function Header() {
     >
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
+          <div className="relative h-30 w-30 md:h-32 md:w-32"> {/* Increased logo size */}
+            {/* Light mode logo */}
+            <div className="dark:hidden">
+              <Image
+                src="/woxsenLight.webp?height=40&width=40&text=W"
+                alt="Woxsen University Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+            {/* Dark mode logo */}
+            <div className="hidden dark:block">
+              <Image
+                src="/woxsenDark.webp?height=40&width=40&text=W"
+                alt="Woxsen University Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
           <span className="text-xl font-bold tracking-tight">
-            <span className="text-primary">WoU</span> Student Affairs
+            <span className="text-primary">Student</span> Affairs
           </span>
         </Link>
 
