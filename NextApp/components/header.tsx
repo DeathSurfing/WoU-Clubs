@@ -50,7 +50,7 @@ export default function Header() {
             {/* Light mode logo */}
             <div className="dark:hidden">
               <Image
-                src="/woxsenLight.webp"
+                src="/WoxsenLight.webp"
                 alt="Woxsen University Logo"
                 fill
                 className="object-contain"
@@ -59,7 +59,7 @@ export default function Header() {
             {/* Dark mode logo */}
             <div className="hidden dark:block">
               <Image
-                src="/woxsenDark.webp"
+                src="/WoxsenDark.webp"
                 alt="Woxsen University Logo"
                 fill
                 className="object-contain"
