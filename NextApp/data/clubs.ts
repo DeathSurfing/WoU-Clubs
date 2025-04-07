@@ -323,4 +323,18 @@ export const clubsData: Club[] = [
     email: "ignite@woxsen.edu.in",
     joinUrl: "https://forms.woxsen.edu.in/club-join?id=ignite",
   },
+  {
+    id: "studentcouncil",
+    name: "Student Council",
+    category: "Ruling Body",
+    shortDescription: "Short description for Student Council",
+    description: "Full description of Student Council.",
+    image: "/SCLogoDark.webp",
+    coverImage: "/Universitybackdrop.png",
+    memberCount: "50",
+    meetingSchedule: "N/A",
+    location: "Main Campus, Room 101",
+    email: "ignite@woxsen.edu.in",
+    joinUrl: "/student-council",
+  },
 ]

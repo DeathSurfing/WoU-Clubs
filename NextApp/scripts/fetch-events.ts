@@ -15,6 +15,7 @@ function sanitizeTimestampForId(timestamp) {
 
 // Utility function to format time into HH:mm (24-hour format)
 function formatTime(time) {
+  if (!time) return ""; // Handle missing time gracefully
   const [hours, minutes] = time.split(/[:\s]+/);
   const period = time.match(/AM|PM/i)?.[0];
   let hour = parseInt(hours, 10);
@@ -41,7 +42,7 @@ async function fetchAndProcessEvents() {
     }
 
     // Construct the API URL using environment variables
-    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A2:K?key=${googleApiKey}`;
+    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A2:L?key=${googleApiKey}`;
 
     // Fetch the JSON response from the Google Sheets API
     const response = await axios.get(apiUrl);
@@ -50,40 +51,53 @@ async function fetchAndProcessEvents() {
     const rows = response.data.values || [];
 
     // Map the rows to the desired Event structure
-    const eventsData = rows.map((row, index) => {
-      const [
-        timestamp,
-        title,
-        description,
-        startDate,
-        startTime,
-        endTime,
-        location,
-        category,
-        clubId,
-        image,
-        registerUrl,
-        isFeaturedRaw,
-      ] = row;
+    const eventsData = rows
+      .filter(row => row.length > 0 && row[0]) // Filter out empty rows or rows without a timestamp
+      .map((row, index) => {
+        const [
+          timestamp,
+          title,
+          description,
+          startDate,
+          startTime,
+          endTime,
+          location,
+          category,
+          clubId,
+          image,
+          registerUrl,
+          isFeaturedRaw, // Column L (12th column)
+        ] = row;
 
-      // Parse the ISFEATURED field as a boolean
-      const isFeatured = ["true", "TRUE"].includes(isFeaturedRaw?.trim());
+        // Skip rows with missing required fields
+        if (!timestamp || !startDate || !startTime || !endTime) {
+          console.warn(`Skipping invalid row at index ${index + 2}`); // +2 because data starts at A2
+          return null;
+        }
 
-      return {
-        id: sanitizeTimestampForId(timestamp), // Sanitized timestamp as ID
-        title,
-        description,
-        startDate: new Date(startDate).toISOString().split("T")[0], // Format as YYYY-MM-DD
-        startTime: formatTime(startTime),
-        endTime: formatTime(endTime),
-        location,
-        category,
-        clubId,
-        image,
-        registerUrl, // Include the registration URL
-        isFeatured, // Use the parsed boolean value
-      };
-    });
+        // Parse the ISFEATURED field as a boolean
+        const isFeatured =
+          typeof isFeaturedRaw === "string" &&
+          ["true", "TRUE"].includes(isFeaturedRaw.trim());
+
+        return {
+          id: timestamp 
+            ? sanitizeTimestampForId(timestamp) 
+            : `event-${index}`, // Fallback ID using row index
+          title: title || "Untitled Event",
+          description: description || "",
+          startDate: new Date(startDate).toISOString().split("T")[0], // Format as YYYY-MM-DD
+          startTime: formatTime(startTime),
+          endTime: formatTime(endTime),
+          location: location || "TBA",
+          category: category || "General",
+          clubId: clubId || "Unknown Club",
+          image: image || "",
+          registerUrl: registerUrl || "", // Include the registration URL
+          isFeatured: isFeatured, // Use the parsed boolean value
+        };
+      })
+      .filter(event => event !== null); // Remove skipped rows
 
     // Write the output to a TypeScript file
     const outputFilePath = "./data/events.ts";
