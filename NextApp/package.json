@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fetch-events":"node scripts/fetchEvents.js"
+    "fetch-events":"node scripts/fetch-events.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

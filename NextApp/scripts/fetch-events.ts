@@ -86,7 +86,7 @@ async function fetchAndProcessEvents() {
     });
 
     // Write the output to a TypeScript file
-    const outputFilePath = "./eventsData.ts";
+    const outputFilePath = "./data/events.ts";
     const outputContent = `export const eventsData = ${JSON.stringify(eventsData, null, 2)};\n`;
 
     fs.writeFileSync(outputFilePath, outputContent);
