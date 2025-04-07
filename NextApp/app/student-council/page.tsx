@@ -8,12 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { 
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger 
-} from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import OrganizationChart from "@/components/student-council/organization-chart"
 import { councilData, teamMembers } from "@/data/student-council"
@@ -89,8 +84,8 @@ export default function StudentCouncilPage() {
     searchQuery || selectedDepartment !== "All" || selectedRole !== "All" || selectedYear !== "All"
 
   // Chart zoom controls
-  const zoomIn = () => setChartZoom(prev => Math.min(prev + 10, 150))
-  const zoomOut = () => setChartZoom(prev => Math.max(prev - 10, 70))
+  const zoomIn = () => setChartZoom((prev) => Math.min(prev + 10, 150))
+  const zoomOut = () => setChartZoom((prev) => Math.max(prev - 10, 70))
   const resetZoom = () => setChartZoom(100)
 
   if (!isClient) {
@@ -139,9 +134,9 @@ export default function StudentCouncilPage() {
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Organizational Structure</CardTitle>
                 <CardDescription>
-                  The Student Council at Woxsen University operates with a hierarchical structure designed to effectively
-                  represent student interests across various departments and activities. Click on positions to expand or
-                  collapse the organizational chart.
+                  The Student Council at Woxsen University operates with a tier-based hierarchical structure designed to
+                  effectively represent student interests across various departments and activities. Click on positions
+                  to expand or collapse the organizational chart.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -158,20 +153,21 @@ export default function StudentCouncilPage() {
                   </Button>
                   <span className="text-sm text-muted-foreground">{chartZoom}%</span>
                 </div>
-                
+
                 <div className="overflow-x-auto border rounded-md pb-6">
-                  <div 
+                  <div
                     className="min-w-[800px] p-4"
-                    style={{ transform: `scale(${chartZoom/100})`, transformOrigin: 'top center' }}
+                    style={{ transform: `scale(${chartZoom / 100})`, transformOrigin: "top center" }}
                   >
                     <OrganizationChart data={councilData} />
                   </div>
                 </div>
-                
+
                 <div className="mt-4 flex items-center rounded-md bg-muted p-3">
                   <Info className="h-5 w-5 mr-2 text-blue-500" />
                   <p className="text-sm">
-                    Click or tap on any position in the chart to see its subordinate roles and responsibilities. Double-click to collapse expanded items.
+                    Click or tap on any position in the chart to see its subordinate roles and responsibilities.
+                    Double-click to collapse expanded items.
                   </p>
                 </div>
               </CardContent>
@@ -181,7 +177,8 @@ export default function StudentCouncilPage() {
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Council Responsibilities</CardTitle>
                 <CardDescription>
-                  The Student Council at Woxsen University fulfills various responsibilities to ensure effective student representation and campus engagement.
+                  The Student Council at Woxsen University fulfills various responsibilities to ensure effective student
+                  representation and campus engagement.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -191,36 +188,36 @@ export default function StudentCouncilPage() {
                       title: "Student Advocacy",
                       description:
                         "Represent student interests and concerns to university administration, faculty, and staff.",
-                      icon: "🔊"
+                      icon: "🔊",
                     },
                     {
                       title: "Event Planning",
                       description:
                         "Organize and coordinate campus-wide events, cultural programs, and recreational activities.",
-                      icon: "📅"
+                      icon: "📅",
                     },
                     {
                       title: "Club Coordination",
                       description:
                         "Oversee and support the activities of various student clubs and organizations on campus.",
-                      icon: "🤝"
+                      icon: "🤝",
                     },
                     {
                       title: "Academic Support",
                       description:
                         "Work with faculty to enhance academic resources and address student academic concerns.",
-                      icon: "📚"
+                      icon: "📚",
                     },
                     {
                       title: "Community Outreach",
                       description: "Develop and implement community service projects and initiatives beyond campus.",
-                      icon: "🌐"
+                      icon: "🌐",
                     },
                     {
                       title: "Student Welfare",
                       description:
                         "Ensure student well-being through health, safety, and wellness programs and policies.",
-                      icon: "🏥"
+                      icon: "🏥",
                     },
                   ].map((item, index) => (
                     <motion.div
@@ -240,7 +237,7 @@ export default function StudentCouncilPage() {
               </CardContent>
             </Card>
 
-            {/* NEW SECTION: Council Achievements */}
+            {/* Council Achievements */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Recent Council Achievements</CardTitle>
@@ -254,34 +251,46 @@ export default function StudentCouncilPage() {
                     <div className="absolute top-0 left-[-10px] w-5 h-5 rounded-full bg-blue-500"></div>
                     <h3 className="text-xl font-semibold">Campus Sustainability Initiative</h3>
                     <p className="text-sm text-muted-foreground mb-2">April 2025</p>
-                    <p>Successfully implemented a campus-wide recycling program and reduced plastic usage by 40% in university facilities.</p>
+                    <p>
+                      Successfully implemented a campus-wide recycling program and reduced plastic usage by 40% in
+                      university facilities.
+                    </p>
                   </div>
-                  
+
                   <div className="relative pl-8 pt-2 pb-4 border-l-2 border-blue-500">
                     <div className="absolute top-0 left-[-10px] w-5 h-5 rounded-full bg-blue-500"></div>
                     <h3 className="text-xl font-semibold">Expanded Mental Health Resources</h3>
                     <p className="text-sm text-muted-foreground mb-2">March 2025</p>
-                    <p>Collaborated with university health services to expand mental health support, adding three new counselors and weekly wellness workshops.</p>
+                    <p>
+                      Collaborated with university health services to expand mental health support, adding three new
+                      counselors and weekly wellness workshops.
+                    </p>
                   </div>
-                  
+
                   <div className="relative pl-8 pt-2 pb-4 border-l-2 border-blue-500">
                     <div className="absolute top-0 left-[-10px] w-5 h-5 rounded-full bg-blue-500"></div>
                     <h3 className="text-xl font-semibold">Inter-University Collaboration Network</h3>
                     <p className="text-sm text-muted-foreground mb-2">February 2025</p>
-                    <p>Established partnerships with five regional universities, creating opportunities for joint events and academic exchanges.</p>
+                    <p>
+                      Established partnerships with five regional universities, creating opportunities for joint events
+                      and academic exchanges.
+                    </p>
                   </div>
-                  
+
                   <div className="relative pl-8 pt-2 pb-4">
                     <div className="absolute top-0 left-[-10px] w-5 h-5 rounded-full bg-blue-500"></div>
                     <h3 className="text-xl font-semibold">Student Feedback System Overhaul</h3>
                     <p className="text-sm text-muted-foreground mb-2">January 2025</p>
-                    <p>Redesigned the student feedback mechanism, resulting in a 65% increase in student participation and improved response times from administration.</p>
+                    <p>
+                      Redesigned the student feedback mechanism, resulting in a 65% increase in student participation
+                      and improved response times from administration.
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* NEW SECTION: Get Involved */}
+            {/* Get Involved */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Get Involved</CardTitle>
@@ -291,33 +300,42 @@ export default function StudentCouncilPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6 md:grid-cols-2">
-                  <motion.div 
+                  <motion.div
                     className="rounded-lg border p-6 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-gray-950"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
                     <h3 className="text-xl font-bold mb-2">Join the Council</h3>
-                    <p className="mb-4">Elections for council positions are held at the beginning of each academic year. Look out for announcements in September.</p>
+                    <p className="mb-4">
+                      Elections for council positions are held at the beginning of each academic year. Look out for
+                      announcements in September.
+                    </p>
                     <Button>Learn About Elections</Button>
                   </motion.div>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="rounded-lg border p-6 bg-gradient-to-br from-purple-50 to-white dark:from-purple-950 dark:to-gray-950"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
                     <h3 className="text-xl font-bold mb-2">Volunteer Opportunities</h3>
-                    <p className="mb-4">Can't commit to a full council position? Join as a volunteer for specific events and initiatives throughout the year.</p>
+                    <p className="mb-4">
+                      Can't commit to a full council position? Join as a volunteer for specific events and initiatives
+                      throughout the year.
+                    </p>
                     <Button>Sign Up as Volunteer</Button>
                   </motion.div>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="rounded-lg border p-6 bg-gradient-to-br from-green-50 to-white dark:from-green-950 dark:to-gray-950 md:col-span-2"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
                     <h3 className="text-xl font-bold mb-2">Submit Your Ideas</h3>
-                    <p className="mb-4">Have suggestions for improving campus life? The council welcomes ideas from all students. Fill out the form below to submit your proposal.</p>
+                    <p className="mb-4">
+                      Have suggestions for improving campus life? The council welcomes ideas from all students. Fill out
+                      the form below to submit your proposal.
+                    </p>
                     <div className="flex flex-col sm:flex-row gap-2">
                       <Button className="whitespace-nowrap">Submit Idea</Button>
                     </div>
@@ -327,7 +345,7 @@ export default function StudentCouncilPage() {
             </Card>
           </TabsContent>
 
-          {/* Meet the Team Tab - Keeping original code with minor improvements */}
+          {/* Meet the Team Tab */}
           <TabsContent value="team" className="space-y-8">
             {/* Search and Filter Section */}
             <div className="mb-8 space-y-4">
@@ -464,8 +482,8 @@ export default function StudentCouncilPage() {
             {filteredMembers.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredMembers.map((member) => (
-                  <motion.div 
-                    key={member.id} 
+                  <motion.div
+                    key={member.id}
                     className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -490,9 +508,7 @@ export default function StudentCouncilPage() {
                       <div className="mt-4 space-y-2">
                         {member.bio && <p className="text-sm text-muted-foreground line-clamp-3">{member.bio}</p>}
                         {member.quote && (
-                          <div className="mt-3 italic text-sm border-l-2 border-gray-300 pl-2">
-                            "{member.quote}"
-                          </div>
+                          <div className="mt-3 italic text-sm border-l-2 border-gray-300 pl-2">"{member.quote}"</div>
                         )}
 
                         <div className="flex justify-between items-center mt-4">
@@ -539,10 +555,10 @@ export default function StudentCouncilPage() {
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <Button variant="outline" size="icon" asChild>
-                                      <a 
-                                        href={member.twitter} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer" 
+                                      <a
+                                        href={member.twitter}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         aria-label="Twitter"
                                       >
                                         <Twitter className="h-4 w-4" />
@@ -579,3 +595,4 @@ export default function StudentCouncilPage() {
     </div>
   )
 }
+

@@ -1,59 +1,16 @@
 import type { OrgNode, TeamMember } from "@/types/student-council"
 
-// Organizational structure data
+// Updated organizational structure data with tier-based hierarchy
 export const councilData: OrgNode = {
-  id: "president",
-  name: "Aditya Sharma",
-  title: "Student Council President",
+  id: "council-structure",
+  name: "Woxsen Student Council",
+  title: "Organizational Structure",
   children: [
+    // Tier 1 - Top Leadership
     {
-      id: "vp-academic",
-      name: "Priya Patel",
-      title: "VP Academic Affairs",
-      children: [
-        {
-          id: "academic-rep-business",
-          name: "Rahul Mehta",
-          title: "Business School Representative",
-        },
-        {
-          id: "academic-rep-engineering",
-          name: "Sneha Reddy",
-          title: "Engineering School Representative",
-        },
-        {
-          id: "academic-rep-design",
-          name: "Arjun Kapoor",
-          title: "Design School Representative",
-        },
-      ],
-    },
-    {
-      id: "vp-student-life",
-      name: "Neha Singh",
-      title: "VP Student Life",
-      children: [
-        {
-          id: "cultural-chair",
-          name: "Vikram Choudhury",
-          title: "Cultural Committee Chair",
-        },
-        {
-          id: "sports-chair",
-          name: "Ananya Desai",
-          title: "Sports Committee Chair",
-        },
-        {
-          id: "events-chair",
-          name: "Rohan Malhotra",
-          title: "Events Committee Chair",
-        },
-      ],
-    },
-    {
-      id: "general-secretary",
-      name: "Karthik Nair",
-      title: "General Secretary",
+      id: "tier-1",
+      name: "Tier 1 - Executive Leadership",
+      title: "Top Leadership",
       children: [
         {
           id: "treasurer",
@@ -61,26 +18,290 @@ export const councilData: OrgNode = {
           title: "Treasurer",
         },
         {
-          id: "communications",
-          name: "Siddharth Iyer",
-          title: "Communications Officer",
+          id: "general-secretary",
+          name: "Karthik Nair",
+          title: "General Secretary",
+        },
+        {
+          id: "president",
+          name: "Aditya Sharma",
+          title: "President",
+        },
+        {
+          id: "senior-vice-president",
+          name: "Neha Singh",
+          title: "Senior Vice President",
         },
       ],
     },
+
+    // Tier 2 - Senior Management
     {
-      id: "welfare-officer",
-      name: "Meera Krishnan",
-      title: "Student Welfare Officer",
+      id: "tier-2",
+      name: "Tier 2 - Senior Management",
+      title: "Senior Management",
       children: [
         {
-          id: "diversity-chair",
-          name: "Zara Ahmed",
-          title: "Diversity & Inclusion Chair",
+          id: "operating-secretary",
+          name: "Rohan Malhotra",
+          title: "Operating Secretary",
         },
         {
-          id: "health-chair",
+          id: "facilities-secretary",
+          name: "Ananya Desai",
+          title: "Facilities Secretary",
+        },
+        {
+          id: "co-treasurer-1",
+          name: "Vikram Choudhury",
+          title: "Co-Treasurer",
+        },
+        {
+          id: "co-treasurer-2",
+          name: "Zara Ahmed",
+          title: "Co-Treasurer",
+        },
+        {
+          id: "technical-secretary",
+          name: "Rahul Mehta",
+          title: "Technical Secretary",
+        },
+        {
+          id: "co-secretary",
+          name: "Priya Patel",
+          title: "Co-Secretary",
+        },
+      ],
+    },
+
+    // Tier 3 - Officers
+    {
+      id: "tier-3",
+      name: "Tier 3 - Officers",
+      title: "Officers",
+      children: [
+        {
+          id: "vp-student-welfare",
+          name: "Meera Krishnan",
+          title: "VP Student Welfare Officer",
+        },
+        {
+          id: "vp-sports",
+          name: "Arjun Kapoor",
+          title: "VP Sports Officer",
+        },
+        {
+          id: "co-chair-sports",
+          name: "Siddharth Iyer",
+          title: "Co-Chair Sports Officer",
+        },
+        {
+          id: "creativity-officer",
+          name: "Sneha Reddy",
+          title: "Creativity and Innovations Officer",
+        },
+        {
+          id: "co-chair-creativity",
           name: "Varun Menon",
-          title: "Health & Wellness Chair",
+          title: "Co-Chair of Creativity and Innovations",
+        },
+        {
+          id: "mindfulness-officer",
+          name: "Divya Sharma",
+          title: "Mindfulness and Critical Thinking Officer",
+        },
+        {
+          id: "co-chair-mindfulness",
+          name: "Ananya Desai",
+          title: "Co-Chair Mindfulness and Critical Thinking",
+        },
+        {
+          id: "lifelong-officer",
+          name: "Rohan Malhotra",
+          title: "VP - Life Long Officer",
+        },
+        {
+          id: "co-chair-lifelong",
+          name: "Vikram Choudhury",
+          title: "Co-Chair of Lifelong",
+        },
+        {
+          id: "entrepreneurship-officer",
+          name: "Zara Ahmed",
+          title: "VP Entrepreneurship Officer",
+        },
+        {
+          id: "co-chair-entrepreneurship",
+          name: "Rahul Mehta",
+          title: "Entrepreneurship Co-Chair",
+        },
+        {
+          id: "global-citizenship-officer",
+          name: "Priya Patel",
+          title: "Student VP Global Citizenship",
+        },
+        {
+          id: "co-chair-global-citizenship",
+          name: "Meera Krishnan",
+          title: "Co-Chair Global Citizenship",
+        },
+        {
+          id: "digital-officer",
+          name: "Arjun Kapoor",
+          title: "VP- Digital Officer",
+        },
+      ],
+    },
+
+    // Tier 4 - School Representatives
+    {
+      id: "tier-4",
+      name: "Tier 4 - School Representatives",
+      title: "School Representatives",
+      children: [
+        {
+          id: "bba-representative",
+          name: "Rahul Mehta",
+          title: "BBA Representative",
+        },
+        {
+          id: "mba-representative",
+          name: "Sneha Reddy",
+          title: "MBA Representative",
+        },
+        {
+          id: "soap-representative",
+          name: "Arjun Kapoor",
+          title: "SOAP Representative",
+        },
+        {
+          id: "soad-representative",
+          name: "Vikram Choudhury",
+          title: "SOAD Representative",
+        },
+        {
+          id: "sol-representative",
+          name: "Ananya Desai",
+          title: "SOL Representative",
+        },
+        {
+          id: "solh-representative",
+          name: "Rohan Malhotra",
+          title: "SOLH Representative",
+        },
+        {
+          id: "sot-representative",
+          name: "Divya Sharma",
+          title: "SOT Representative",
+        },
+        {
+          id: "sos-representative",
+          name: "Zara Ahmed",
+          title: "SOS Representative",
+        },
+      ],
+    },
+
+    // Tier 5 - Senior Executives
+    {
+      id: "tier-5",
+      name: "Tier 5 - Senior Executives",
+      title: "Senior Executives",
+      children: [
+        {
+          id: "senior-exec-1",
+          name: "Siddharth Iyer",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-2",
+          name: "Varun Menon",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-3",
+          name: "Meera Krishnan",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-4",
+          name: "Priya Patel",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-5",
+          name: "Arjun Kapoor",
+          title: "Senior Executive",
+        },
+      ],
+    },
+
+    // University Level Club Presidents
+    {
+      id: "university-clubs",
+      name: "University Level Club Presidents",
+      title: "University Level",
+      isLeftSide: true,
+      children: [
+        {
+          id: "finwiz-president",
+          name: "Rahul Mehta",
+          title: "Finwiz Club President",
+        },
+        {
+          id: "marketing-president",
+          name: "Sneha Reddy",
+          title: "Marketing Club President",
+        },
+        {
+          id: "hr-president",
+          name: "Arjun Kapoor",
+          title: "HR Club President",
+        },
+        {
+          id: "tech-president",
+          name: "Vikram Choudhury",
+          title: "Technology Club President",
+        },
+        {
+          id: "ai-president",
+          name: "Ananya Desai",
+          title: "AI & Robotics Club President",
+        },
+      ],
+    },
+
+    // School Level Club Presidents
+    {
+      id: "school-clubs",
+      name: "School Level Club Presidents",
+      title: "School Level",
+      isRightSide: true,
+      children: [
+        {
+          id: "debate-president",
+          name: "Rohan Malhotra",
+          title: "Debate Club President",
+        },
+        {
+          id: "communications-president",
+          name: "Divya Sharma",
+          title: "Communications Club President",
+        },
+        {
+          id: "literature-president",
+          name: "Zara Ahmed",
+          title: "Literature Club President",
+        },
+        {
+          id: "fashion-president",
+          name: "Siddharth Iyer",
+          title: "Fashion Club President",
+        },
+        {
+          id: "design-president",
+          name: "Varun Menon",
+          title: "Design Club President",
         },
       ],
     },
