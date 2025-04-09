@@ -29,7 +29,7 @@ const OrganizationChart = ({ data }: OrganizationChartProps) => {
         {/* Left Column - School Club Presidents */}
         <div className="space-y-3">
           <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-md border border-blue-200 dark:border-blue-800">
-            <h2 className="text-md font-bold text-blue-600 dark:text-blue-300">School Presidents</h2>
+            <h2 className="text-md font-bold text-blue-600 dark:text-blue-300">School Level Presidents</h2>
           </div>
           <div className="grid grid-cols-1 gap-2">
             {schoolPresidents.map((president) => (
@@ -69,7 +69,7 @@ const OrganizationChart = ({ data }: OrganizationChartProps) => {
         {/* Right Column - University Club Presidents */}
         <div className="space-y-3">
           <div className="bg-green-50 dark:bg-green-900/30 p-3 rounded-md border border-green-200 dark:border-green-800">
-            <h2 className="text-md font-bold text-green-600 dark:text-green-300">University Presidents</h2>
+            <h2 className="text-md font-bold text-green-600 dark:text-green-300">University Level Presidents</h2>
           </div>
           <div className="grid grid-cols-1 gap-2">
             {universityPresidents.map((president) => (

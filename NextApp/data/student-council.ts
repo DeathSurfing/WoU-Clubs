@@ -24,7 +24,7 @@ export const councilData: OrgNode = {
         },
         {
           id: "president",
-          name: "Pranjal",
+          name: "Pranjal Das",
           title: "President",
         },
         {
@@ -42,9 +42,34 @@ export const councilData: OrgNode = {
       title: "Senior Management",
       children: [
         {
-          id: "operating-secretary",
-          name: "Rohan Malhotra",
-          title: "Operating Secretary",
+          id: "operation-secretary",
+          name: "D.J. Anshuman",
+          title: "Operation Secretary",
+        },
+        {
+          id: "facilities-secretary",
+          name: "Aman Prabhat Kumar",
+          title: "Facilities Secretary",
+        },
+        {
+          id: "co-treasurer-1",
+          name: "Rakshith Cherukuvada",
+          title: "Co Treasurer",
+        },
+        {
+          id: "co-treasurer-2",
+          name: "Rohan Kambhatla",
+          title: "Co Treasurer",
+        },
+        {
+          id: "technical-secretary",
+          name: "Aditya Vikram Mahendru",
+          title: "Technical Secretary",
+        },
+        {
+          id: "co-secretary",
+          name: "Priya Chhugani",
+          title: "Co Secretary",
         },
       ],
     },
@@ -60,6 +85,7 @@ export const councilData: OrgNode = {
           name: "Vijay Aditya",
           title: "VP Student Welfare Officer",
         },
+        
       ],
     },
 
@@ -70,9 +96,44 @@ export const councilData: OrgNode = {
       title: "School Representatives",
       children: [
         {
-          id: "bba-representative",
-          name: "Rahul Mehta",
-          title: "BBA Representative",
+          id: "sob-representative-ug",
+          name: "Rohith Verma",
+          title: "SOB UG Representative",
+        },
+        {
+          id: "sob-representative-pg",
+          name: "Preeti Bisht",
+          title: "SOB PG Representative",
+        },
+        {
+          id: "sot-representative",
+          name: "Tania Solanki",
+          title: "SOT Representative",
+        },
+        {
+          id: "soad-representative",
+          name: "Suhrudai Nivas",
+          title: "SOAD Representative",
+        },
+        {
+          id: "soap-representative",
+          name: "Mekala Abhaya Simha Reddy",
+          title: "SOAP Representative",
+        },
+        {
+          id: "solh-representative",
+          name: "Pranav Golwalkar",
+          title: "SOLH Representative",
+        },
+        {
+          id: "sos-representative",
+          name: "Simran Gupta",
+          title: "SOS Representative",
+        },
+        {
+          id: "sol-representative",
+          name: "Mohana Murali Godvari",
+          title: "SOL Representative",
         },
       ],
     },
@@ -110,7 +171,7 @@ export const councilData: OrgNode = {
     {
       id: "school-clubs",
       name: "School Level Club Presidents",
-      title: "School Level",
+      title: "School Level Club",
       isRightSide: true,
       children: [
         {
