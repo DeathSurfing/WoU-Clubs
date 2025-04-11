@@ -5,7 +5,13 @@ import { motion } from "framer-motion"
 import { Search, Users, Award, ChevronRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import ClubCard from "@/components/club-card"
 import { clubsData } from "@/data/clubs"
 import { councilData } from "@/data/student-council"
@@ -16,8 +22,10 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
 
-  // Get unique categories from club data
-  const categories = ["All", ...Array.from(new Set(clubsData.map((club) => club.category)))].sort()
+  const categories = [
+    "All",
+    ...Array.from(new Set(clubsData.map((club) => club.category))),
+  ].sort()
 
   const filteredClubs = clubsData.filter((club) => {
     const matchesSearch =
@@ -35,10 +43,13 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 dark:from-black/80 dark:to-black/60 z-10"></div>
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/University Backdrop.webp?height=1080&width=1920')" }}
-        ></div>
+        <Image
+          src="/University Backdrop.webp?height=1080&width=1920"
+          alt="University backdrop"
+          className="absolute inset-0 object-cover"
+          fill
+          priority
+        />
         <div className="container relative z-20 mx-auto px-4 text-center text-white">
           <motion.h1
             className="mb-6 text-4xl font-bold leading-tight tracking-tighter md:text-6xl"
@@ -62,17 +73,13 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Button 
-              className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white" 
-              size="lg" 
-              asChild
-            >
+            <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white" size="lg" asChild>
               <a href="#student-council">Student Council</a>
             </Button>
-            <Button 
-              variant="outline" 
-              className="w-full border-gray-900 dark:border-white text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10" 
-              size="lg" 
+            <Button
+              variant="outline"
+              className="w-full border-gray-900 dark:border-white text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10"
+              size="lg"
               asChild
             >
               <a href="#explore">Explore Clubs</a>
@@ -86,9 +93,8 @@ export default function Home() {
         <div className="container">
           <div className="mb-12 text-center">
             <div className="flex flex-col items-center justify-center">
-            <div className="relative h-24 w-24 mb-6">
-              {/* Light mode image */}
-              <div className="dark:hidden">
+              <div className="relative h-24 w-24 mb-6">
+                <div className="dark:hidden">
                   <Image
                     src="/SCLogoLight.webp?height=100&width=100&text=SC"
                     alt="Student Council Logo"
@@ -96,9 +102,7 @@ export default function Home() {
                     className="object-contain"
                   />
                 </div>
-  
-              {/* Dark mode image */}
-              <div className="hidden dark:block">
+                <div className="hidden dark:block">
                   <Image
                     src="/SCLogoDark.webp?height=100&width=100&text=SC"
                     alt="Student Council Logo"
@@ -133,12 +137,9 @@ export default function Home() {
                 <div className="absolute bottom-0 left-0 z-20 p-6 text-white">
                   <h3 className="text-2xl font-bold mb-2">Leadership Structure</h3>
                   <p className="mb-4">Explore our hierarchical council organization</p>
-                  <Button 
-                    variant="outline" 
-                    className="
-                      border-primary text-primary hover:bg-primary hover:text-primary-foreground
-                      dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black
-                    " 
+                  <Button
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
                     asChild
                   >
                     <Link href="/student-council">View Structure</Link>
@@ -173,12 +174,8 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
+              {/* Featured Council Members Section */}
+              <section className="py-4">
                 <h3 className="text-2xl font-bold mb-4">Featured Leaders</h3>
                 <div className="grid grid-cols-2 gap-4">
                   {[
@@ -187,16 +184,16 @@ export default function Home() {
                       title: councilData.title,
                       image: "/placeholder.svg?height=100&width=100&text=President",
                     },
-                    {
-                      name: councilData.children?.[0]?.name || "Priya Patel",
-                      title: councilData.children?.[0]?.title || "VP Academic Affairs",
+                    ...(councilData.children || []).slice(0, 3).map((child) => ({
+                      name: child.name,
+                      title: child.title,
                       image: "/placeholder.svg?height=100&width=100&text=VP",
-                    },
+                    })),
                   ].map((leader, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 rounded-lg border">
+                    <div key={index} className="flex items-center gap-3 p-3 rounded-lg border bg-card shadow-md">
                       <div className="relative h-12 w-12 overflow-hidden rounded-full flex-shrink-0">
                         <Image
-                          src={leader.image || "/placeholder.svg"}
+                          src={leader.image}
                           alt={leader.name}
                           fill
                           className="object-cover"
@@ -209,7 +206,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-              </motion.div>
+              </section>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -298,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA */}
       <section className="bg-[#EE495C] py-16 text-white">
         <div className="container text-center">
           <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">Ready to Join a Club?</h2>
@@ -313,4 +310,3 @@ export default function Home() {
     </div>
   )
 }
-

@@ -151,29 +151,6 @@ export default function ClubsPage() {
             </div>
           )}
         </div>
-
-        {/* Pagination (simplified) */}
-        {filteredClubs.length > 0 && (
-          <div className="flex justify-center pb-12">
-            <div className="flex space-x-2">
-              <Button variant="outline" size="icon" disabled>
-                &lt;
-              </Button>
-              <Button variant="outline" size="icon" className="bg-primary text-primary-foreground">
-                1
-              </Button>
-              <Button variant="outline" size="icon">
-                2
-              </Button>
-              <Button variant="outline" size="icon">
-                3
-              </Button>
-              <Button variant="outline" size="icon">
-                &gt;
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )
