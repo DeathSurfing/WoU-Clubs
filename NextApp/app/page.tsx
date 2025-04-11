@@ -46,7 +46,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Discover Your Passion at <span className="text-[#EE495C]">Woxsen</span>
+            Empowering Voices at <span className="text-[#EE495C]">Woxsen</span>
           </motion.h1>
           <motion.p
             className="mx-auto mb-8 max-w-2xl text-lg text-gray-200 md:text-xl"
