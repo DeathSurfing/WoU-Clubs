@@ -18,6 +18,8 @@ const navItems = [
   { name: "Student Council", path: "/student-council" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
+  { name: "FAQ",path: "/faq" },
+  { name: "Nutrition", path: "/nutrition" },
 ]
 
 export default function Header() {
