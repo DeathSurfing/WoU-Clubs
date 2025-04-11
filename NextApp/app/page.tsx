@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Search, Users, Award, ChevronRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -21,6 +21,19 @@ import Image from "next/image"
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const [randomMembers, setRandomMembers] = useState([])
+
+  // Get all council members from all tiers
+  const getAllCouncilMembers = () => {
+    return councilData.children?.flatMap(tier => tier.children || []) || []
+  }
+
+  // Select random members when component mounts
+  useEffect(() => {
+    const allMembers = getAllCouncilMembers()
+    const shuffled = [...allMembers].sort(() => 0.5 - Math.random())
+    setRandomMembers(shuffled.slice(0, 4))
+  }, [])
 
   const categories = [
     "All",
@@ -165,11 +178,11 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-4 mt-4">
                   <div className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-[#EE495C]" />
-                    <span>{councilData.children?.length || 4} Departments</span>
+                    <span> 10+ Departments</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Award className="h-5 w-5 text-[#EE495C]" />
-                    <span>15+ Council Members</span>
+                    <span>50+ Council Members</span>
                   </div>
                 </div>
               </motion.div>
@@ -178,30 +191,19 @@ export default function Home() {
               <section className="py-4">
                 <h3 className="text-2xl font-bold mb-4">Featured Leaders</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  {[
-                    {
-                      name: councilData.name,
-                      title: councilData.title,
-                      image: "/placeholder.svg?height=100&width=100&text=President",
-                    },
-                    ...(councilData.children || []).slice(0, 3).map((child) => ({
-                      name: child.name,
-                      title: child.title,
-                      image: "/placeholder.svg?height=100&width=100&text=VP",
-                    })),
-                  ].map((leader, index) => (
+                  {randomMembers.map((member, index) => (
                     <div key={index} className="flex items-center gap-3 p-3 rounded-lg border bg-card shadow-md">
                       <div className="relative h-12 w-12 overflow-hidden rounded-full flex-shrink-0">
                         <Image
-                          src={leader.image}
-                          alt={leader.name}
+                          src={`/placeholder.svg?height=100&width=100&text=${member.title.split(' ')[0]}`}
+                          alt={member.name}
                           fill
                           className="object-cover"
                         />
                       </div>
                       <div>
-                        <h4 className="font-medium">{leader.name}</h4>
-                        <p className="text-xs text-muted-foreground">{leader.title}</p>
+                        <h4 className="font-medium">{member.name}</h4>
+                        <p className="text-xs text-muted-foreground">{member.title}</p>
                       </div>
                     </div>
                   ))}
