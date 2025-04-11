@@ -1,8 +1,20 @@
 "use client"
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { BookOpen, Users, Award, Calendar } from "lucide-react"
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { 
+  BookOpen,
+  Palette,
+  BookText,
+  Music,
+  Gamepad,
+  Camera,
+  Gauge,
+  HeartHandshake,
+  Users,    
+  Award,    
+  Calendar  } from "lucide-react";
+  import { clubsData } from "@/data/clubs";
 
 export default function AboutPage() {
   return (
@@ -99,31 +111,38 @@ export default function AboutPage() {
           <h2 className="mb-8 text-3xl font-bold text-center">Club Categories</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { name: "Academic & Professional", count: 8, icon: BookOpen },
-              { name: "Design & Arts", count: 5, icon: Users },
-              { name: "Literary & Communication", count: 3, icon: Award },
-              { name: "Cultural & Performing Arts", count: 4, icon: Calendar },
-              { name: "Sports & Gaming", count: 2, icon: Users },
-              { name: "Photography & Media", count: 1, icon: Award },
-              { name: "Social Impact", count: 3, icon: Calendar },
-            ].map((category, index) => (
-              <motion.div
-                key={category.name}
-                className="rounded-lg border p-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <category.icon className="h-6 w-6" />
-                </div>
-                <h3 className="mb-2 text-xl font-bold">{category.name}</h3>
-                <p className="text-muted-foreground">{category.count} clubs</p>
-              </motion.div>
-            ))}
+              { name: "Academic", icon: BookOpen },
+              { name: "Design & Arts", icon: Palette },
+              { name: "Literary & Communication", icon: BookText },
+              { name: "Cultural & Performing Arts", icon: Music },
+              { name: "Sports & Gaming", icon: Gamepad },
+              { name: "Photography & Media", icon: Camera },
+              { name: "Leadership & Governance", icon: Gauge },
+              { name: "Social Impact & Well-being", icon: HeartHandshake },
+            ].map((category, index) => {
+              // Count clubs in this category
+              const count = clubsData.filter(club => club.category === category.name).length;
+              
+              return (
+                <motion.div
+                  key={category.name}
+                  className="rounded-lg border p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <category.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-2 text-xl font-bold">{category.name}</h3>
+                  <p className="text-muted-foreground">{count} {count === 1 ? 'club' : 'clubs'}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
+
 
         {/* FAQ Section */}
         <section className="mb-16">

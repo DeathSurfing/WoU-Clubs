@@ -13,16 +13,6 @@ export const councilData: OrgNode = {
       title: "Top Leadership",
       children: [
         {
-          id: "treasurer",
-          name: "Millennium.N",
-          title: "Treasurer",
-        },
-        {
-          id: "general-secretary",
-          name: "G.Lohit Reddy",
-          title: "General Secretary",
-        },
-        {
           id: "president",
           name: "Pranjal Das",
           title: "President",
@@ -31,6 +21,16 @@ export const councilData: OrgNode = {
           id: "senior-vice-president",
           name: "Chris Jose",
           title: "Senior Vice President",
+        },
+        {
+          id: "treasurer",
+          name: "Millennium N.",
+          title: "Treasurer",
+        },
+        {
+          id: "general-secretary",
+          name: "G.Lohit Reddy",
+          title: "General Secretary",
         },
       ],
     },

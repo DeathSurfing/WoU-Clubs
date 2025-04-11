@@ -62,8 +62,8 @@ export default function ContactPage() {
               </div>
               <h3 className="mb-2 text-xl font-bold">Email</h3>
               <p className="mb-4 text-muted-foreground">For general inquiries</p>
-              <a href="mailto:clubs@woxsen.edu.in" className="text-primary hover:underline">
-                clubs@woxsen.edu.in
+              <a href="mailto:studentaffairs@woxsen.edu.in" className="text-primary hover:underline">
+              studentaffairs@woxsen.edu.in
               </a>
             </motion.div>
 
@@ -78,9 +78,9 @@ export default function ContactPage() {
                 <Phone className="h-6 w-6" />
               </div>
               <h3 className="mb-2 text-xl font-bold">Phone</h3>
-              <p className="mb-4 text-muted-foreground">Monday to Friday, 9am to 5pm</p>
-              <a href="tel:+911234567890" className="text-primary hover:underline">
-                +91 12345 67890
+              <p className="mb-4 text-muted-foreground">Monday to Friday, 9am to 6pm</p>
+              <a href="tel:+919866023123" className="text-primary hover:underline">
+              +91 98660 23123
               </a>
             </motion.div>
 
@@ -95,7 +95,7 @@ export default function ContactPage() {
                 <MapPin className="h-6 w-6" />
               </div>
               <h3 className="mb-2 text-xl font-bold">Location</h3>
-              <p className="mb-4 text-muted-foreground">Student Activities Office</p>
+              <p className="mb-4 text-muted-foreground">Student Council Office</p>
               <address className="not-italic text-primary">
                 Woxsen University
                 <br />
@@ -117,14 +117,14 @@ export default function ContactPage() {
                   <Mail className="mt-1 h-5 w-5 text-primary" />
                   <div>
                     <h3 className="font-medium">Email</h3>
-                    <p className="text-muted-foreground">clubs@woxsen.edu.in</p>
+                    <p className="text-muted-foreground">studentaffairs@woxsen.edu.in</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Phone className="mt-1 h-5 w-5 text-primary" />
                   <div>
                     <h3 className="font-medium">Phone</h3>
-                    <p className="text-muted-foreground">+91 12345 67890</p>
+                    <p className="text-muted-foreground">+91 98660 23123</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -209,8 +209,14 @@ export default function ContactPage() {
               The Student Activities Office is open Monday through Friday from 9am to 5pm. Drop by to learn more about
               our clubs and activities!
             </p>
-            <Button className="bg-[#EE495C] hover:bg-[#EE495C]/90" size="lg">
-              Schedule a Visit
+            <Button 
+              className="bg-[#EE495C] hover:bg-[#EE495C]/90" 
+              size="lg"
+              asChild
+            >
+              <a href={`mailto:studentaffairs@woxsen.edu.in?subject=Schedule an appointment`}>
+                Schedule an appointment
+              </a>
             </Button>
           </div>
         </section>

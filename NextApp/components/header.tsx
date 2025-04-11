@@ -13,14 +13,15 @@ import { useMobile } from "@/hooks/use-mobile"
 
 const navItems = [
   { name: "Home", path: "/" },
+  { name: "Student Council", path: "/student-council" },
   { name: "Clubs", path: "/clubs" },
   { name: "Events", path: "/events" },
-  { name: "Student Council", path: "/student-council" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
-  { name: "FAQ",path: "/faq" },
-  { name: "Nutrition", path: "/nutrition" },
-]
+  { name: "FAQ", path: "/faq" },
+  { name: "Oval Menu", path: "/nutrition" },
+];
+
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)

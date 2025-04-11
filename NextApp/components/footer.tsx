@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
+import { Youtube, Instagram, Linkedin, Twitter } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -12,17 +12,13 @@ export default function Footer() {
               Explore the diverse clubs and activities at Woxsen University.
             </p>
             <div className="flex space-x-4">
-              <Link href="#" className="text-muted-foreground hover:text-primary">
-                <Facebook className="h-5 w-5" />
-                <span className="sr-only">Facebook</span>
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary">
+            <Link href="#" className="text-muted-foreground hover:text-primary">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-primary">
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
+                <Youtube className="h-5 w-5" />
+                <span className="sr-only">Youtube</span>
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-primary">
                 <Linkedin className="h-5 w-5" />
@@ -81,13 +77,13 @@ export default function Footer() {
               <p>Woxsen University</p>
               <p>Kamkole, Sadasivpet</p>
               <p>Hyderabad, Telangana</p>
-              <p className="mt-2">Email: clubs@woxsen.edu.in</p>
-              <p>Phone: +91 12345 67890</p>
+              <p className="mt-2">Email: studentaffairs@woxsen.edu.in</p>
+              <p>Phone: +91 98660 23123</p>
             </address>
           </div>
         </div>
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Woxsen University. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Woxsen University Student Council. All rights reserved.</p>
         </div>
       </div>
     </footer>
