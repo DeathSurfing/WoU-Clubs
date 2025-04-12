@@ -1,25 +1,28 @@
-FROM node:18-alpine
+# 1. Base image
+FROM node:20-alpine
 
-# Set working directory
+# 2. Set working directory
 WORKDIR /app
 
-# Copy package files first (for better caching)
-COPY package.json package-lock.json ./
+# 3. Install dependencies
+COPY package.json pnpm-lock.yaml* ./
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-RUN npm install --legacy-peer-deps 
+# 4. Install dependencies with legacy peer deps handling
+RUN pnpm install --no-frozen-lockfile --force
 
-# Copy all source files (except what's in .dockerignore)
+# 5. Copy remaining app files
 COPY . .
 
-# Build the Next.js app in production mode
-RUN npm run build
+# 6. Build the app
+RUN pnpm build
 
-# Create a startup script
-RUN echo '#!/bin/sh\nnpm run fetch-events\nexec npm start -- -p 3030' > /app/start.sh && \
-    chmod +x /app/start.sh
+# 7. Set environment variables (if needed)
+ENV NODE_ENV=production
+ENV PORT=3000
 
-# Expose the port for the Next.js app
-EXPOSE 3030
+# 8. Expose port
+EXPOSE 3000
 
-# Use the startup script to run fetch-events first, then start the app
-CMD ["/app/start.sh"]
+# 9. Start the app
+CMD ["pnpm", "start"]
