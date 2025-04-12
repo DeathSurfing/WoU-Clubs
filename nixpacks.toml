@@ -9,3 +9,4 @@ cmds = ["npm run build"]
 
 [phases.start]
 cmd = "npm run start"
+env = { PORT = "4000" }
