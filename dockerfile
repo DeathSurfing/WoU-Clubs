@@ -1,31 +1,26 @@
 FROM node:18-alpine
 
+# Set working directory
 WORKDIR /app
 
-# 1. Copy package files first for better caching
+# Copy package files first (for better caching)
 COPY package.json package-lock.json ./
 
-# 2. Install with maximum compatibility flags
-RUN npm install --legacy-peer-deps --force --unsafe-perm
+# Install dependencies with flags as requested
+RUN npm install --legacy-peer-deps --force
 
-# 3. Copy all source files
+# Copy all source files (except what's in .dockerignore)
 COPY . .
 
-# 4. Generate events data (continue even if this fails)
-RUN npm run fetch-events || echo "Events generation failed - continuing anyway"
-
-# 5. Build with development environment to ensure all deps are available
-ENV NODE_ENV=development
+# Build the Next.js app in production mode
+ENV NODE_ENV=production
 RUN npm run build
 
-# 6. Switch to production for runtime
-ENV NODE_ENV=production
+# Run the fetch-events script
+RUN npm run fetch-events
 
-# 7. Explicitly use port 3030 in three places:
-#    - In the EXPOSE directive
-#    - In the Next.js startup command
-#    - In the health check
+# Expose the port for the Next.js app
 EXPOSE 3030
-HEALTHCHECK --interval=30s --timeout=5s \
-  CMD curl -f http://localhost:3030/api/health || exit 1
-CMD ["node", "--max-old-space-size=4096", "node_modules/.bin/next", "start", "-p", "3030"]
+
+# Start the Next.js app on port 3030
+CMD ["npm", "start", "--", "-p", "3030"]
