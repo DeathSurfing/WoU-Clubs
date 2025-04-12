@@ -21,7 +21,7 @@ export default function StudentCouncilPage() {
   const [selectedRole, setSelectedRole] = useState("All")
   const [selectedYear, setSelectedYear] = useState("All")
   const [filteredMembers, setFilteredMembers] = useState([])
-  const [activeTab, setActiveTab] = useState("structure")
+  const [activeTab, setActiveTab] = useState("team")
   const [isClient, setIsClient] = useState(false)
   const [chartZoom, setChartZoom] = useState(100)
 
@@ -124,8 +124,8 @@ export default function StudentCouncilPage() {
         {/* Tabs for structure and team */}
         <Tabs defaultValue="structure" value={activeTab} onValueChange={setActiveTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-2 md:w-auto">
-            <TabsTrigger value="structure">Council Structure</TabsTrigger>
             <TabsTrigger value="team">Meet the Team</TabsTrigger>
+            <TabsTrigger value="structure">About the Council </TabsTrigger>
           </TabsList>
 
           {/* Council Structure Tab - IMPROVED */}

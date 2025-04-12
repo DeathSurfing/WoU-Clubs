@@ -87,7 +87,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white" size="lg" asChild>
-              <a href="#student-council">Student Council</a>
+              <a href="/events">Campus Events</a>
             </Button>
             <Button
               variant="outline"

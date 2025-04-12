@@ -25,7 +25,7 @@ export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedClub, setSelectedClub] = useState("all")
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
-  const [activeTab, setActiveTab] = useState("upcoming")
+  const [activeTab, setActiveTab] = useState("all")
   const [filteredEvents, setFilteredEvents] = useState(eventsData)
   const [currentPage, setCurrentPage] = useState(1)
   const eventsPerPage = 9
