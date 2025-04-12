@@ -12,11 +12,23 @@ RUN npm install --legacy-peer-deps --force
 # Copy all source files (except what's in .dockerignore)
 COPY . .
 
+# Use ARG to accept dockploy variables
+ARG SHEET_ID
+ARG GOOGLE_API_KEY
+ARG DOMAIN
+ARG EMAIL
+
+# Set the variables as environment variables for the container
+ENV SHEET_ID=$SHEET_ID
+ENV GOOGLE_API_KEY=$GOOGLE_API_KEY
+ENV DOMAIN=$DOMAIN
+ENV EMAIL=$EMAIL
+
 # Build the Next.js app in production mode
 ENV NODE_ENV=production
 RUN npm run build
 
-# Run the fetch-events script
+# Run the fetch-events script with access to the environment variables
 RUN npm run fetch-events
 
 # Expose the port for the Next.js app
