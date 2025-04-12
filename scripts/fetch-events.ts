@@ -1,114 +1,156 @@
 #!/usr/bin/env node
 
-// Required modules
 const fs = require("fs");
 const axios = require("axios");
 const dotenv = require("dotenv");
 
-// Load environment variables from .env file
-dotenv.config();
+// Enhanced environment loading
+dotenv.config({ path: process.env.ENV_PATH || ".env" });
 
-// Utility function to format the timestamp into a sanitized ID
+// Improved JSON validation
+function safeJsonParse(jsonString) {
+  try {
+    return JSON.parse(jsonString);
+  } catch (e) {
+    console.error("Invalid JSON:", jsonString);
+    return null;
+  }
+}
+
+// Enhanced sanitization
 function sanitizeTimestampForId(timestamp) {
-  return timestamp.replace(/\s+/g, "-").replace(/[:\/]/g, "");
+  if (!timestamp) return Date.now().toString();
+  return timestamp.toString().replace(/\s+/g, "-").replace(/[:\/]/g, "");
 }
 
-// Utility function to format time into HH:mm (24-hour format)
+// More robust time formatting
 function formatTime(time) {
-  if (!time) return ""; // Handle missing time gracefully
-  const [hours, minutes] = time.split(/[:\s]+/);
-  const period = time.match(/AM|PM/i)?.[0];
-  let hour = parseInt(hours, 10);
+  if (!time) return "";
+  
+  // Handle already formatted times
+  if (/^\d{2}:\d{2}$/.test(time)) return time;
+  
+  // Handle various time formats
+  const timeParts = time.toString().match(/(\d{1,2}):?(\d{2})?\s?(AM|PM)?/i);
+  if (!timeParts) return "";
 
-  if (period?.toUpperCase() === "PM" && hour !== 12) {
-    hour += 12; // Convert to 24-hour format
-  }
-  if (period?.toUpperCase() === "AM" && hour === 12) {
-    hour = 0; // Midnight case
-  }
+  let [_, hours, minutes, period] = timeParts;
+  hours = parseInt(hours, 10) || 0;
+  minutes = minutes || "00";
 
-  return `${String(hour).padStart(2, "0")}:${minutes}`;
+  // 24-hour conversion
+  if (period?.toUpperCase() === "PM" && hours < 12) hours += 12;
+  if (period?.toUpperCase() === "AM" && hours === 12) hours = 0;
+
+  return `${String(hours).padStart(2, "0")}:${minutes}`;
 }
 
-// Function to parse the JSON response and generate eventsData
+// Enhanced date validation
+function formatDate(dateString) {
+  try {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? "" : date.toISOString().split("T")[0];
+  } catch {
+    return "";
+  }
+}
+
 async function fetchAndProcessEvents() {
   try {
-    // Extract environment variables
     const sheetId = process.env.SHEET_ID;
     const googleApiKey = process.env.GOOGLE_API_KEY;
 
     if (!sheetId || !googleApiKey) {
-      throw new Error("Missing SHEET_ID or GOOGLE_API_KEY in environment variables.");
+      throw new Error("Missing required environment variables");
     }
 
-    // Construct the API URL using environment variables
     const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A2:L?key=${googleApiKey}`;
+    
+    // Enhanced request handling
+    const response = await axios.get(apiUrl, {
+      timeout: 10000,
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
 
-    // Fetch the JSON response from the Google Sheets API
-    const response = await axios.get(apiUrl);
+    // Validate response structure
+    if (!response.data || !Array.isArray(response.data.values)) {
+      throw new Error("Invalid API response structure");
+    }
 
-    // Extract the rows from the response
-    const rows = response.data.values || [];
-
-    // Map the rows to the desired Event structure
-    const eventsData = rows
-      .filter(row => row.length > 0 && row[0]) // Filter out empty rows or rows without a timestamp
+    const eventsData = response.data.values
       .map((row, index) => {
-        const [
-          timestamp,
-          title,
-          description,
-          startDate,
-          startTime,
-          endTime,
-          location,
-          category,
-          clubId,
-          image,
-          registerUrl,
-          isFeaturedRaw, // Column L (12th column)
-        ] = row;
+        try {
+          // Validate required fields
+          if (!row || row.length < 5) return null;
+          
+          const [
+            timestamp,        // A
+            title,           // B
+            description,     // C
+            startDate,       // D
+            startTime,       // E
+            endTime,         // F
+            location = "TBA", // G (default)
+            category = "General", // H (default)
+            clubId = "",      // I
+            image = "",       // J
+            registerUrl = "", // K
+            isFeaturedRaw     // L
+          ] = row;
 
-        // Skip rows with missing required fields
-        if (!timestamp || !startDate || !startTime || !endTime) {
-          console.warn(`Skipping invalid row at index ${index + 2}`); // +2 because data starts at A2
+          // Validate required fields
+          if (!startDate || !startTime || !endTime) return null;
+
+          return {
+            id: sanitizeTimestampForId(timestamp || `event-${index}`),
+            title: title?.toString() || "Untitled Event",
+            description: description?.toString() || "",
+            startDate: formatDate(startDate),
+            startTime: formatTime(startTime),
+            endTime: formatTime(endTime),
+            location: location.toString(),
+            category: category.toString(),
+            clubId: clubId.toString(),
+            image: image.toString(),
+            registerUrl: registerUrl.toString(),
+            isFeatured: /true/i.test(isFeaturedRaw?.toString() || "")
+          };
+        } catch (e) {
+          console.error(`Error processing row ${index + 2}:`, e);
           return null;
         }
-
-        // Parse the ISFEATURED field as a boolean
-        const isFeatured =
-          typeof isFeaturedRaw === "string" &&
-          ["true", "TRUE"].includes(isFeaturedRaw.trim());
-
-        return {
-          id: timestamp 
-            ? sanitizeTimestampForId(timestamp) 
-            : `event-${index}`, // Fallback ID using row index
-          title: title || "Untitled Event",
-          description: description || "",
-          startDate: new Date(startDate).toISOString().split("T")[0], // Format as YYYY-MM-DD
-          startTime: formatTime(startTime),
-          endTime: formatTime(endTime),
-          location: location || "TBA",
-          category: category || "General",
-          clubId: clubId || "Unknown Club",
-          image: image || "",
-          registerUrl: registerUrl || "", // Include the registration URL
-          isFeatured: isFeatured, // Use the parsed boolean value
-        };
       })
-      .filter(event => event !== null); // Remove skipped rows
+      .filter(Boolean);
 
-    // Write the output to a TypeScript file
-    const outputFilePath = "./data/events.ts";
-    const outputContent = `export const eventsData = ${JSON.stringify(eventsData, null, 2)};\n`;
+    // Write output with validation
+    const outputDir = "./data";
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
 
-    fs.writeFileSync(outputFilePath, outputContent);
-    console.log(`Generated eventsData.ts successfully at ${outputFilePath}`);
+    const outputContent = `// Auto-generated at ${new Date().toISOString()}
+export const eventsData = ${JSON.stringify(eventsData, null, 2)} as const;
+
+export type Event = typeof eventsData[number];
+`;
+
+    fs.writeFileSync(`${outputDir}/events.ts`, outputContent);
+    console.log(`Successfully generated ${eventsData.length} events`);
+
   } catch (error) {
-    console.error("Error fetching or processing events:", error.message);
+    console.error("Fatal error in fetchAndProcessEvents:", error);
+    process.exit(1);
   }
 }
 
-// Main execution
+// Execute with error handling
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection:", reason);
+  process.exit(1);
+});
+
 fetchAndProcessEvents();
