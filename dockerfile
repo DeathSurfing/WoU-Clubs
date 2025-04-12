@@ -41,4 +41,4 @@ RUN apk add --no-cache vips-dev
 EXPOSE 3000
 
 # Start Next.js server on all interfaces
-CMD ["npm", "run", "start", "--", "-H", "0.0.0.0"]
+CMD ["npm", "run", "start"]
