@@ -22,10 +22,10 @@ RUN pnpm build
 
 # 8. Set environment variables (if needed)
 ENV NODE_ENV=production
-ENV PORT=1902
+ENV PORT=3000
 
 # 9. Expose port
-EXPOSE 1902
+EXPOSE 3000
 
 # 10. Start the app
 CMD ["pnpm", "start"]

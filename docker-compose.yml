@@ -1,0 +1,56 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - MONGODB_URI=${MONGODB_URI}
+        - SHEET_ID=${SHEET_ID}
+        - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+        - RUN_ON_STARTUP=${RUN_ON_STARTUP}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - SHEET_ID=${SHEET_ID}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - RUN_ON_STARTUP=${RUN_ON_STARTUP}
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - web
+
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=${EMAIL}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik_letsencrypt:/letsencrypt
+    restart: unless-stopped
+    networks:
+      - web
+
+volumes:
+  traefik_letsencrypt:
+
+networks:
+  web:
+    external: true
