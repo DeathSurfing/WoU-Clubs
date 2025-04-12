@@ -1,12 +1,12 @@
 [phases.setup]
-nixPkgs = ["nodejs_18"]
+nixPkgs = ["nodejs_18", "pnpm"]
 
 [phases.install]
-cmds = ["npm install --legacy-peer-deps"]
+cmds = ["pnpm install --legacy-peer-deps"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = ["pnpm run build"]
 
 [phases.start]
-cmd = "npm run start"
+cmd = "pnpm run start"
 env = { PORT = "3000" }
