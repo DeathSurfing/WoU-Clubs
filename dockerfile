@@ -4,17 +4,14 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies with legacy peer deps
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
 # Copy the rest of the app
 COPY . .
 
-# ✅ Ensure environment variables for Google Sheets are provided during build
-ARG GOOGLE_SHEETS_API_KEY
-ENV GOOGLE_SHEETS_API_KEY=$GOOGLE_SHEETS_API_KEY
-
+# ✅ Generate data/events.ts from Google Sheets
 RUN npm run fetch-events
 
 # Build the Next.js app
@@ -31,11 +28,12 @@ WORKDIR /app
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/package-lock.json ./package-lock.json
 COPY --from=builder /app/next.config.mjs ./next.config.mjs
-COPY --from=builder /app/data ./data 
+COPY --from=builder /app/data ./data
 
-# Install production dependencies
-RUN npm ci --omit=dev
+# Install production dependencies with legacy peer deps
+RUN npm ci --omit=dev --legacy-peer-deps
 
 # Install any required system libraries (e.g., for Sharp)
 RUN apk add --no-cache vips-dev
