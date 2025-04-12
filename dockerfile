@@ -1,23 +1,42 @@
-# Use an official Node.js runtime as the base image
-FROM node:18-alpine
+# ----------- STAGE 1: Build ----------- #
+FROM node:18-alpine AS builder
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json (or npm-shrinkwrap.json)
+# Install dependencies
 COPY package*.json ./
-
-# Install dependencies with legacy peer deps
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of the application files
+# Copy the rest of the app
 COPY . .
 
-# Build the Next.js application
+# ✅ Generate data/events.ts from Google Sheets
+RUN npm run fetch-events
+
+# Build the Next.js app
 RUN npm run build
 
-# Expose the port the app runs on (Next.js default is 3000)
+
+# ----------- STAGE 2: Production ----------- #
+FROM node:18-alpine AS runner
+
+# Set NODE_ENV for production
+ENV NODE_ENV=production
+
+# Set working directory
+WORKDIR /app
+
+# Only copy the built app and necessary files from builder
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.mjs ./next.config.mjs
+COPY --from=builder /app/data ./data  # Include generated events.ts
+
+# Expose port
 EXPOSE 3000
 
-# Command to run the application
+# Run the app
 CMD ["npm", "start"]
