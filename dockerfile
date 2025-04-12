@@ -11,18 +11,21 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # 4. Install dependencies with legacy peer deps handling
 RUN pnpm install --no-frozen-lockfile --force
 
-# 5. Copy remaining app files
+# 5. Clean build cache and remove previous build if it exists
+RUN rm -rf .next
+
+# 6. Copy remaining app files
 COPY . .
 
-# 6. Build the app
+# 7. Build the app
 RUN pnpm build
 
-# 7. Set environment variables (if needed)
+# 8. Set environment variables (if needed)
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# 8. Expose port
+# 9. Expose port
 EXPOSE 3000
 
-# 9. Start the app
+# 10. Start the app
 CMD ["pnpm", "start"]
