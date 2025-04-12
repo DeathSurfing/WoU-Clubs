@@ -21,22 +21,15 @@ RUN npm run build
 # ----------- STAGE 2: Production ----------- #
 FROM node:18-alpine AS runner
 
-# Set NODE_ENV for production
 ENV NODE_ENV=production
-
-# Set working directory
 WORKDIR /app
 
-# Only copy the built app and necessary files from builder
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/next.config.mjs ./next.config.mjs
-COPY --from=builder /app/data ./data  # Include generated events.ts
+COPY --from=builder /app/data ./data 
 
-# Expose port
 EXPOSE 3000
-
-# Run the app
 CMD ["npm", "start"]
