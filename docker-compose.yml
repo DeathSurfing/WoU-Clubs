@@ -15,7 +15,7 @@ services:
       - "traefik.http.routers.app.tls.certresolver=myresolver"
       - "traefik.http.services.app.loadbalancer.server.port=3000"
     ports:
-      - "3000:3000"
+      - "1902:1902"
     environment:
       - MONGODB_URI=${MONGODB_URI}
       - SHEET_ID=${SHEET_ID}
