@@ -85,7 +85,76 @@ export const councilData: OrgNode = {
           name: "Vijay Aditya",
           title: "VP Student Welfare Officer",
         },
-        
+        {
+          id: "vp-sports-welfare",
+          name: "Rounak Kumar Khursija",
+          title: "VP Sports Officer",
+        },
+        {
+          id: "vp-sports-cochair",
+          name: "Anannya Joshi",
+          title: "Co-Chair Sports Officer",
+        },
+        {
+          id: "vp-digital",
+          name: "Mir Inayat Ali Khan",
+          title: "VP Digital Officer",
+        },
+        {
+          id: "vp-digital-cochair",
+          name: "Madhumitha",
+          title: "Co-chair Student Welfare Officer",
+        },
+        {
+          id: "vp-m&c",
+          name: "Zia Ali",
+          title: "VP Mindfulness and Critical Thinking Officer",
+        },
+        {
+          id: "vp-m&c-cochair",
+          name: "Divya Nair",
+          title: "Co-chair Mindfulness and Critical Thinking Officer",
+        },
+        {
+          id: "vp-Entrepreneurship",
+          name: "Ankith malupally",
+          title: "VP Entrepreneurship Officer",
+        },
+        {
+          id: "vp-Entrepreneurship-cochair",
+          name: "Rahul c reddy",
+          title: "Co-chair Entrepreneurship Officer",
+        },
+        {
+          id: "vp-Global-Citizenship",
+          name: "Asha Sanjaykumar Bhola",
+          title: "VP Global Citizenship Officer",
+        },
+        {
+          id: "vp-Global-Citizenship-cochair",
+          name: "Aditya Pawar",
+          title: "Co-chair Global Citizenship Officer",
+        },
+        {
+          id: "vp-c&i",
+          name: "Vedhant",
+          title: "VP Creativity And Innovations Officer",
+        },
+        {
+          id: "vp-c&i-cochair",
+          name: "Ankith malupally",
+          title: "Co-chair Creativity And Innovations Officer",
+        },
+        {
+          id: "vp-LLC",
+          name: "Jairaj Chilukala",
+          title: "VP Lifelong Learning Officer",
+        },
+        {
+          id: "vp-LLC-cochair",
+          name: "Maniya goyal",
+          title: "Co-chair Entrepreneurship Officer",
+        },
       ],
     },
 
@@ -160,9 +229,64 @@ export const councilData: OrgNode = {
       isLeftSide: true,
       children: [
         {
+          id: "Film Club",
+          name: "Harshith Tvss",
+          title: "Film Club President",
+        },
+        {
+          id: "Club Genesis",
+          name: "Disha Bansal",
+          title: "Club Genesis President",
+        },
+        {
           id: "finwiz-president",
           name: "Rahul Mehta",
           title: "Finwiz Club President",
+        },
+        {
+          id: "Nexus Club",
+          name: "Nimra Shahed",
+          title: "Nexus Club President",
+        },
+        {
+          id: "Debate Club",
+          name: "Jahnavi G",
+          title: "Debate Club President",
+        },
+        {
+          id: "James A F Stoner Sustainability Club",
+          name: "Namratha Saravani Sagiraju",
+          title: "James A F Stoner Sustainability Club President",
+        },
+        {
+          id: "Jashn The Cultural Club",
+          name: "Bollam Thanusha Reddy",
+          title: "Jashn The Cultural Club President",
+        },
+        {
+          id: "Just Naach",
+          name: "Pranaya Srinivas",
+          title: "Just Naach Club President",
+        },
+        {
+          id: "Jashn The Cultural Club",
+          name: "Bollam Thanusha Reddy",
+          title: "Jashn The Cultural Club President",
+        },
+        {
+          id: "Marketing Directors Club",
+          name: "Prashant Khirwar",
+          title: "Marketing Directors Club President",
+        },
+        {
+          id: "Rotaract Club Club",
+          name: "Sofia Villamarin Rodriguez",
+          title: "Rotaract Club President",
+        },
+        {
+          id: "Skribble Club",
+          name: "Harsh Garje",
+          title: "Skribble Club President",
         },
       ],
     },
@@ -175,9 +299,29 @@ export const councilData: OrgNode = {
       isRightSide: true,
       children: [
         {
-          id: "debate-president",
-          name: "Rohan Malhotra",
-          title: "Debate Club President",
+          id: "Aesthetrix Club",
+          name: "Pothineni Urmila Choudary",
+          title: "Aesthetrix Club President",
+        },
+        {
+          id: "Communication Design Club",
+          name: "Chinmai Sai Daivala",
+          title: "Communication Design Club President",
+        },
+        {
+          id: "Crowdcore - The Marketing Club",
+          name: "Nandann.M.V",
+          title: "Crowdcore Club President",
+        },
+        {
+          id: "Fashion Club",
+          name: "Aarya Makhariya",
+          title: "Fashion Club President",
+        },
+        {
+          id: "Finwiz - The Finance Club",
+          name: "Akshita B",
+          title: "Finwiz Club President",
         },
       ],
     },
