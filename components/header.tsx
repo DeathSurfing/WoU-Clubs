@@ -19,7 +19,7 @@ const navItems = [
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
   { name: "FAQ", path: "/faq" },
-  { name: "Oval Menu", path: "/nutrition" },
+  //  { name: "Oval Menu", path: "/nutrition" },
 ];
 
 
