@@ -42,11 +42,6 @@ export const councilData: OrgNode = {
       title: "Senior Management",
       children: [
         {
-          id: "operation-secretary",
-          name: "D.J. Anshuman",
-          title: "Operation Secretary",
-        },
-        {
           id: "facilities-secretary",
           name: "Aman Prabhat Kumar",
           title: "Facilities Secretary",
@@ -73,18 +68,13 @@ export const councilData: OrgNode = {
         },
       ],
     },
-    
+
     // Tier 3 - Officers
     {
       id: "tier-3",
       name: "Tier 3 - Officers",
       title: "Officers",
       children: [
-        {
-          id: "vp-student-welfare",
-          name: "Vijay Aditya",
-          title: "VP Student Welfare Officer",
-        },
         {
           id: "vp-sports-welfare",
           name: "Rounak Kumar Khursija",
