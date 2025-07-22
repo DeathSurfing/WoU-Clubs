@@ -3,7 +3,7 @@ import type { Club } from '@/types/club';
 
 export const clubsData: Club[] = [
   {
-    "id": "litclub",
+    id: "litclub",
     "name": "Literature Club",
     "category": "Art & Culture",
     "shortDescription": "We foster a vibrant community where students can enhance their cognitive skills through thoughtful discussions and daily writing. Our focus is on commitment, passion for learning, and critical thinking, creating an enriching environment for all members.",
@@ -17,7 +17,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScYg6fJnI4V81WtWu2sOQERFkOROTdDFsJ0GxcbqmqJPNmHIg/viewform?usp=sf_link"
   },
   {
-    "id": "artclub",
+    id: "artclub",
     "name": "Skribble Club",
     "category": "Art & Culture",
     "shortDescription": "Skribble Club is a creative hub for students at Woxsen eager to explore and express themselves through art. Whether you're into sketching, painting, digital mediums, or creative collaborations, Skribble nurtures your journey and connects you to a like-minded, artistic community on campus.",
@@ -30,7 +30,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://forms.gle/WKntPd3iMY8rSVtS6"
   },
   {
-    "id": "debateclub",
+    id: "debateclub",
     "name": "Woxsen Debate Club",
     "category": "Academic",
     "shortDescription": "Challenge assumptions, explore all angles, and find your voice. The Woxsen Debate Club ignites intellectual curiosity and fosters confident communication!",
@@ -44,7 +44,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSd_YxFRwoNkJbeIBPrMg8zFpYP1Vsv1ahA6orRpD8Qzd-W5Vw/viewform"
   },
   {
-    "id": "genesisclub",
+    id: "genesisclub",
     "name": "Club Genesis- The Psych/Com Club",
     "category": "Art & Culture",
     "shortDescription": "Spreads awareness about the psychological aspects of life",
@@ -58,7 +58,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7"
   },
   {
-    "id": "utopiaesports",
+    id: "utopiaesports",
     "name": "Utopia",
     "category": "Sports & Gaming",
     "shortDescription": "Utopia is more than just a gaming club \u2014 it\u2019s a student-driven platform that supports both gamers and those who want to get into gaming, by creating an inclusive, accessible space to learn, grow, and have fun.",
@@ -70,7 +70,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://forms.cloud.microsoft/r/ibX8cXhVNa"
   },
   {
-    "id": "justnaach",
+    id: "justnaach",
     "name": "Just Naach",
     "category": "Art & Culture",
     "shortDescription": "Just Naach is the official dance club of our college, dedicated to promoting cultural expression, creativity, and student engagement through diverse dance forms. From vibrant workshops and flashmobs to flagship events like Rangrasiya, the club actively contributes to campus life and represents the college in various competitions.",
@@ -82,7 +82,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://forms.gle/N16KKoJd8wUYAxsq9"
   },
   {
-    "id": "marketingdirectorsclub",
+    id: "marketingdirectorsclub",
     "name": "Marketing Director's Club",
     "category": "Business & Entrepreneurship",
     "shortDescription": "A student-led club that brings together fun, learning, and real brand collaborations\u2014all with a creative marketing touch.\nWe are not a marketing club- we do it all",
@@ -95,7 +95,7 @@ export const clubsData: Club[] = [
     "joinUrl": "https://forms.office.com/r/zB9TQmASmB"
   },
   {
-    "id": "igniteclub",
+    id: "igniteclub",
     "name": "Ignite",
     "category": "Business & Entrepreneurship",
     "shortDescription": "gnite Club provides a dynamic platform for nurturing entrepreneurial thinking among students. Through experiential learning, the club immerses members in real business-world scenarios where they develop critical skills like idea generation, business planning, and leadership.",
