@@ -26,7 +26,6 @@ export const clubsData: Club[] = [
     "coverImage": "https://drive.google.com/file/d/10TeGZAsMI1c6Hw4EnP_u2D45RkfmfWxX/view?usp=sharing",
     "memberCount": "18",
     "meetingSchedule": "1 or 2 meetings in a month (as per event)",
-    "location": null,
     "email": "skribble.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/WKntPd3iMY8rSVtS6"
   },
@@ -67,8 +66,6 @@ export const clubsData: Club[] = [
     "image": "https://drive.google.com/file/d/1bREinlVwqsdy-GbkJGiyEOHmW--8aaad/view?usp=share_link",
     "coverImage": "https://drive.google.com/file/d/1yLYTysTkn4X7pvdmnfqoVMIaT1S2_L0A/view?usp=share_link",
     "memberCount": "23",
-    "meetingSchedule": null,
-    "location": null,
     "email": "utopiaesports@woxsen.edu.in",
     "joinUrl": "https://forms.cloud.microsoft/r/ibX8cXhVNa"
   },
@@ -81,8 +78,6 @@ export const clubsData: Club[] = [
     "image": "https://woxsenschoolofbusiness-my.sharepoint.com/:i:/g/personal/deepakkumar_g_2027_woxsen_edu_in/EcUwMKXJtyRFgTczebSPTVwB21p0AwgEMNC-NUDAgK7kYQ?e=IvImyT",
     "coverImage": "https://woxsenschoolofbusiness-my.sharepoint.com/:i:/g/personal/deepakkumar_g_2027_woxsen_edu_in/EcUwMKXJtyRFgTczebSPTVwB21p0AwgEMNC-NUDAgK7kYQ?e=IvImyT",
     "memberCount": "24",
-    "meetingSchedule": null,
-    "location": null,
     "email": "Dance.Club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/N16KKoJd8wUYAxsq9"
   },
@@ -96,7 +91,6 @@ export const clubsData: Club[] = [
     "coverImage": "https://drive.google.com/drive/folders/1hqCqdgXKq9vM_J8iG_l-V9v7iCejYQvQ?usp=sharing",
     "memberCount": "12",
     "meetingSchedule": "2-3 times in a month",
-    "location": null,
     "email": "marketing.directors@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/zB9TQmASmB"
   },
@@ -109,8 +103,6 @@ export const clubsData: Club[] = [
     "image": "https://drive.google.com/file/d/1u9GLqPxpDAF6t-E-wFXgQm4M0wqGNBqi/view?usp=sharing",
     "coverImage": "https://drive.google.com/file/d/1u9GLqPxpDAF6t-E-wFXgQm4M0wqGNBqi/view?usp=sharing",
     "memberCount": "21",
-    "meetingSchedule": null,
-    "location": null,
     "email": "Ignite@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/qpsLVNFUmN"
   }
