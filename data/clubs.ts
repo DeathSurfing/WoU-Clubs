@@ -7,12 +7,12 @@ export const clubsData: Club[] = [
     "category": "Architecture & Design",
     "shortDescription": "The Industrial Design Club is a community of passionate creators working to promote industrial design across the campus and industry. We support one another, grow together, and organize powerful, large-scale events to spread awareness and celebrate design.",
     "description": "The Industrial Design Club is a student-led initiative dedicated to fostering a strong, collaborative, and forward-thinking community of designers. Our mission is to promote industrial design not only within our academic environment but also across the wider design industry.\n\nWe believe in the power of support, shared learning, and meaningful collaboration—ensuring that every member has the resources, encouragement, and network to grow both creatively and professionally.\n\nThrough impactful workshops, exhibitions, panel discussions, and large-scale flagship events, we aim to raise awareness about industrial design and its ever-evolving role in shaping the world around us. Our club is a space where ideas are challenged, innovations are celebrated, and the next generation of designers are empowered.",
-    "image": "/logos/industrialdesignclub_logo.webp",
+    "image": "",
     "coverImage": "",
     "memberCount": "",
-    "meetingSchedule": "A011",
-    "location": "product.club@woxsen.edu.in",
-    "email": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X-MsokbTEY1Lo0KDNo-GXxxURVhPUFZXSEpMWlBVNDRPU1lCVEU5RjlKWi4u",
+    "meetingSchedule": "Every Thursdays",
+    "location": "A011",
+    "email": "product.club@woxsen.edu.in",
     "joinUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X-MsokbTEY1Lo0KDNo-GXxxURVhPUFZXSEpMWlBVNDRPU1lCVEU5RjlKWi4u"
   },
   {
@@ -21,12 +21,12 @@ export const clubsData: Club[] = [
     "category": "Law & Policy",
     "shortDescription": "At the Law Club, we cultivate future legal minds and community leaders through interactive  contests. Alongside these events, we are committed to providing workshops, and networking events designed to help participants build confidence, connect with professionals, and gain deeper insight into the legal and parliamentary landscape. The Law Club empowers every member to advocate for positive change and excel both within and beyond the classroom.",
     "description": "The Law Club is a vibrant platform dedicated to providing students with immersive and practical experiences in the field of law. Through our diverse range of competitions and activities, participants actively engage in real-world legal scenarios that enhance their understanding of legal principles, refine their advocacy skills, and foster civic responsibility. Students learn to analyze complex legal issues, craft and present persuasive arguments, and participate in democratic legislative mocks, all within a supportive and stimulating environment.\nParticipants gain not only academic knowledge but also essential skills such as critical thinking, public speaking, and leadership, preparing them for successful careers in law and active citizenship. This comprehensive approach ensures that every member experiences growth, challenge, and a meaningful connection to the legal community.",
-    "image": "/logos/lawclub_logo.webp",
+    "image": "",
     "coverImage": "",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "thelawclub@woxsen.edu.in",
-    "email": "https://forms.gle/cs7Ps3wSEJyoL97W7",
+    "location": "nan",
+    "email": "thelawclub@woxsen.edu.in",
     "joinUrl": "https://forms.gle/cs7Ps3wSEJyoL97W7"
   },
   {
@@ -36,11 +36,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Club Genesis is a dynamic community dedicated to exploring the depths of psychology and communication through engaging activities and learning experiences.",
     "description": "Club Genesis is a dynamic community dedicated to exploring the depths of psychology and communication through engaging activities and learning experiences. \nWe foster personal growth and meaningful connections, creating a vibrant, supportive environment where members can nurture their curiosity. Join us as we delve into the intricacies of human interaction, building lasting relationships and expanding our understanding of ourselves and others, potentially while also promoting sustainable practices.",
     "image": "/logos/psych-comclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/psych-comclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "classroom c-115",
-    "location": "genesis.club@woxsen.edu.in",
-    "email": "https://forms.gle/T3KdYVG68vted2KG7",
+    "meetingSchedule": "tuesdays 7-8",
+    "location": "classroom c-115",
+    "email": "genesis.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7"
   },
   {
@@ -53,8 +53,8 @@ export const clubsData: Club[] = [
     "coverImage": "",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "finiwiz@woxsen.edu.in",
-    "email": "https://forms.office.com/r/XVq3BufvRf?origin=lprLink",
+    "location": "nan",
+    "email": "finiwiz@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/XVq3BufvRf?origin=lprLink"
   },
   {
@@ -64,11 +64,11 @@ export const clubsData: Club[] = [
     "shortDescription": "The Animal Welfare Club at Woxsen University advocates for animal rights and welfare through education, outreach, and campus initiatives. We aim to build a compassionate community for all living beings.",
     "description": "The Animal Welfare Club (AWC) at Woxsen University is committed to promoting the well-being, rights, and humane treatment of animals. Through advocacy, education, and hands-on initiatives, we work to raise awareness about responsible animal care and foster a culture of compassion on campus. From organizing vaccination drives for campus animals to hosting workshops and awareness campaigns, AWC is a space for students passionate about making a difference in the lives of animals. Join us in creating a kinder, more inclusive world—one paw at a time.",
     "image": "/logos/animalwelfare_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/animalwelfare_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "awc@woxsen.edu.in",
-    "email": "https://forms.gle/S9hz8Vwa3q9GVDxT6",
+    "location": "nan",
+    "email": "awc@woxsen.edu.in",
     "joinUrl": "https://forms.gle/S9hz8Vwa3q9GVDxT6"
   },
   {
@@ -78,11 +78,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Woxsen's official marketing club driving creativity, strategy, and brand buzz across campus.",
     "description": "Crowdcore is the marketing club of Woxsen University, where students explore the dynamic world of branding, advertising. The club hosts interactive workshops, brand strategy competitions, real-world campaigns, and fun marketing games to build skills and ignite creativity. It acts as a launchpad for budding marketers to experiment, ideate, and express their boldest marketing moves—because here, marketing isn’t just a subject, it's a vibe.",
     "image": "/logos/crowdcore_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/crowdcore_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Woxsen University Campus, Hyderabad",
-    "location": "crowdcore@woxsen.edu.in",
-    "email": "https://forms.office.com/r/bVuyEcLABi",
+    "meetingSchedule": "nan",
+    "location": "Woxsen University Campus, Hyderabad",
+    "email": "crowdcore@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/bVuyEcLABi"
   },
   {
@@ -92,11 +92,11 @@ export const clubsData: Club[] = [
     "shortDescription": "DrishyaKala – The Film Club is Woxsen University’s creative hub for filmmakers and storytellers. From films and screenings to theatre and workshops, we turn ideas into visual experiences—one frame at a time.\nChaos. Craft. Cinema.",
     "description": "DrishyaKala – The Film Club is the official filmmaking and visual storytelling community of Woxsen University. We bring together students who are passionate about cinema, theatre, and creative expression. Whether it's making short films, hosting screenings, experimenting with stage performances, or diving into hands-on workshops—we do it all with energy, imagination, and a love for storytelling.\n\nAt DrishyaKala, we believe that creativity is born from beautiful chaos, honed through craft, and celebrated through cinema. It’s a space where learning happens by doing, where teams turn ideas into moving stories, and where every voice gets a chance to direct the frame.\n\nChaos. Craft. Cinema.\nThat’s the DrishyaKala way ;)",
     "image": "/logos/filmclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/filmclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "film.club@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLSfiEp-_CPcm65XEaYmn6Hn1dg670dimYaZDTzgTiZJPtEDdXA/viewform?usp=header",
+    "location": "nan",
+    "email": "film.club@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfiEp-_CPcm65XEaYmn6Hn1dg670dimYaZDTzgTiZJPtEDdXA/viewform?usp=header"
   },
   {
@@ -106,11 +106,11 @@ export const clubsData: Club[] = [
     "shortDescription": "We foster a vibrant community where students can enhance their cognitive skills through thoughtful discussions and daily writing. Our focus is on commitment, passion for learning, and critical thinking, creating an enriching environment for all members.",
     "description": "The Literature Club aims to create a vibrant space filled with intellectual exploration and engaging events. We want to inspire students to dive deep into their quest for knowledge during their time at university. Instead of just focusing on reading a book each month, we encourage critical analysis and thoughtful discussions about various texts and ideas. By engaging in daily reading and writing, students can enhance their cognitive skills and improve both their verbal and nonverbal communication. Our club is built on the principles of commitment, a genuine passion for learning, and critical thinking, which shape our identity and foster a supportive community for all members.",
     "image": "/logos/literatureclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/literatureclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Woxsen University",
-    "location": "literature.club@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLScedNIoUY6kYdQxpojq776Mk6fKzweuyjk-7wTHzD7anNOphg/viewform?usp=dialog",
+    "meetingSchedule": "Every alternate Monday",
+    "location": "Woxsen University",
+    "email": "literature.club@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScedNIoUY6kYdQxpojq776Mk6fKzweuyjk-7wTHzD7anNOphg/viewform?usp=dialog"
   },
   {
@@ -120,11 +120,11 @@ export const clubsData: Club[] = [
     "shortDescription": "The Communication Design Club is a creative space where students explore the power of storytelling, visual expression, and strategic thinking. From branding to motion graphics, we collaborate, experiment, and bring ideas to life through design.",
     "description": "The Communication Design Club is a vibrant and collaborative platform that nurtures creativity, innovation, and design thinking among students. We focus on the art and strategy of visual communication, working across disciplines like branding, typography, advertising, digital media, illustration, and motion design.\n\nThrough workshops, design challenges, speaker sessions, and real-world projects, we encourage members to push boundaries and experiment with ideas. Whether it's creating a social awareness campaign, developing a visual identity, or exploring new tools and techniques, our club provides the space and support to transform concepts into compelling communication.\n\nWe aim to build a strong design community where knowledge is shared, talents are honed, and every voice has a visual story to tell.",
     "image": "/logos/communicationclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/communicationclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "CD.club@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLScYOmBWeona_2xYTEReplZ_boFwg-96ZNi7uwS97_V9QXq-iQ/viewform?usp=header",
+    "location": "nan",
+    "email": "CD.club@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScYOmBWeona_2xYTEReplZ_boFwg-96ZNi7uwS97_V9QXq-iQ/viewform?usp=header"
   },
   {
@@ -134,11 +134,11 @@ export const clubsData: Club[] = [
     "shortDescription": "The Interior Design Club is a space for students to learn, explore, and apply design ideas through activities, workshops, and real-world projects.",
     "description": "The Interior Design Club is a creative community that nurtures design thinking, spatial innovation, and aesthetic exploration. Open to students from all disciplines, the club serves as a platform to experiment with materials, textures, and interior trends through workshops, site visits, and collaborative projects. It encourages members to explore the connection between form and function while understanding how interiors influence behavior and well-being. It’s a space to grow as designers, thinkers, and collaborators in shaping meaningful and immersive built environments.",
     "image": "/logos/interiorclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/interiorclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "interior.club@woxsen.edu.in",
-    "email": "https://forms.gle/UwfeWHDkkhJprYac8",
+    "location": "nan",
+    "email": "interior.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/UwfeWHDkkhJprYac8"
   },
   {
@@ -148,11 +148,11 @@ export const clubsData: Club[] = [
     "shortDescription": "📸 Paparazzi – The Photography Club\nCapturing moments, chasing stories. From candid clicks to curated frames, we freeze time through our lens and let every picture speak.",
     "description": "We’re not just photographers — we’re storytellers who freeze emotions, capture energy, and chase moments before they slip away. At Paparazzi, every click has a purpose — whether it’s a candid laugh, a vibrant sunset, or the chaos of a fest.\n\nFrom photo walks and creative shoots to contests and event coverage, we give every passionate lens-lover a space to grow, learn, and create.\nSee the world differently. Shoot it your way. Join Paparazzi.",
     "image": "/logos/chitrikarana_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/chitrikarana_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Blue embers or classrooms",
-    "location": "paparazzi@woxsen.edu.in",
-    "email": "https://forms.cloud.microsoft/r/USNh2L9RTP",
+    "meetingSchedule": "Once a week",
+    "location": "Blue embers or classrooms",
+    "email": "paparazzi@woxsen.edu.in",
     "joinUrl": "https://forms.cloud.microsoft/r/USNh2L9RTP"
   },
   {
@@ -162,11 +162,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Aesthetrix is an architecture club that promotes creativity, inclusivity, and professionalism by fostering a deeper appreciation for architecture within the student community.",
     "description": "Aesthetrix is the official architecture club of Woxsen University, focused on helping students explore and understand the world of architecture in creative and inclusive ways. We organize events, discussions, and activities that encourage innovation, teamwork, and thinking beyond traditional design. Our goal is to build a strong design community where everyone feels inspired and involved.",
     "image": "/logos/architectureclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/architectureclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Currently using an available design studio in the Lab Block.",
-    "location": "aesthetrixclub@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLSccQLwiwx1-Cc4-fy_Xgc_hMGF0JEjX62M7GdW829egUxuwOg/viewform?usp=sharing&ouid=102002084128315009100",
+    "meetingSchedule": "Flexible scheduling based on event planning and project needs.",
+    "location": "Currently using an available design studio in the Lab Block.",
+    "email": "aesthetrixclub@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSccQLwiwx1-Cc4-fy_Xgc_hMGF0JEjX62M7GdW829egUxuwOg/viewform?usp=sharing&ouid=102002084128315009100"
   },
   {
@@ -176,11 +176,11 @@ export const clubsData: Club[] = [
     "shortDescription": "At Jashn, we don’t just host events—we create moments of joy, belonging, and cultural magic. Through music, dance, traditions, and festivals, we turn our campus into a home where every student feels seen, heard, and celebrated.\nJashn – Where Cultures Meet and Hearts Celebrate",
     "description": "Jashn is more than a cultural club—it’s a feeling that lingers in laughter, echoes through music, and shines in every celebration. It’s where stories are shared, roots are honored, and traditions are kept alive through the spirit of togetherness.\n\nAt Jashn, we believe that culture is not confined to boundaries—it's in the fragrance of Onam’s pookalam, the devotion of Ganesh Chaturthi, the glow of Christmas lights, and the thrill of a Halloween celebration. Each event we host is a chance to relive heritage, discover new cultures, and create memories that last beyond college.\n\nOur mission is to build a space where every student feels seen, heard, and celebrated—where cultures are not just observed, but lived. It’s about creating moments that make you feel at home, even when you're far from it. Here, every dance move tells a story, every melody connects hearts, and every tradition brings us closer.\n\nWhether you’re performing on stage, planning an event behind the scenes, or simply showing up with wide eyes and open arms—you belong. You’re not just joining a club. You’re becoming part of a family that celebrates every shade of who we are.\n\nThis is Jashn. A celebration of culture. A celebration of you.",
     "image": "",
-    "coverImage": "",
+    "coverImage": "/cover_photos/culturalclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "cultural@woxsen.edu.in",
-    "email": "https://forms.office.com/r/P41EDDvTTt",
+    "location": "nan",
+    "email": "cultural@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/P41EDDvTTt"
   },
   {
@@ -190,11 +190,11 @@ export const clubsData: Club[] = [
     "shortDescription": "The James A.F. Stoner Sustainability Club at Woxsen University is dedicated to promoting sustainable development and responsible leadership among students. Named after renowned management scholar James A.F. Stoner, the club focuses on climate action, social responsibility, and innovative green practices. Through workshops, community outreach, and campus sustainability projects, it empowers students to become change-makers and advocates for a sustainable future.",
     "description": "The James A.F. Stoner Global Sustainability Club at Woxsen University is a vibrant student-led initiative dedicated to promoting environmental consciousness, responsible leadership, and sustainable development. Named after renowned scholar James A.F. Stoner, the club operates under Woxsen’s broader Ethics, Responsibility & Sustainability (ERS) framework and aligns closely with the United Nations’ Sustainable Development Goals (SDGs). Its mission is to simplify complex global sustainability challenges and translate them into actionable solutions on campus and beyond. The club emphasizes collaboration with faculty and global partners, active research in sustainability innovation, and meaningful student engagement through projects and outreach. Members benefit by gaining hands-on leadership experience, enhancing their research and project management skills, and participating in events that promote awareness and global dialogue on climate action. ● It fosters critical thinking and real-world problem solving around environmental and social issues ● Encourages cross-disciplinary collaboration and innovation among students ● Provides opportunities for community outreach and impact-driven campus initiatives ● Builds global networks through partnerships with academic institutions and sustainability experts. The club also plays a key role in supporting Woxsen’s recognition as a Level 5 Prime Pioneering School, reflecting its commitment to creating a socially responsible and sustainable academic environment. As a whole, the James A.F. Stoner Global Sustainability Club serves as a transformative platform for students to become ethical, informed, and empowered changemakers for a better and more sustainable world.",
     "image": "/logos/sustainabilityclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/sustainabilityclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Woxsen university",
-    "location": "Sustainability@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/1cArsDX3hQVchWVIJYPn-WAS8614J1OlMP_CF_nqa_ro/viewform?usp=sf_link",
+    "meetingSchedule": "nan",
+    "location": "Woxsen university",
+    "email": "Sustainability@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/1cArsDX3hQVchWVIJYPn-WAS8614J1OlMP_CF_nqa_ro/viewform?usp=sf_link"
   },
   {
@@ -204,11 +204,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Woxsen’s Fashion Design Club is a vibrant platform for creative expression, where students design, collaborate, and bring fashion to life through events, workshops, and runway showcases.",
     "description": "At Woxsen University, the Fashion Design Club serves as a creative hub for students passionate about fashion, culture, and innovation. The club brings together aspiring designers, stylists, and visual thinkers to explore the art and business of fashion through hands-on experiences. From conceptualising and creating garments to curating fashion shows like La Mode, our annual showcase, the club encourages original thought, craftsmanship, and collaboration. We host interactive workshops, industry expert sessions, design challenges, and styling events to sharpen student skills and expand their creative horizons. Whether you’re a design student or simply a fashion enthusiast, the club offers a dynamic space to experiment, express, and elevate your style at Woxsen.",
     "image": "/logos/fashionclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/fashionclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "Fashion.Club@woxsen.edu.in",
-    "email": "https://forms.office.com/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X9mC6BkWol9KhUicUj9aL0BURU1JV1ZRSjNMUUhBOVRCRVpRTVRNTEhUWi4u",
+    "location": "nan",
+    "email": "Fashion.Club@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X9mC6BkWol9KhUicUj9aL0BURU1JV1ZRSjNMUUhBOVRCRVpRTVRNTEhUWi4u"
   },
   {
@@ -218,11 +218,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Spectrum is a school level club established in June 2024 with a mission to explore the world of science driven by curiosity, imagination, and teamwork. We hope to create a diverse community of learners where learning as diverse and dynamic as the spectrum of light itself.",
     "description": "Spectrum is a place where curious and creative students come together to explore science. We believe that science is limitless, and the name 'Spectrum' shows the endless possibilities we can discover when we stay curious and open-minded. Together, we aim to understand the world of science better and help each other learn and grow.\nOur vision is to make science fun, exciting, and for everyone. We want to build a friendly community where asking questions leads to new ideas, and learning never stops. Our purpose is to keep growing, exploring, and never limit ourselves.",
     "image": "/logos/scienceclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/scienceclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Woxsen University",
-    "location": "spectrumclub@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLScCRMxSsV_xFGEU3kwxAcHjXFS-yXECRqFt_EqJA3iOBY63iQ/viewform?usp=sharing&ouid=116738673004759268485",
+    "meetingSchedule": "-",
+    "location": "Woxsen University",
+    "email": "spectrumclub@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScCRMxSsV_xFGEU3kwxAcHjXFS-yXECRqFt_EqJA3iOBY63iQ/viewform?usp=sharing&ouid=116738673004759268485"
   },
   {
@@ -232,11 +232,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Utopia is more than just a gaming club — it’s a student-driven platform that supports both gamers and those who want to get into gaming, by creating an inclusive, accessible space to learn, grow, and have fun.",
     "description": "Utopia isn’t just a gaming platform — it’s a community that brings together students who are passionate about gaming, as well as those who are curious to explore it. What makes it unique is how it creates space for both beginners and experienced players by making gaming more accessible, welcoming, and student-led.\n\nThe club focuses on organizing events, tournaments, casual game nights, and content that fosters skill-building, teamwork, and fun. Whether you’re a competitive player or someone just starting out, Utopia gives you a place to connect, grow, and be part of a culture that celebrates gaming in all forms. It’s a space where passion meets opportunity — and everyone gets a chance to be part of it",
     "image": "/logos/esportsclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/esportsclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "utopiaesports@woxsen.edu.in",
-    "email": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=LSD36rPvekOhA1Bbufv3X3qPVuVPlcdEgMRozI4hAThURERQRkdaVTdYREEwVFo5RkY5WkNMM0FaUC4u&route=shorturl",
+    "location": "nan",
+    "email": "utopiaesports@woxsen.edu.in",
     "joinUrl": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=LSD36rPvekOhA1Bbufv3X3qPVuVPlcdEgMRozI4hAThURERQRkdaVTdYREEwVFo5RkY5WkNMM0FaUC4u&route=shorturl"
   },
   {
@@ -246,11 +246,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Distortion is the official music club of our college, dedicated to nurturing musical talent, creativity, and collaboration among students. From soulful unplugged sessions and lively jam nights to grand concerts, the club brings the campus alive with rhythm and melody, while representing the college in various cultural competitions.",
     "description": "Distortion provides a platform for vocalists, instrumentalists, producers, and music enthusiasts across all disciplines to collaborate and perform. The club promotes creativity, teamwork, and self-expression while offering learning opportunities through workshops, collaborations with other clubs, and mentorship from experienced musicians. By participating in inter-college competitions and hosting open-mic nights, Distortion fosters a dynamic and expressive musical culture on campus. At its core, the club believes in the power of music to unite, inspire, and build lasting connections.",
     "image": "/logos/musicclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/musicclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Law Block , Room E-013",
-    "location": "Music.club@woxsen.edu.in",
-    "email": "https://forms.gle/Hdvskzput6AHEvSc9",
+    "meetingSchedule": "Weekly once",
+    "location": "Law Block , Room E-013",
+    "email": "Music.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/Hdvskzput6AHEvSc9"
   },
   {
@@ -260,11 +260,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Arthaverse is Woxsen’s AI & Biz Analytics club where data meets vibes. 🚀 From cool AI tools to real-world hacks, we’re all about turning numbers into next-gen moves. If you’re into tech, trends, and making smart stuff happen — welcome to the verse. 💡📊✨",
     "description": "Arthaverse is the official AI & Business Analytics Club of Woxsen University, built by and for students who believe that data isn’t just numbers — it’s the future. We’re here to decode the world through data, explore cutting-edge AI tools, and bring analytics to life in the coolest, most creative ways possible.\n\nAt our core, we’re a community of curious minds — future analysts, tech leaders, product thinkers, and problem solvers — who love experimenting with real-world business problems and innovative tech. From predictive models and dashboards to GenAI explorations and industry-level case crackings, we don’t just learn analytics — we live it. 💡📈\n\nWhat We Do:\n🔍 Live Projects & Hackathons: Get hands-on experience with real business data and challenges.\n\n📚 Workshops & Skill Sessions: Learn tools like Python, Power BI, SQL, Tableau, and ML — with a side of pizza sometimes.\n\n🤝 Collabs & Guest Talks: Hear from industry leaders and alumni who are killing it in data science, consulting, and AI.\n\n🧠 Case Study Nights & Challenges: Compete, learn, win — all in one go.\n\n🎉 Fun Meets Function: From meme analysis to decoding Spotify Wrapped, we keep it relatable and exciting.\n\nWhy Arthaverse?\nBecause we believe Gen Z isn’t just ready for the data revolution — we are the revolution. We combine tech skills with creative thinking, business with logic, and dashboards with dopamine. It’s not just a club. It’s a verse — where you grow, build, vibe, and lead.\n\nSo, if you’re someone who’s curious, creative, and ready to turn data into impact — Arthaverse is your tribe. 💻🧠✨\nLet’s build the future, one dataset at a time.",
     "image": "",
-    "coverImage": "",
+    "coverImage": "/cover_photos/aiclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "arthaverse.club@woxsen.edu.in",
-    "email": "https://forms.gle/ZEHNb8uzZQ2C8mnG6",
+    "location": "nan",
+    "email": "arthaverse.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/ZEHNb8uzZQ2C8mnG6"
   },
   {
@@ -274,11 +274,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Just Naach is the official dance club of our college, dedicated to promoting cultural expression, creativity, and student engagement through diverse dance forms. From vibrant workshops and flashmobs to flagship events like Rangrasiya, the club actively contributes to campus life and represents the college in various competitions.",
     "description": "Just Naach is the dynamic and culturally-rooted dance club of our college, formed with the vision of uniting students through the art of dance. We are known for our energetic presence across the campus—from conducting open workshops and flashmobs to organizing our flagship event Rangrasiya, a grand celebration that marks the cultural peak of the year. The club encourages inclusivity, self-expression, and teamwork while providing a platform for students across all disciplines to explore and showcase their talent. Just Naach also collaborates with other cultural clubs, participates in inter-college competitions, and engages faculty through interactive workshops. Entirely student-driven, the club blends passion with discipline, aiming to keep dance alive as a powerful form of communication, celebration, and community building.",
     "image": "/logos/danceclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/danceclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "Dance.Club@woxsen.edu.in",
-    "email": "https://forms.gle/N16KKoJd8wUYAxsq9",
+    "location": "nan",
+    "email": "Dance.Club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/N16KKoJd8wUYAxsq9"
   },
   {
@@ -288,11 +288,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Click.Code.Create",
     "description": "To provide practical subject matter promoting the ability for invention, resourcefulness, and ultimately innovation.",
     "image": "/logos/techclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/techclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "C-005",
-    "location": "technology.club@woxsen.edu.in",
-    "email": "https://forms.gle/hDMrt47qAq3cF7maA",
+    "meetingSchedule": "We have a meeting every two weeks.",
+    "location": "C-005",
+    "email": "technology.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/hDMrt47qAq3cF7maA"
   },
   {
@@ -302,11 +302,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Tantra – The Operations Club blends operational intelligence with strategic execution. We enable seamless systems, tackle bottlenecks, and turn structured thinking into impactful action. From supply chains to live business simulations, we reimagine processes with precision, agility, and innovation. At Tantra, we don’t just manage operations — we orchestrate them.",
     "description": "Tantra – The Operations Club is a student-driven forum committed to advancing operational excellence through experiential learning and strategic thinking. At its core, Tantra explores the intersection of logic and creativity, where structured processes are transformed into competitive strategies. We specialize in optimizing workflows, eliminating inefficiencies, and converting operational bottlenecks into opportunities for innovation and growth.\n\nThrough curated live simulations, industry-focused case challenges, and immersive analytical exercises, we bridge the gap between theoretical frameworks and real-world application. We view every process as a system of interdependent variables and every inefficiency as a potential for systemic improvement. Our members are critical thinkers and problem solvers — individuals who appreciate the harmony of balance and the discipline of precision.\n\nGuided by intellectual curiosity and driven by a passion for innovation, Tantra equips future leaders to reimagine operations not just as functions, but as engines of transformation. In the evolving world of business management, Tantra stands as the command center where strategic possibilities are engineered and executed",
     "image": "/logos/opsclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/opsclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "tantra@woxsen.edu.in",
-    "email": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X8A7-U8w9SJDvGGtWjY5FVRUNkcwQlgxODY2NkowQVJIQUYwNjVPNUtYWS4u",
+    "location": "nan",
+    "email": "tantra@woxsen.edu.in",
     "joinUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X8A7-U8w9SJDvGGtWjY5FVRUNkcwQlgxODY2NkowQVJIQUYwNjVPNUtYWS4u"
   },
   {
@@ -316,11 +316,11 @@ export const clubsData: Club[] = [
     "shortDescription": "The Rotaract Club of woxsen is a student-led organization dedicated to community service, leadership development, and global fellowship. Affiliated with Rotary International",
     "description": "The Rotaract Club of woxsen is a student-led organization dedicated to community service, leadership development, and global fellowship. Affiliated with Rotary International, the club empowers young adults to create positive change through social initiatives, professional growth opportunities, and collaborative projects both on and off campus. It provides a platform for students to build leadership skills, engage in meaningful service, and connect with like-minded peers.",
     "image": "/logos/rotaractu_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/rotaractu_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "Lecture halls",
-    "location": "Rotaract.club@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLSf-nhwZ12N3T3ry4rRSvH9GOQblBDxZgklq6RtFNZVz_AwOkg/viewform?usp=dialog",
+    "meetingSchedule": "Every thursdays",
+    "location": "Lecture halls",
+    "email": "Rotaract.club@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSf-nhwZ12N3T3ry4rRSvH9GOQblBDxZgklq6RtFNZVz_AwOkg/viewform?usp=dialog"
   },
   {
@@ -330,11 +330,11 @@ export const clubsData: Club[] = [
     "shortDescription": "gnite Club provides a dynamic platform for nurturing entrepreneurial thinking among students. Through experiential learning, the club immerses members in real business-world scenarios where they develop critical skills like idea generation, business planning, and leadership.",
     "description": "The Entrepreneurship Club at Woxsen University, known as IGNITE, is a dynamic student-led platform that fosters innovation, creativity, and entrepreneurial thinking. It is designed to nurture aspiring entrepreneurs by providing experiential learning through workshops, bootcamps, competitions, and real-world business simulations. The club conducts various engaging activities such as idea hackathons, crisis boardroom challenges, brand strategy games, and design thinking sprints that help students develop critical problem-solving and leadership skills.\n\nIGNITE also offers its members exclusive opportunities to interact with industry leaders, startup founders, and venture capitalists through guest lectures and mentorship sessions. Students receive support in turning their business ideas into viable ventures through access to Woxsen’s Trade Tower Startup Incubation Center, where they benefit from expert guidance, funding resources, and co-working space. Moreover, the club encourages participation in national and international entrepreneurship competitions, broadening exposure and enabling real-world testing of student-led ideas.",
     "image": "/logos/entrepreneurshipclub_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/entrepreneurshipclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
-    "location": "Ignite@woxsen.edu.in",
-    "email": "https://forms.office.com/r/qpsLVNFUmN",
+    "location": "nan",
+    "email": "Ignite@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/qpsLVNFUmN"
   },
   {
@@ -344,11 +344,11 @@ export const clubsData: Club[] = [
     "shortDescription": "A student-led club that brings together fun, learning, and real brand collaborations—all with a creative marketing touch.\nWe are not a marketing club- we do it all",
     "description": "The Marketing Director’s Club (MDC) is a student-led powerhouse that thrives on understanding what students genuinely want.\"We are not a marketing club — we are a versatile community that brings together fun, learning, management, and social impact, all infused with a creative marketing touch.\n\nAt Marketing Director’s Club, we organize a wide variety of events—from interactive workshops and skill-building sessions to community service initiatives and management competitions. Whether it’s a quiz, a celebration, a social drive, or a leadership challenge, every activity we plan is a balanced mix of engagement and purpose, designed to leave a lasting impact.\n\nWhat makes us unique? We add a marketing twist to everything we do. We take ordinary ideas and present them in extraordinary ways—communicating, engaging, and executing like marketers.\n\nAnd to bridge the gap between campus and the real world, we collaborate with brands and bring them to our college, giving students valuable industry exposure and a chance to interact with professionals firsthand.\n\nAt Marketing Director’s Club, we don’t just market ideas—we market what students truly want.\nWe are where student voices shape student experiences—with purpose, creativity, and that signature marketing flair.",
     "image": "/logos/mdc_logo.webp",
-    "coverImage": "",
+    "coverImage": "/cover_photos/mdc_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "nan",
-    "location": "marketing.directors@woxsen.edu.in",
-    "email": "https://forms.office.com/r/zB9TQmASmB",
+    "meetingSchedule": "2-3 times in a month",
+    "location": "nan",
+    "email": "marketing.directors@woxsen.edu.in",
     "joinUrl": "https://forms.office.com/r/zB9TQmASmB"
   },
   {
@@ -360,9 +360,9 @@ export const clubsData: Club[] = [
     "image": "",
     "coverImage": "",
     "memberCount": "",
-    "meetingSchedule": "C-115",
-    "location": "genesis.club@woxsen.edu.in",
-    "email": "https://forms.gle/T3KdYVG68vted2KG7",
+    "meetingSchedule": "Every Tuesday",
+    "location": "C-115",
+    "email": "genesis.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7"
   },
   {
@@ -374,9 +374,9 @@ export const clubsData: Club[] = [
     "image": "",
     "coverImage": "",
     "memberCount": "",
-    "meetingSchedule": "Blu/Law Block",
-    "location": "wdc@woxsen.edu.in",
-    "email": "https://docs.google.com/forms/d/e/1FAIpQLSd_YxFRwoNkJbeIBPrMg8zFpYP1Vsv1ahA6orRpD8Qzd-W5Vw/viewform",
+    "meetingSchedule": "Weekly Once",
+    "location": "Blu/Law Block",
+    "email": "wdc@woxsen.edu.in",
     "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSd_YxFRwoNkJbeIBPrMg8zFpYP1Vsv1ahA6orRpD8Qzd-W5Vw/viewform"
   },
   {
@@ -386,11 +386,11 @@ export const clubsData: Club[] = [
     "shortDescription": "Skribble Club is a creative hub for students at Woxsen eager to explore and express themselves through art. Whether you're into sketching, painting, digital mediums, or creative collaborations, Skribble nurtures your journey and connects you to a like-minded, artistic community on campus.",
     "description": "Skribble Club – The Art Haven of Woxsen University\nSkribble Club is Woxsen University’s vibrant art and creativity hub, where imagination finds its canvas. It serves as a platform for students to explore, express, and expand their artistic talents across a range of mediums—from traditional sketching and painting to contemporary digital art.\nAs part of Woxsen’s diverse ecosystem of student-led clubs, Skribble stands out by nurturing creativity, encouraging self-expression, and fostering a collaborative spirit. Through regular workshops, exhibitions, live art events, and inter-club collaborations, Skribble inspires students to challenge artistic boundaries and turn ideas into impactful visual stories.",
     "image": "",
-    "coverImage": "",
+    "coverImage": "/cover_photos/artclub_coverphoto.webp",
     "memberCount": "",
-    "meetingSchedule": "nan",
-    "location": "skribble.club@woxsen.edu.in",
-    "email": "https://forms.gle/WKntPd3iMY8rSVtS6",
+    "meetingSchedule": "1 or 2 meetings in a month (as per event)",
+    "location": "nan",
+    "email": "skribble.club@woxsen.edu.in",
     "joinUrl": "https://forms.gle/WKntPd3iMY8rSVtS6"
   }
 ];
