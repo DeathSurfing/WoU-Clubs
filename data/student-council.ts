@@ -467,7 +467,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "preeti-bisht",
     name: "Preeti Bisht ",
-    role: "SOB Representative PG",
+    role: "School Rep",
     department: "MBA school of business ",
     year: "Second Year",
     photo: "/photos/preeti-bisht.webp",
@@ -503,7 +503,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "pranav-golwalkar",
     name: "Pranav Golwalkar",
-    role: "School Representative: School of Liberal Arts and Humanities ",
+    role: "School Rep ",
     department: "School of Liberal Arts and Humanities ",
     year: "Second Year",
     photo: "/photos/pranav-golwalkar.webp",
@@ -527,7 +527,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "dj-anshuman",
     name: "DJ Anshuman ",
-    role: "operation secretary ",
+    role: "Operations Secretary ",
     department: "BBA",
     year: "Second Year",
     photo: "/photos/dj-anshuman.webp",
@@ -563,8 +563,8 @@ export const teamMembers: TeamMember[] = [
   {
     id: "maanyaa-goyal",
     name: "Maanyaa Goyal ",
-    role: "Co - chair life long learning ",
-    department: "Bdes ( interior ) ",
+    role: "Co - Chair",
+    department: "Life Long Learning",
     year: "Second Year",
     photo: "/photos/maanyaa-goyal.webp",
     bio: "My name is Maanyas Goyal, and I am currently pursuing a major in interior design. I have a deep passion for music, travel, poetry, and embracing new experiences. My life motto is simple: Life is too short to worry about who’s judging you; if they don’t love themselves, why should their opinions matter to you?",
@@ -587,8 +587,8 @@ export const teamMembers: TeamMember[] = [
   {
     id: "simran-gupta",
     name: "Simran Gupta ",
-    role: "School representative for School Of Sciences ",
-    department: "-",
+    role: "School Rep",
+    department: "School Of Sciences",
     year: "Second Year",
     photo: "/photos/simran-gupta.webp",
     bio: "Simran Gupta is not just the School of Sciences representative she’s the voice science students wish they had sooner. Sincere, bold and never afraid to fight for what’s right and deliver results with flair. Working to bring School Of Sciences to it's full potential. ",
