@@ -647,8 +647,8 @@ export const teamMembers: TeamMember[] = [
   {
    id: "Rounak Kumar",
     name: "Rounak Kumar ",
-    role: "Sports Vice President",
-    department: "School Of Business",
+    role: "VP",
+    department: "Sports",
     year: "Second Year",
     photo: "/photos/rounak-kumar.webp",
     bio: "🏀>🌍 ",
