@@ -366,7 +366,7 @@ export const teamMembers: TeamMember[] = [
     bio: "My name is Zia, I'm the Vice President for critical thinking and mindfulness, I deal with community well-being, holistic growth, mental-health awareness, stress management/relief, problem solving, ideation and so much more. I'm here so that our vibrant student body can have a healthy, constructive and nuanced academic journey here at Woxsen. I'm always ready to engage in creative initiatives and any concerns regarding your social or emotional welfare. Feel free to approach me anytime. Love.  ",
     quote: "“You must have chaos within you to give birth to a dancing star.” ― Friedrich Nietzsche",
     email: "ziaali.mohammed_2026@woxsen.edu.in",
-    linkedin: "www.linkedin.com/in/zia4ali",
+    linkedin: "https://www.linkedin.com/in/zia4ali",
   },
   {
     id: "vp-Entrepreneurship-cochair",
@@ -390,7 +390,6 @@ export const teamMembers: TeamMember[] = [
     bio: "Entrepreneurship is on an unprecedented rise in recent times, and this brings upon us, a new art form which combines the complexity of innovation and technology and the robustness of leadership and management. My aim is to paint the perfect portrait and help others understand and indulge in this art that we call entrepreneurship. ",
     quote: "",
     email: "ankith.reddy_2026@woxsen.edu.in",
-    linkedin: "Linkedin",
   },
   {
     id: "senior-exec-3",
@@ -402,7 +401,7 @@ export const teamMembers: TeamMember[] = [
     bio: "I'm the type of person who gives everything 100%, whether I'm out there playing sports or diving into a work project. I genuinely love the grind - there's something addictive about pushing yourself and seeing real improvement. Honestly, being good at what you do just hits different. That feeling when everything clicks and you know you've nailed it? That's what keeps me going every day.",
     quote: "While everyone else is overthinking everything, I just show up and do excellent work. It's shockingly effective",
     email: "manas.lathkar_2027@woxsen.edu.in",
-    linkedin: "Manas Lathkar",
+    linkedin: "https://www.linkedin.com/in/manas-lathkar-6b5346288/",
   },
   {
     id: "senior-exec-2",
@@ -414,7 +413,7 @@ export const teamMembers: TeamMember[] = [
     bio: "Aditya Verma combines strategy, creativity, and a love for problem-solving. Always looking for fresh ideas, he’s driven by the goal of making things happen and creating meaningful change. Whether it’s through leadership, collaboration, or just finding better ways to do things, he’s constantly pushing for progress with a positive, can-do attitude.",
     quote: "Making things happen between classes, coffee breaks, and council meetings.",
     email: "aditya.verma_2026@woxsen.edu.in",
-    linkedin: "www.linkedin.com/in/adityavermaconnect",
+    linkedin: "https://www.linkedin.com/in/adityavermaconnect",
   },
   {
     id: "general-secretary",
@@ -450,7 +449,7 @@ export const teamMembers: TeamMember[] = [
     bio: "Chris Jose, your Senior Vice President, is all about bringing students together, through clubs, fests, or just random chaos. Master of last-minute plans and loud ideas, he’s here to hype every event, support your wildest campus dreams, and make sure college feels a little less boring (and a lot more fun).",
     quote: "\"If it sounds crazy, count me in.\"",
     email: "chrisjose.k_2027@woxsen.edu.in",
-    linkedin: "www.linkedin.com/in/chris-jose13",
+    linkedin: "https://www.linkedin.com/in/chris-jose13",
   },
   {
     id: "vp-Global-Citizenship-cochair",
@@ -510,7 +509,7 @@ export const teamMembers: TeamMember[] = [
     bio: "School of Tech representative working to keep communication smooth between students and faculty. I’m here to share ideas, support initiatives, and help create a space where everyone feels heard. Always open to feedback and aiming to make small but meaningful improvements wherever I can!",
     quote: "Idk",
     email: "Tania.solanki_2026@woxsen.edu.in",
-    linkedin: "Tania Solanki",
+    linkedin: "https://www.linkedin.com/in/tania-solanki-4598a9251/",
   },
   {
     id: "senior-exec-7",
@@ -522,7 +521,7 @@ export const teamMembers: TeamMember[] = [
     bio: "Santhosh is a B.Tech CSE student at Woxsen University (Class of 2028), a proud coffee addict, and a tennis enthusiast who believes caffeine and backhands can solve most problems. When he’s not debugging code, he’s probably daydreaming about Wimbledon or his next cup of coffee.",
     quote: "Fueled by caffeine and driven by code",
     email: "malyala.santhosh_2028@woxsen.edu.in ",
-    linkedin: "Sai Santhosh Malyala ",
+    linkedin: "https://www.linkedin.com/in/sai-santhosh-malyala-589583339/",
   },
   {
     id: "solh-representative",
@@ -558,7 +557,7 @@ export const teamMembers: TeamMember[] = [
     bio: "DJ Anshuman serves as Operations Secretary of Woxsen’s Student Council (2025–26), where he drives structure, accountability, and execution. A BBA (Hons.) Financial Services student, he blends strategic thinking with operational focus, creating systems that last. With a bias for action, he’s committed to shaping a more driven, connected campus.",
     quote: "Haathi chale bazaar Kuthe bowke hazaar ",
     email: "anshuman.dj_2028@woxsen.edu.in",
-    linkedin: "www.linkedin.com/in/dj-anshuman",
+    linkedin: "https://www.linkedin.com/in/dj-anshuman",
   },
   {
     id: "senior-exec-4",
@@ -582,7 +581,7 @@ export const teamMembers: TeamMember[] = [
     bio: "“No amount of money ever bought a second of time” — and Rohan Kambhatla doesn’t let either go to waste. As Vice Treasurer, he’s got a sharp eye on the budget, a knack for pulling in sponsors, and a spreadsheet game that’s borderline elite. With a solid crew of friends on the council, Rohan’s all set to bring energy, efficiency, and a bit of flair to the numbers game.",
     quote: "",
     email: "rohan.kambhatla_2026@woxsen.edu.in",
-    linkedin: "www.linkedin.com/in/rohan-kambhatla",
+    linkedin: "https://www.linkedin.com/in/rohan-kambhatla",
   },
   {
     id: "vp-LLC-cochair",
@@ -594,7 +593,7 @@ export const teamMembers: TeamMember[] = [
     bio: "My name is Maanyas Goyal, and I am currently pursuing a major in interior design. I have a deep passion for music, travel, poetry, and embracing new experiences. My life motto is simple: Life is too short to worry about who’s judging you; if they don’t love themselves, why should their opinions matter to you?",
     quote: "",
     email: "manya.goyal_2028@woxsen.edu.in",
-    linkedin: "Maanyaa Goyal ",
+    linkedin: "https://www.linkedin.com/in/maanyaa-goyal-050138315/",
   },
   {
     id: "vp-c&i",
@@ -618,7 +617,7 @@ export const teamMembers: TeamMember[] = [
     bio: "Simran Gupta is not just the School of Sciences representative she’s the voice science students wish they had sooner. Sincere, bold and never afraid to fight for what’s right and deliver results with flair. Working to bring School Of Sciences to it's full potential. ",
     quote: "",
     email: "simran.gupta_2028@woxsen.edu.in",
-    linkedin: "Simran Gupta ",
+    linkedin: "https://www.linkedin.com/in/simran-gupta-82abab327/",
   },
   {
     id: "senior-exec-5",
@@ -654,7 +653,7 @@ export const teamMembers: TeamMember[] = [
     bio: "🏀>🌍 ",
     quote: "One day, you might look up and see me playing the game at 50. Don't laugh. Never say never, because limits, like fears, are often just an illusion.",
     email: "Rounak.khursija_2026@woxsen.edu.in",
-    linkedin: " Rounak Kumar ",
+    linkedin: "https://www.linkedin.com/in/rounakkumar23/",
   },
   {
     id: "facilities-secretary",
