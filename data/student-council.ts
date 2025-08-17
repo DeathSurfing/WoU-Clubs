@@ -333,18 +333,6 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/zia4ali",
   },
   {
-    id: "aditya-verma",
-    name: "Aditya Verma ",
-    role: "Senior Executive",
-    department: "General- Student Council",
-    year: "Third Year",
-    photo: "/photos/aditya-verma.webp",
-    bio: "Aditya Verma combines strategy, creativity, and a love for problem-solving. Always looking for fresh ideas, he’s driven by the goal of making things happen and creating meaningful change. Whether it’s through leadership, collaboration, or just finding better ways to do things, he’s constantly pushing for progress with a positive, can-do attitude.",
-    quote: "Taking student life seriously... but not too seriously.",
-    email: "aditya.verma_2026@woxsen.edu.in",
-    linkedin: "www.linkedin.com/in/adityavermaconnect",
-  },
-  {
     id: "rahul-reddy-chukka",
     name: "Rahul Reddy Chukka",
     role: "Co-Chair ",
