@@ -561,7 +561,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "senior-exec-4",
-    name: "Deric Donbosco oseph",
+    name: "Derick Donbosco Joseph",
     role: "Senior Executive ",
     department: "OPERATIONS ",
     year: "Second Year",
