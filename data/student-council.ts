@@ -645,6 +645,18 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/millennium-namoijam/",
   },
   {
+   id: "Rounak Kumar",
+    name: "Rounak Kumar ",
+    role: "Sports Vice President",
+    department: "School Of Business",
+    year: "Second Year",
+    photo: "",
+    bio: "🏀>🌍 ",
+    quote: "One day, you might look up and see me playing the game at 50. Don't laugh. Never say never, because limits, like fears, are often just an illusion.",
+    email: "Rounak.khursija_2026@woxsen.edu.in",
+    linkedin: " Rounak Kumar ",
+  },
+  {
     id: "facilities-secretary",
     name: "Aman Kumar",
     role: "Facilities Secretary ",
