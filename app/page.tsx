@@ -187,29 +187,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Featured Council Members Section */}
-              <section className="py-4">
-                <h3 className="text-2xl font-bold mb-4">Featured Leaders</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {randomMembers.map((member, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 rounded-lg border bg-card shadow-md">
-                      <div className="relative h-12 w-12 overflow-hidden rounded-full flex-shrink-0">
-                        <Image
-                          src={`/placeholder.svg?height=100&width=100&text=${member.title.split(' ')[0]}`}
-                          alt={member.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="font-medium">{member.name}</h4>
-                        <p className="text-xs text-muted-foreground">{member.title}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
