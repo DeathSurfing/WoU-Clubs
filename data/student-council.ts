@@ -650,7 +650,7 @@ export const teamMembers: TeamMember[] = [
     role: "Sports Vice President",
     department: "School Of Business",
     year: "Second Year",
-    photo: "",
+    photo: "/photos/rounak-kumar.webp",
     bio: "🏀>🌍 ",
     quote: "One day, you might look up and see me playing the game at 50. Don't laugh. Never say never, because limits, like fears, are often just an illusion.",
     email: "Rounak.khursija_2026@woxsen.edu.in",
