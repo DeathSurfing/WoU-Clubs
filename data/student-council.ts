@@ -345,18 +345,6 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/adityavermaconnect",
   },
   {
-    id: "jairaj-chilukala",
-    name: "Jairaj chilukala ",
-    role: "VP",
-    department: "Life long learning",
-    year: "Second Year",
-    photo: "/photos/jairaj-chilukala.webp",
-    bio: "I’m Jairaj, a passionate B.Tech student with a flair for leadership, innovation, and social impact. From organizing tech events to leading legal and social clubs, I thrive on multitasking and meaningful work. I believe in quality over quantity and always aim to leave a mark through whatever I do ",
-    quote: "",
-    email: "jairaj.chilukala@woxsen.edu.in",
-    linkedin: "https://www.linkedin.com/in/jairaj-chilukala-646441350?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-  },
-  {
     id: "rahul-reddy-chukka",
     name: "Rahul Reddy Chukka",
     role: "Co-Chair ",
