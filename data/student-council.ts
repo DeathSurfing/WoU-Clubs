@@ -359,7 +359,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "vp-m&c",
     name: "Zia Ali Mohammed ",
-    role: "VP ",
+    role: "VP",
     department: "Critical Thinking and Mindfulness ",
     year: "Second Year",
     photo: "/photos/zia-ali-mohammed.webp",
@@ -371,7 +371,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "vp-Entrepreneurship-cochair",
     name: "Rahul Reddy Chukka",
-    role: "Co-Chair ",
+    role: "Co-Chair",
     department: "Entrepreneurship Development ",
     year: "Third Year",
     photo: "/photos/rahul-reddy-chukka.webp",
@@ -454,7 +454,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "vp-Global-Citizenship-cochair",
     name: "Aditya Pawar",
-    role: "Co-Chair ",
+    role: "Co-Chair",
     department: "Global Citizenship",
     year: "Second Year",
     photo: "/photos/aditya-pawar.webp",
@@ -478,7 +478,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "senior-exec-6",
     name: "Gunreddy Sri Krishna Koushik Reddy",
-    role: "Senior Executive ",
+    role: "Senior Executive",
     department: "Outreach",
     year: "Third Year",
     photo: "/photos/gunreddy-sri-krishna-koushik-reddy.webp",
@@ -502,7 +502,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "sot-representative",
     name: "Tania Solanki",
-    role: "School Rep ",
+    role: "School Rep",
     department: "SOT",
     year: "Final Year",
     photo: "/photos/tania-solanki.webp",
@@ -514,7 +514,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "senior-exec-7",
     name: "Sai Santhosh",
-    role: "Senior Executive ",
+    role: "Senior Executive",
     department: "Sports ",
     year: "Second Year",
     photo: "/photos/sai-santhosh.webp",
@@ -526,7 +526,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "solh-representative",
     name: "Pranav Golwalkar",
-    role: "School Rep ",
+    role: "School Rep",
     department: "School of Liberal Arts and Humanities ",
     year: "Second Year",
     photo: "/photos/pranav-golwalkar.webp",
@@ -538,7 +538,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "vp-digital-cochair",
     name: "Madhumitha H Athreya ",
-    role: "Co-Chair ",
+    role: "Co-Chair",
     department: "Digital Office",
     year: "Second Year",
     photo: "/photos/madhumitha-h-athreya.webp",
@@ -562,7 +562,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "senior-exec-4",
     name: "Derick Donbosco Joseph",
-    role: "Senior Executive ",
+    role: "Senior Executive",
     department: "OPERATIONS ",
     year: "Second Year",
     photo: "/photos/derick-donbosco-joseph.webp",
@@ -622,7 +622,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "senior-exec-5",
     name: "Rohan Mahesh Rathi",
-    role: "Senior Executives ",
+    role: "Senior Executive",
     department: "General - Student Council",
     year: "Second Year",
     photo: "/photos/rohan-mahesh-rathi.webp",
