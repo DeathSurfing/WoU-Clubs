@@ -66,6 +66,11 @@ export const councilData: OrgNode = {
           name: "Priya Chhugani",
           title: "Co Secretary",
         },
+        {
+          id: "Operations Secretary",
+          name: "DJ Anshuman",
+          title: "Operations Secretary",
+        }
       ],
     },
 
@@ -145,6 +150,11 @@ export const councilData: OrgNode = {
           name: "Maniya goyal",
           title: "Co-chair Entrepreneurship Officer",
         },
+        {
+          id: "Tech-cochair",
+          name: "Venkata Rishit Gurram",
+          title: "Co-chair Technical Officer",
+        }
       ],
     },
 
@@ -208,6 +218,37 @@ export const councilData: OrgNode = {
           name: "Siddharth Iyer",
           title: "Senior Executive",
         },
+        {
+          id: "senior-exec-2",
+          name: "Aditya Verma",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-3",
+          name: "Manas Lathkar",
+          title: "Senior Executive",
+        }
+        ,
+        {
+          id: "senior-exec-4",
+          name: "Derick Donbosco Joseph",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-5",
+          name: "Rohan Mahesh Rathi",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-6",
+          name: "Gunreddy Sri Krishna Koushik Reddy",
+          title: "Senior Executive",
+        },
+        {
+          id: "senior-exec-7",
+          name: "Sai Santhosh Malyala",
+          title: "Senior Executive",
+        }
       ],
     },
 
@@ -257,11 +298,6 @@ export const councilData: OrgNode = {
           id: "Just Naach",
           name: "Pranaya Srinivas",
           title: "Just Naach Club President",
-        },
-        {
-          id: "Jashn The Cultural Club",
-          name: "Bollam Thanusha Reddy",
-          title: "Jashn The Cultural Club President",
         },
         {
           id: "Marketing Directors Club",
@@ -321,7 +357,7 @@ export const councilData: OrgNode = {
 // Team members data
 export const teamMembers: TeamMember[] = [
   {
-    id: "zia-ali-mohammed",
+    id: "vp-m&c",
     name: "Zia Ali Mohammed ",
     role: "VP ",
     department: "Critical Thinking and Mindfulness ",
@@ -333,7 +369,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/zia4ali",
   },
   {
-    id: "rahul-reddy-chukka",
+    id: "vp-Entrepreneurship-cochair",
     name: "Rahul Reddy Chukka",
     role: "Co-Chair ",
     department: "Entrepreneurship Development ",
@@ -345,7 +381,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/rahul-reddy-chukka-3ba59b280?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
   },
   {
-    id: "malupally-ankith-reddy",
+    id: "vp-Entrepreneurship",
     name: "Malupally Ankith Reddy ",
     role: "VP",
     department: "Entrepreneurship ",
@@ -357,7 +393,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "Linkedin",
   },
   {
-    id: "manas-lathkar",
+    id: "senior-exec-3",
     name: "Manas Lathkar",
     role: "Senior Executive ",
     department: "General - Student Council",
@@ -369,7 +405,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "Manas Lathkar",
   },
   {
-    id: "aditya-verma",
+    id: "senior-exec-2",
     name: "Aditya Verma",
     role: "Senior Executive",
     department: "Core Team",
@@ -381,7 +417,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/adityavermaconnect",
   },
   {
-    id: "g-lohith-reddy",
+    id: "general-secretary",
     name: "G. Lohith Reddy",
     role: "General Secretary ",
     department: "Board Member",
@@ -393,7 +429,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/gudipally-lohith-reddy-6362171bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
   },
   {
-    id: "jairaj-chilukala",
+    id: "vp-LLC",
     name: "Jairaj chilukala",
     role: "VP",
     department: "Life long learning ",
@@ -405,7 +441,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/jairaj-chilukala-6a534b364?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
   },
   {
-    id: "chris-jose",
+    id: "senior-vice-president",
     name: "Chris Jose",
     role: "Senior Vice President",
     department: "Board Member",
@@ -417,7 +453,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/chris-jose13",
   },
   {
-    id: "aditya-pawar",
+    id: "vp-Global-Citizenship-cochair",
     name: "Aditya Pawar",
     role: "Co-Chair ",
     department: "Global Citizenship",
@@ -429,19 +465,19 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/aditya-pawar-695048250",
   },
   {
-    id: "anannya",
+    id: "vp-sports-cochair",
     name: "Anannya",
     role: "Co-Chair",
     department: "Sports",
     year: "Second Year",
     photo: "/photos/anannya.webp",
     bio: "Anannya (she/they) is a dynamic and creative thinker passionate about storytelling, strategy, and impact. With a love for learning and a voice rooted in authenticity, Anannya thrives at the intersection of innovation and empathy—building spaces where identity is celebrated, and ideas come to life.",
-    quote: "My voice won’t be boxed, my ideas won’t be dimmed. I build with heart, lead with clarity, and own every layer of who I am. I am Anannya (she/they), and I speak possibility.",
+    quote: "My voice won’t be boxed, my ideas won’t be dimmed. I build with heart, lead with clarity, and own every layer of who I am. I am Anannya (she/they), and I speak possibility.",
     email: "anannya.joshi_2026@woxsen.edu.in",
     linkedin: "https://www.linkedin.com/in/anannya-5b6b16214 ",
   },
   {
-    id: "gunreddy-sri-krishna-koushik-reddy",
+    id: "senior-exec-6",
     name: "Gunreddy Sri Krishna Koushik Reddy",
     role: "Senior Executive ",
     department: "Outreach",
@@ -453,7 +489,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/gunreddy-koushik-reddy-5251292b6?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
   },
   {
-    id: "preeti-bisht",
+    id: "sob-representative-pg",
     name: "Preeti Bisht ",
     role: "School Rep",
     department: "MBA school of business ",
@@ -465,7 +501,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/preeti-bisht-9182682ab?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
   },
   {
-    id: "tania-solanki",
+    id: "sot-representative",
     name: "Tania Solanki",
     role: "School Rep ",
     department: "SOT",
@@ -477,19 +513,19 @@ export const teamMembers: TeamMember[] = [
     linkedin: "Tania Solanki",
   },
   {
-    id: "sai-santhosh",
+    id: "senior-exec-7",
     name: "Sai Santhosh",
     role: "Senior Executive ",
     department: "Sports ",
     year: "Second Year",
-    photo: "/photos/sai-santhosh.webp",
+    photo: "/placeholder.svg?height=300&width=300&text=Sai",
     bio: "Santhosh is a B.Tech CSE student at Woxsen University (Class of 2028), a proud coffee addict, and a tennis enthusiast who believes caffeine and backhands can solve most problems. When he’s not debugging code, he’s probably daydreaming about Wimbledon or his next cup of coffee.",
     quote: "Fueled by caffeine and driven by code",
     email: "malyala.santhosh_2028@woxsen.edu.in ",
     linkedin: "Sai Santhosh Malyala ",
   },
   {
-    id: "pranav-golwalkar",
+    id: "solh-representative",
     name: "Pranav Golwalkar",
     role: "School Rep ",
     department: "School of Liberal Arts and Humanities ",
@@ -501,7 +537,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/pranav-golwalkar-2017bb325?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
   },
   {
-    id: "madhumitha-h-athreya",
+    id: "vp-digital-cochair",
     name: "Madhumitha H Athreya ",
     role: "Co-Chair ",
     department: "Digital Office",
@@ -513,9 +549,9 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/madhumitha-h-athreya-93447a200?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
   },
   {
-    id: "dj-anshuman",
+    id: "Operations Secretary",
     name: "DJ Anshuman ",
-    role: "Operations Secretary ",
+    role: "Operations Secretary",
     department: "BBA",
     year: "Second Year",
     photo: "/photos/dj-anshuman.webp",
@@ -525,7 +561,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/dj-anshuman",
   },
   {
-    id: "derick-donbosco-joseph",
+    id: "senior-exec-4",
     name: "Deric Donbosco oseph",
     role: "Senior Executive ",
     department: "OPERATIONS ",
@@ -537,7 +573,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/derickdonboscojoseph/",
   },
   {
-    id: "rohan-kambhatla",
+    id: "co-treasurer-2",
     name: "Rohan Kambhatla",
     role: "Vice-Treasurer",
     department: "Finance & Treasury activities",
@@ -549,7 +585,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "www.linkedin.com/in/rohan-kambhatla",
   },
   {
-    id: "maanyaa-goyal",
+    id: "vp-LLC-cochair",
     name: "Maanyaa Goyal ",
     role: "Co - Chair",
     department: "Life Long Learning",
@@ -561,7 +597,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "Maanyaa Goyal ",
   },
   {
-    id: "vedant-shrimali",
+    id: "vp-c&i",
     name: "Vedant Shrimali",
     role: "Vice President",
     department: "Creativity And Innovations Officer",
@@ -573,7 +609,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/vedant-shrimali-73993525a/",
   },
   {
-    id: "simran-gupta",
+    id: "sos-representative",
     name: "Simran Gupta ",
     role: "School Rep",
     department: "School Of Sciences",
@@ -585,7 +621,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "Simran Gupta ",
   },
   {
-    id: "rohan-mahesh-rathi",
+    id: "senior-exec-5",
     name: "Rohan Mahesh Rathi",
     role: "Senior Executives ",
     department: "MBA General ",
@@ -597,7 +633,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/rohan-rathi-10a686216?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
   },
   {
-    id: "millennium-namoijam",
+    id: "treasurer",
     name: "Millennium Namoijam",
     role: "Treasurer",
     department: "Board",
@@ -609,7 +645,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/millennium-namoijam/",
   },
   {
-    id: "aman-kumar",
+    id: "facilities-secretary",
     name: "Aman Kumar",
     role: "Facilities Secretary ",
     department: "Extended board",
