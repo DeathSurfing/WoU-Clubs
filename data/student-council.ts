@@ -518,7 +518,7 @@ export const teamMembers: TeamMember[] = [
     role: "Senior Executive ",
     department: "Sports ",
     year: "Second Year",
-    photo: "/placeholder.svg?height=300&width=300&text=Sai",
+    photo: "/photos/sai-santhosh.webp",
     bio: "Santhosh is a B.Tech CSE student at Woxsen University (Class of 2028), a proud coffee addict, and a tennis enthusiast who believes caffeine and backhands can solve most problems. When he’s not debugging code, he’s probably daydreaming about Wimbledon or his next cup of coffee.",
     quote: "Fueled by caffeine and driven by code",
     email: "malyala.santhosh_2028@woxsen.edu.in ",
