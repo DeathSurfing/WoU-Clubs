@@ -282,7 +282,7 @@ export default function Home() {
             Take the first step towards an enriching university experience by joining one of our many clubs
           </p>
           <Button size="lg" className="bg-white text-[#EE495C] hover:bg-white/90" asChild>
-            <a href="/contact">Get Started</a>
+            <a href="/clubs">Get Started</a>
           </Button>
         </div>
       </section>
