@@ -218,13 +218,10 @@ export default function FAQPage() {
               <div className="rounded-lg border bg-card p-6">
                 <h3 className="mb-2 text-lg font-semibold">Visit Our Office</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Student Council Office, Main Academic Building, 2nd Floor
+                  Student Council Room, Law block ground floor
                   <br />
-                  Office Hours: Monday-Friday, 10 AM - 4 PM
+                  Office Hours: Monday-Friday, 9 AM - 11 PM
                 </p>
-                <Button variant="outline" size="sm">
-                  Get Directions
-                </Button>
               </div>
 
               <div className="rounded-lg border bg-card p-6">
@@ -232,8 +229,8 @@ export default function FAQPage() {
                 <p className="text-sm text-muted-foreground mb-4">
                   Send us your questions or concerns and we'll get back to you within 24 hours.
                   <br />
-                  <a href="mailto:studentcouncil@woxsen.edu.in" className="text-primary hover:underline">
-                    studentcouncil@woxsen.edu.in
+                  <a href="mailto:studentaffairs@woxsen.edu.in" className="text-primary hover:underline">
+                    studentaffairs@woxsen.edu.in
                   </a>
                 </p>
                 <Button variant="outline" size="sm">
@@ -246,9 +243,16 @@ export default function FAQPage() {
                 <p className="text-sm text-muted-foreground mb-4">
                   Book a one-on-one meeting with a Student Council representative to discuss your questions in detail.
                 </p>
-                <Button variant="outline" size="sm">
-                  Book Appointment
-                </Button>
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLScHqQeeBO3xhLQFyjU7zfV6dqvU_aVgWdFu71UQ4OF2ZKPOpw/viewform?usp=sharing&ouid=101546682734361541120"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="outline" size="sm">
+                    Book Appointment
+                  </Button>
+                </a>
+
               </div>
             </div>
           </CardContent>

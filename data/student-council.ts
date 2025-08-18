@@ -62,11 +62,6 @@ export const councilData: OrgNode = {
           title: "Technical Secretary",
         },
         {
-          id: "co-secretary",
-          name: "Priya Chhugani",
-          title: "Co Secretary",
-        },
-        {
           id: "Operations Secretary",
           name: "DJ Anshuman",
           title: "Operations Secretary",
