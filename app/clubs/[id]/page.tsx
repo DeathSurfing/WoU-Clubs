@@ -80,6 +80,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   <TabsTrigger value="gallery">Gallery</TabsTrigger>
                 </TabsList>
 
+                {/* About Tab */}
                 <TabsContent value="about" className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -109,6 +110,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   </motion.div>
                 </TabsContent>
 
+                {/* Events Tab */}
                 <TabsContent value="events" className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -156,6 +158,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   </motion.div>
                 </TabsContent>
 
+                {/* Members Tab */}
                 <TabsContent value="members" className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -184,6 +187,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   </motion.div>
                 </TabsContent>
 
+                {/* Gallery Tab */}
                 <TabsContent value="gallery" className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -208,31 +212,47 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
               </Tabs>
             </div>
 
+            {/* Sidebar */}
             <div>
               <div className="rounded-lg border p-6 sticky top-24">
                 <h2 className="mb-4 text-xl font-bold" id="join">
                   Join This Club
                 </h2>
                 <div className="mb-6 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Users className="h-5 w-5 text-muted-foreground" />
-                    <span>{club.memberCount || "25+"} members</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-5 w-5 text-muted-foreground" />
-                    <span>Meets {club.meetingSchedule || "weekly"}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MapPin className="h-5 w-5 text-muted-foreground" />
-                    <span>{club.location || "Main Campus, Room 101"}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-muted-foreground" />
-                    <a href={`mailto:${club.email || "clubs@woxsen.edu.in"}`} className="hover:text-primary">
-                      {club.email || "clubs@woxsen.edu.in"}
-                    </a>
-                  </div>
+                  {club.memberCount && club.memberCount.toLowerCase?.() !== "nan" && (
+                    <div className="flex items-center gap-3">
+                      <Users className="h-5 w-5 text-muted-foreground" />
+                      <span>{club.memberCount || "25+"} members</span>
+                    </div>
+                  )}
+
+                  {club.meetingSchedule && club.meetingSchedule.toLowerCase?.() !== "nan" && (
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-5 w-5 text-muted-foreground" />
+                      <span>Meets {club.meetingSchedule || "weekly"}</span>
+                    </div>
+                  )}
+
+                  {club.location && club.location.toLowerCase() !== "nan" && (
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-5 w-5 text-muted-foreground" />
+                      <span>{club.location}</span>
+                    </div>
+                  )}
+
+                  {club.email && club.email.toLowerCase() !== "nan" && (
+                    <div className="flex items-center gap-3">
+                      <Mail className="h-5 w-5 text-muted-foreground" />
+                      <a
+                        href={`mailto:${club.email || "clubs@woxsen.edu.in"}`}
+                        className="hover:text-primary"
+                      >
+                        {club.email || "clubs@woxsen.edu.in"}
+                      </a>
+                    </div>
+                  )}
                 </div>
+
                 <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
                   <a href={club.joinUrl || `https://forms.woxsen.edu.in/club-join?id=${club.id}`}>Apply to Join</a>
                 </Button>
