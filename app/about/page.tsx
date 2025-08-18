@@ -13,7 +13,14 @@ import {
   HeartHandshake,
   Users,    
   Award,    
-  Calendar  } from "lucide-react";
+  Calendar,
+  Leaf,
+  Cpu,
+  Briefcase,
+  Coins,
+  Scale
+} from "lucide-react";
+
   import { clubsData } from "@/data/clubs";
 
 export default function AboutPage() {
@@ -111,14 +118,15 @@ export default function AboutPage() {
           <h2 className="mb-8 text-3xl font-bold text-center">Club Categories</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
+              { name: "Sustainability & Environment", icon: Leaf },
+              { name: "Technology & Engineering", icon: Cpu },
               { name: "Academic", icon: BookOpen },
-              { name: "Design & Arts", icon: Palette },
-              { name: "Literary & Communication", icon: BookText },
-              { name: "Cultural & Performing Arts", icon: Music },
+              { name: "Architecture & Design", icon: Palette },
+              { name: "Art & Culture", icon: Music },
+              { name: "Business & Entrepreneurship", icon: Briefcase },
+              { name: "Finance & Investing", icon: Coins },
+              { name: "Law & Policy", icon: Scale },
               { name: "Sports & Gaming", icon: Gamepad },
-              { name: "Photography & Media", icon: Camera },
-              { name: "Leadership & Governance", icon: Gauge },
-              { name: "Social Impact & Well-being", icon: HeartHandshake },
             ].map((category, index) => {
               // Count clubs in this category
               const count = clubsData.filter(club => club.category === category.name).length;
