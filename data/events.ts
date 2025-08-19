@@ -40,5 +40,20 @@ export const eventsData = [
   "image": "/events/whattheflux.webp",
   "registerUrl": "",
   "isFeatured": true
+  },
+  {
+  "id": "sustainability-club-recruitment",
+  "title": "Sustainability Club Recruitment Drive",
+  "description": "The James A.F. Stoner Global Sustainability Club is calling for passionate students who are ready to make a difference through action, innovation, and leadership. Join us to contribute to eco-driven initiatives, learn responsibility in everyday life, and build impactful projects that benefit our community and beyond.",
+  "startDate": "2025-08-21",
+  "startTime": "17:00",
+  "endTime": "19:00",
+  "location": "Venue to be announced",
+  "category": "Sustainability & Environment",
+  "clubId": "sustainabilityclub",
+  "image": "/logos/sustainabilityclub_logo.webp",
+  "registerUrl": "https://docs.google.com/forms/d/e/1FAIpQLScQVUJJsc1P6mxqbCzC0M0TPPDLJtCx_loOMq_aorqUyqNGug/viewform",
+  "isFeatured": true
   }
+
 ];

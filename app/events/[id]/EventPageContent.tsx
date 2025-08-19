@@ -14,7 +14,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { eventsData } from "@/data/events"
 import EventCard from "@/components/events/event-card"
 import type { Event, Club } from "@/types/event"
-import { isAfter, parseISO, format } from 'date-fns' // Added 'format' to the import
+import { isAfter, parseISO, format } from 'date-fns'
 
 interface EventPageContentProps {
   event: Event
@@ -74,31 +74,49 @@ export default function EventPageContent({
     }
   }
 
+  const handleBackClick = () => {
+    if (window.history.length > 1) {
+      router.back()
+    } else {
+      router.push('/events')
+    }
+  }
+
   const generateGoogleCalendarLink = () => {
-    const startDateTime = event.startTime ? `${event.startDate}T${event.startTime}` : event.startDate
-    const endDateTime = event.endTime && event.startDate
-      ? `${event.startDate}T${event.endTime}`
-      : event.endDate
-        ? event.endDate
-        : event.startDate
+    const eventStartDate = event.startDate
+    const startDateTime = event.startTime 
+      ? `${eventStartDate}T${event.startTime}:00` 
+      : `${eventStartDate}T00:00:00`
+    
+    const endDateTime = event.endTime 
+      ? `${eventStartDate}T${event.endTime}:00`
+      : event.endDate 
+        ? `${event.endDate}T23:59:59`
+        : `${eventStartDate}T23:59:59`
 
     const details = encodeURIComponent(event.description)
     const location = encodeURIComponent(event.location)
     const title = encodeURIComponent(event.title)
 
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateTime.replace(/-/g, "")}/${endDateTime.replace(/-/g, "")}&details=${details}&location=${location}`
+    // Format dates for Google Calendar (YYYYMMDDTHHMMSS)
+    const formatForGoogle = (dateTime: string) => {
+      return dateTime.replace(/[-:]/g, '').replace('T', 'T') + 'Z'
+    }
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatForGoogle(startDateTime)}/${formatForGoogle(endDateTime)}&details=${details}&location=${location}`
   }
 
   const generateIcsFile = () => {
+    const eventStartDate = event.startDate
     const startDateTime = event.startTime
-      ? `${event.startDate.replace(/-/g, "")}T${event.startTime.replace(/:/g, "")}00`
-      : `${event.startDate.replace(/-/g, "")}T000000`
+      ? `${eventStartDate.replace(/-/g, "")}T${event.startTime.replace(/:/g, "")}00`
+      : `${eventStartDate.replace(/-/g, "")}T000000`
 
-    const endDateTime = event.endTime && event.startDate
-      ? `${event.startDate.replace(/-/g, "")}T${event.endTime.replace(/:/g, "")}00`
+    const endDateTime = event.endTime
+      ? `${eventStartDate.replace(/-/g, "")}T${event.endTime.replace(/:/g, "")}00`
       : event.endDate
-        ? `${event.endDate.replace(/-/g, "")}T000000`
-        : startDateTime
+        ? `${event.endDate.replace(/-/g, "")}T235959`
+        : `${eventStartDate.replace(/-/g, "")}T235959`
 
     const icsContent = [
       "BEGIN:VCALENDAR",
@@ -121,14 +139,16 @@ export default function EventPageContent({
 
     const link = document.createElement("a")
     link.href = url
-    link.setAttribute("download", `${event.title.replace(/\s+/g, "-")}.ics`)
+    link.setAttribute("download", `${event.title.replace(/\s+/g, "-").replace(/[^\w-]/g, "")}.ics`)
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+    URL.revokeObjectURL(url)
   }
 
-  // Generate the registration URL from event data or fallback to default
-  const registrationUrl = event.registrationLink || event.registerLink || '/noregistrationrequired'
+  // Handle different registration URL field names from your data
+  const registrationUrl = event.registerUrl || event.registrationURL || event.registerLink || ''
+  const needsRegistration = registrationUrl && registrationUrl.trim() !== ''
 
   return (
     <div className="pt-16">
@@ -142,7 +162,7 @@ export default function EventPageContent({
           <Button
             variant="ghost"
             className="mb-4 w-fit text-white/80 hover:text-white hover:bg-white/10"
-            onClick={() => router.back()}
+            onClick={handleBackClick}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to events
@@ -181,7 +201,7 @@ export default function EventPageContent({
               >
                 <div>
                   <h2 className="mb-4 text-2xl font-bold">About the Event</h2>
-                  <p className="text-muted-foreground">{event.description}</p>
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{event.description}</p>
                 </div>
 
                 <Separator />
@@ -295,7 +315,9 @@ export default function EventPageContent({
                       <DropdownMenuItem onClick={() => window.open(generateGoogleCalendarLink(), "_blank")}>
                         Google Calendar
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={generateIcsFile}>Apple Calendar / Outlook (.ics)</DropdownMenuItem>
+                      <DropdownMenuItem onClick={generateIcsFile}>
+                        Apple Calendar / Outlook (.ics)
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -304,7 +326,7 @@ export default function EventPageContent({
 
             <div>
               <div className="rounded-lg border p-6 sticky top-24">
-                <h2 className="mb-4 text-xl font-bold">{isUpcoming ? "Register for this Event" : "Event has ended"}</h2>
+                <h2 className="mb-4 text-xl font-bold">{isUpcoming ? "Event Information" : "Event has ended"}</h2>
 
                 {isUpcoming && (
                   <>
@@ -336,19 +358,30 @@ export default function EventPageContent({
                       </p>
                     )}
 
-                    <Button
-                      className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90"
-                      disabled={!isRegistrationOpen}
-                      asChild
-                    >
-                      <a
-                        href={registrationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {needsRegistration ? (
+                      <Button
+                        className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90"
+                        disabled={!isRegistrationOpen}
+                        asChild
                       >
-                        {isRegistrationOpen ? "Register Now" : "Registration Closed"}
-                      </a>
-                    </Button>
+                        <a
+                          href={registrationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {isRegistrationOpen ? "Register Now" : "Registration Closed"}
+                        </a>
+                      </Button>
+                    ) : (
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-muted-foreground text-sm font-medium">
+                          No registration required
+                        </p>
+                        <p className="text-muted-foreground text-xs mt-1">
+                          Just show up and join the fun!
+                        </p>
+                      </div>
+                    )}
 
                     <p className="mt-4 text-center text-sm text-muted-foreground">
                       {event.capacity

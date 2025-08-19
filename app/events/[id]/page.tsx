@@ -6,6 +6,12 @@ import { format, parseISO, isAfter } from 'date-fns'
 import EventPageContent from './EventPageContent'
 import type { Event, Club } from "@/types/event"
 
+export async function generateStaticParams() {
+  return eventsData.map((event) => ({
+    id: event.id,
+  }))
+}
+
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const event = eventsData.find((e) => e.id === params.id)
   if (!event) return {
@@ -18,12 +24,27 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   return {
     title: `${event.title} | Woxsen Events`,
     description: event.description || 'Join this event at Woxsen University',
+    keywords: [
+      event.title,
+      event.category,
+      club?.name,
+      'Woxsen University',
+      'events',
+      'campus activities'
+    ].filter(Boolean),
     openGraph: {
       title: event.title,
       description: event.description || '',
       url: `https://woxsen.edu.in/events/${event.id}`,
       siteName: 'Woxsen University',
-      images: [event.image || "/default-event-image.jpg"],
+      images: [
+        {
+          url: event.image || "/default-event-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: event.title,
+        }
+      ],
       locale: 'en_US',
       type: 'website',
     },
@@ -32,6 +53,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       title: event.title,
       description: event.description || '',
       images: [event.image || "/default-event-image.jpg"],
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   }
 }
@@ -45,10 +70,25 @@ export default function EventPage({ params }: { params: { id: string } }) {
   // Pre-calculate values to pass to client component
   const formattedStartDate = format(parseISO(event.startDate), "MMMM dd, yyyy")
   const formattedEndDate = event.endDate ? format(parseISO(event.endDate), "MMMM dd, yyyy") : null
-  const startTime = event.startTime ? format(parseISO(`2023-01-01T${event.startTime}`), "h:mm a") : ""
-  const endTime = event.endTime ? format(parseISO(`2023-01-01T${event.endTime}`), "h:mm a") : ""
-  const isUpcoming = isAfter(parseISO(event.startDate), new Date())
-  const isRegistrationOpen = !event.registrationDeadline || isAfter(parseISO(event.registrationDeadline), new Date())
+  
+  // Helper function to safely format time
+  const formatTime = (timeString: string) => {
+    try {
+      return format(parseISO(`2023-01-01T${timeString}`), "h:mm a")
+    } catch {
+      return timeString // fallback to original string if parsing fails
+    }
+  }
+  
+  const startTime = event.startTime ? formatTime(event.startTime) : ""
+  const endTime = event.endTime ? formatTime(event.endTime) : ""
+  
+  const now = new Date()
+  const eventDate = parseISO(event.startDate)
+  const isUpcoming = isAfter(eventDate, now)
+  
+  const isRegistrationOpen = !event.registrationDeadline || 
+    isAfter(parseISO(event.registrationDeadline), now)
 
   return (
     <EventPageContent 
