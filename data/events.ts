@@ -82,7 +82,64 @@ export const eventsData = [
   "image": "/logos/rotaractu_logo.webp",
   "registerUrl": "",
   "isFeatured": true
-  }
+  },
+  {
+  "id": "iktara-2025",
+  "title": "Iktara 2025 – A Celebration of Cultural Diversity",
+  "description": "Iktara is a three-day celebration of India’s cultural diversity and creativity, organized by the Nexus Club. With fashion, storytelling, and cultural showcases, it brings together tradition, art, and community for an unforgettable Independence Day season.",
+  "startDate": "2025-08-19",
+  "startTime": "11:00",
+  "endTime": "20:00",
+  "location": "Admin Pathway & Admin Area",
+  "category": "Art & Culture",
+  "clubId": "nexus",
+  "image": "/logos/nexus_logo.webp",
+  "registerUrl": "",
+  "isFeatured": true
+},
+{
+  "id": "iktara-desi-runway",
+  "title": "Desi Runway – Iktara 2025",
+  "description": "Experience a cultural fashion show filled with music, stories, and flair. Organized by the Fashion Club in collaboration with Nexus during Iktara.",
+  "startDate": "2025-08-19",
+  "startTime": "17:00",
+  "endTime": "20:00",
+  "location": "Admin Pathway",
+  "category": "Art & Culture",
+  "clubId": "fashionclub",
+  "image": "/logos/fashionclub_logo.webp",
+  "registerUrl": "",
+  "isFeatured": false
+},
+{
+  "id": "iktara-storytelling-workshop",
+  "title": "Storytelling Workshop – Iktara 2025",
+  "description": "Listen and share heartwarming stories and unforgettable adventures from life in India. A special storytelling workshop hosted by the Literature Club during Iktara.",
+  "startDate": "2025-08-20",
+  "startTime": "18:00",
+  "endTime": "19:30",
+  "location": "Admin Area",
+  "category": "Art & Culture",
+  "clubId": "literatureclub",
+  "image": "/logos/literatureclub_logo.webp",
+  "registerUrl": "",
+  "isFeatured": false
+},
+{
+  "id": "iktara-cultural-stalls",
+  "title": "Cultural Stalls – Iktara 2025",
+  "description": "Daily cultural stalls open from 11:00 AM to 8:00 PM at the Admin Pathway, featuring crafts, food, and more. A highlight of Iktara’s festive spirit.",
+  "startDate": "2025-08-19",
+  "startTime": "11:00",
+  "endTime": "20:00",
+  "location": "Admin Pathway",
+  "category": "Art & Culture",
+  "clubId": "nexus",
+  "image": "/logos/nexus_logo.webp",
+  "registerUrl": "",
+  "isFeatured": false
+}
+
 
 
 ];
