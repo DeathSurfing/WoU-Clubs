@@ -11,7 +11,7 @@ export const eventsData = [
     "clubId": "studentcouncil",
     "image": "/SCLogoDark.webp",
     "registerUrl": "",
-    "isFeatured": true
+    "isFeatured": false
   },
   {
   "id": "2",
@@ -26,6 +26,19 @@ export const eventsData = [
   "image": "/events/tow.webp",
   "registerUrl": "https://forms.gle/wdWkbnBdaWBXURQZA",
   "isFeatured": true
-}
-
+  },
+  {
+  "id": "3",
+  "title": "🎉 FLUX Launch Party – Woxsen’s First Style Magazine",
+  "description": "You READY? You're invited to the official launch party of FLUX, Woxsen’s first-ever style magazine! Walk the red carpet, strike a pose for the paparazzi, and vibe with us all night. Expect a lit dance floor, a Snap Bot photo booth, tote-bag painting, and the big reveal of our very first cover star. Limited collector’s copies will be up for grabs—don’t you dare miss it!",
+  "startDate": "2025-08-20",
+  "startTime": "18:30",
+  "endTime": "23:59",
+  "location": "Admin",
+  "category": "Art & Culture",
+  "clubId": "studentcouncil",
+  "image": "/events/whattheflux.webp",
+  "registerUrl": "",
+  "isFeatured": true
+  }
 ];
