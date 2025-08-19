@@ -244,10 +244,10 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                     <div className="flex items-center gap-3">
                       <Mail className="h-5 w-5 text-muted-foreground" />
                       <a
-                        href={`mailto:${club.email || "clubs@woxsen.edu.in"}`}
+                        href={`mailto:${club.email || "studentaffairs@woxsen.edu.in"}`}
                         className="hover:text-primary"
                       >
-                        {club.email || "clubs@woxsen.edu.in"}
+                        {club.email || "studentaffairs@woxsen.edu.in"}
                       </a>
                     </div>
                   )}

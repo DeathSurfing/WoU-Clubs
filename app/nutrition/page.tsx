@@ -390,9 +390,9 @@ export default function NutritionPage() {
                 <p className="mt-4 text-sm text-muted-foreground">
                   For detailed nutritional information or specific dietary concerns, please contact our dining services
                   at
-                  <a href="mailto:dining@woxsen.edu.in" className="text-primary hover:underline">
+                  <a href="mailto:studentaffairs@woxsen.edu.in" className="text-primary hover:underline">
                     {" "}
-                    dining@woxsen.edu.in
+                    studentaffairs@woxsen.edu.in
                   </a>
                   .
                 </p>

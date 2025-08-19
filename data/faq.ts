@@ -64,7 +64,7 @@ export interface FAQItem {
       id: "faq-8",
       question: "Can I propose an event idea to the Student Council?",
       answer:
-        "We welcome event ideas from all students. You can submit your proposal through our online form, by emailing events.studentcouncil@woxsen.edu.in, or by meeting with the Events Committee Chair during office hours. Please include details about the event concept, potential date, target audience, and resource requirements in your proposal.",
+        "We welcome event ideas from all students. You can submit your proposal through our online form, by emailing studentaffairs@woxsen.edu.in, or by meeting with the Events Committee Chair during office hours. Please include details about the event concept, potential date, target audience, and resource requirements in your proposal.",
       category: "events",
     },
     {
