@@ -92,7 +92,7 @@ export default function EventCard({ event }: EventCardProps) {
             <Link href={`/events/${event.id}`}>Learn More</Link>
           </Button>
           <Button size="sm" className="bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
-            <Link href={event.registerUrl || `https://forms.woxsen.edu.in/event-registration?id=${event.id}`}>
+            <Link href={event.registerUrl || '/noregistrationrequired'}>
               Register
             </Link>
           </Button>
