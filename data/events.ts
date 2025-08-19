@@ -68,6 +68,21 @@ export const eventsData = [
   "image": "/logos/architectureclub_logo.webp",
   "registerUrl": "https://forms.office.com/r/gTYHj6M8au",
   "isFeatured": true
+  },
+  {
+  "id": "rotaract-student-affairs-2025",
+  "title": "Rotaract Club Recruitment Drive",
+  "description": "The Rotaract Club, in collaboration with Student Affairs, is inviting students to join as active members. This is your chance to be part of a dynamic community dedicated to leadership, service, and professional development. Engage in impactful projects, network with peers, and contribute to meaningful initiatives that make a difference on campus and beyond.",
+  "startDate": "2025-08-21",
+  "startTime": "17:00",
+  "endTime": "19:00",
+  "location": "Library Conference Room",
+  "category": "Social",
+  "clubId": "rotaractu",
+  "image": "/logos/rotaractu_logo.webp",
+  "registerUrl": "",
+  "isFeatured": true
   }
+
 
 ];
