@@ -138,7 +138,36 @@ export const eventsData = [
   "image": "/logos/nexus_logo.webp",
   "registerUrl": "",
   "isFeatured": false
+},
+{
+  "id": "ganesh-idol-painting-2025",
+  "title": "Ganesh Idol Painting Stall",
+  "description": "Celebrate Ganesh Chaturthi with colors, joy, and festive vibes at the Ganesh Idol Painting Stall! Whether you’re an artist at heart or just love splashing colors for fun, this is your chance to paint, bond, and celebrate together. Let’s make this Ganesh Chaturthi extra special with idols painted by YOU!",
+  "startDate": "2025-08-20",
+  "startTime": "10:00",
+  "endTime": "18:00",
+  "location": "Admin Block",
+  "category": "Art & Culture",
+  "clubId": "studentcouncil",
+  "image": "/SCLogoDark.webp",
+  "registerUrl": "",
+  "isFeatured": false
+},
+{
+  "id": "ganesh-idol-painting-2025-day2",
+  "title": "Ganesh Idol Painting Stall – Day 2",
+  "description": "Celebrate Ganesh Chaturthi with colors, joy, and festive vibes at the Ganesh Idol Painting Stall! Join us again on Day 2 to paint, bond, and make this festival unforgettable.",
+  "startDate": "2025-08-21",
+  "startTime": "10:00",
+  "endTime": "18:00",
+  "location": "Admin Block",
+  "category": "Art & Culture",
+  "clubId": "studentcouncil",
+  "image": "/SCLogoDark.webp",
+  "registerUrl": "",
+  "isFeatured": false
 }
+
 
 
 
