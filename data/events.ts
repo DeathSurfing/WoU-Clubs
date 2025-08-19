@@ -54,6 +54,20 @@ export const eventsData = [
   "image": "/logos/sustainabilityclub_logo.webp",
   "registerUrl": "https://docs.google.com/forms/d/e/1FAIpQLScQVUJJsc1P6mxqbCzC0M0TPPDLJtCx_loOMq_aorqUyqNGug/viewform",
   "isFeatured": true
+  },
+  {
+  "id": "independence-kaleidoscope-2025",
+  "title": "Independence Kaleidoscope 2.0",
+  "description": "Registrations for Independence Kaleidoscope 2.0 are closing soon! This University-Level Creative Competition, organized by the School of Architecture & Planning, invites students to showcase their creativity under the theme 'Innovate for India: Reimagining Freedom in the Age of Technology and Sustainability'. Categories include Poster Design, Collage Making, Short Film, Street Play, Slam Poetry/Storytelling, Photo Essay, and Digital Art.",
+  "startDate": "2025-08-21",
+  "startTime": "23:59",
+  "endTime": "23:59",
+  "location": "School of Architecture & Planning",
+  "category": "Art & Culture",
+  "clubId": "architectureclub",
+  "image": "/logos/architectureclub_logo.webp",
+  "registerUrl": "https://forms.office.com/r/gTYHj6M8au",
+  "isFeatured": true
   }
 
 ];
