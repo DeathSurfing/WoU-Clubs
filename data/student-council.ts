@@ -145,11 +145,6 @@ export const councilData: OrgNode = {
           name: "Maniya goyal",
           title: "Co-chair Entrepreneurship Officer",
         },
-        {
-          id: "Tech-cochair",
-          name: "Venkata Rishit Gurram",
-          title: "Co-chair Technical Officer",
-        }
       ],
     },
 
@@ -189,11 +184,11 @@ export const councilData: OrgNode = {
           name: "Pranav Golwalkar",
           title: "SOLH Representative",
         },
-        {
-          id: "sos-representative",
-          name: "Simran Gupta",
-          title: "SOS Representative",
-        },
+        // {
+        //   id: "sos-representative",
+        //   name: "Simran Gupta",
+        //   title: "SOS Representative",
+        // },
         {
           id: "sol-representative",
           name: "Mohana Murali Godvari",
@@ -602,18 +597,18 @@ export const teamMembers: TeamMember[] = [
     email: "vedant.shrimali_2026@woxsen.edu.in",
     linkedin: "https://www.linkedin.com/in/vedant-shrimali-73993525a/",
   },
-  {
-    id: "sos-representative",
-    name: "Simran Gupta ",
-    role: "School Rep",
-    department: "School Of Sciences",
-    year: "Second Year",
-    photo: "/photos/simran-gupta.webp",
-    bio: "Simran Gupta is not just the School of Sciences representative she’s the voice science students wish they had sooner. Sincere, bold and never afraid to fight for what’s right and deliver results with flair. Working to bring School Of Sciences to it's full potential. ",
-    quote: "",
-    email: "simran.gupta_2028@woxsen.edu.in",
-    linkedin: "https://www.linkedin.com/in/simran-gupta-82abab327/",
-  },
+  // {
+  //   id: "sos-representative",
+  //   name: "Simran Gupta ",
+  //   role: "School Rep",
+  //   department: "School Of Sciences",
+  //   year: "Second Year",
+  //   photo: "/photos/simran-gupta.webp",
+  //   bio: "Simran Gupta is not just the School of Sciences representative she’s the voice science students wish they had sooner. Sincere, bold and never afraid to fight for what’s right and deliver results with flair. Working to bring School Of Sciences to it's full potential. ",
+  //   quote: "",
+  //   email: "simran.gupta_2028@woxsen.edu.in",
+  //   linkedin: "https://www.linkedin.com/in/simran-gupta-82abab327/",
+  // },
   {
     id: "senior-exec-5",
     name: "Rohan Mahesh Rathi",
