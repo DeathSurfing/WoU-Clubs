@@ -128,7 +128,7 @@ export default function EventPageContent({
   }
 
   // Generate the registration URL from event data or fallback to default
-  const registrationUrl = event.registerUrl || `https://forms.woxsen.edu.in/event-registration?id=${event.id}`
+  const registrationUrl = event.registrationLink || event.registerLink || '/noregistrationrequired'
 
   return (
     <div className="pt-16">

@@ -254,7 +254,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                 </div>
 
                 <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
-                  <a href={club.joinUrl || `https://forms.woxsen.edu.in/club-join?id=${club.id}`}>Apply to Join</a>
+                  <a href={club.joinUrl || '/noregistrationrequired'}>Apply to Join</a>
                 </Button>
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                   Open for all Woxsen University students

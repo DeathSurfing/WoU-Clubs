@@ -37,7 +37,7 @@ export default function ClubCard({ club }: ClubCardProps) {
             <Link href={`/clubs/${club.id}`}>Learn More</Link>
           </Button>
           <Button size="sm" className="bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
-            <Link href={club.joinUrl || `https://forms.woxsen.edu.in/club-join?id=${club.id}`}>Join Club</Link>
+            <Link href={club.joinUrl || '/noregistrationrequired'}>Join Club</Link>
           </Button>
         </CardFooter>
       </Card>
