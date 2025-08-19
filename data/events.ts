@@ -10,7 +10,7 @@ export const eventsData = [
     "category": "Social",
     "clubId": "studentcouncil",
     "image": "/SCLogoDark.webp",
-    "registerUrl": "/",
+    "registerUrl": "",
     "isFeatured": true
   },
   {

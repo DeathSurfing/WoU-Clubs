@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { eventsData } from "@/data/events"
 import EventCard from "@/components/events/event-card"
 import type { Event, Club } from "@/types/event"
+import { isAfter, parseISO, format } from 'date-fns' // Added 'format' to the import
 
 interface EventPageContentProps {
   event: Event
@@ -125,6 +126,9 @@ export default function EventPageContent({
     link.click()
     document.body.removeChild(link)
   }
+
+  // Generate the registration URL from event data or fallback to default
+  const registrationUrl = event.registerUrl || `https://forms.woxsen.edu.in/event-registration?id=${event.id}`
 
   return (
     <div className="pt-16">
@@ -338,7 +342,7 @@ export default function EventPageContent({
                       asChild
                     >
                       <a
-                        href={event.registrationLink || `https://forms.woxsen.edu.in/event-registration?id=${event.id}`}
+                        href={registrationUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
