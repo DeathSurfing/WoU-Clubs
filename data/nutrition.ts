@@ -20,7 +20,6 @@ export interface MenuItem {
     breakfast: MenuItem[]
     lunch: MenuItem[]
     dinner: MenuItem[]
-    snacks?: MenuItem[]
   }
   
   export const menuItems: MenuItem[] = [
@@ -229,50 +228,7 @@ export interface MenuItem {
       containsGluten: false,
       image: "/placeholder.svg?height=100&width=100&text=Rice",
     },
-  
-    // Snack Items
-    {
-      id: "item-16",
-      name: "Samosa",
-      description: "Fried pastry with a savory filling of spiced potatoes and peas",
-      calories: 250,
-      protein: 5,
-      carbs: 30,
-      fat: 14,
-      isVegetarian: true,
-      isVegan: true,
-      containsGluten: true,
-      image: "/placeholder.svg?height=100&width=100&text=Samosa",
-    },
-    {
-      id: "item-17",
-      name: "Fruit Chaat",
-      description: "Mixed fruit salad with chaat masala and lemon juice",
-      calories: 120,
-      protein: 2,
-      carbs: 30,
-      fat: 0,
-      isVegetarian: true,
-      isVegan: true,
-      containsGluten: false,
-      image: "/placeholder.svg?height=100&width=100&text=Fruit",
-    },
-    {
-      id: "item-18",
-      name: "Masala Chai",
-      description: "Spiced tea with milk",
-      calories: 80,
-      protein: 2,
-      carbs: 12,
-      fat: 2,
-      isVegetarian: true,
-      isVegan: false,
-      containsGluten: false,
-      containsDairy: true,
-      image: "/placeholder.svg?height=100&width=100&text=Chai",
-    },
-  ]
-  
+  ]  
   export const weeklyMenu: MealPlan[] = [
     {
       id: "monday",
@@ -280,7 +236,6 @@ export interface MenuItem {
       breakfast: [menuItems[0], menuItems[4], menuItems[17]],
       lunch: [menuItems[6], menuItems[8], menuItems[9]],
       dinner: [menuItems[11], menuItems[14], menuItems[13]],
-      snacks: [menuItems[16], menuItems[17]],
     },
     {
       id: "tuesday",
@@ -288,7 +243,6 @@ export interface MenuItem {
       breakfast: [menuItems[1], menuItems[3], menuItems[17]],
       lunch: [menuItems[5], menuItems[7], menuItems[9]],
       dinner: [menuItems[12], menuItems[13], menuItems[14]],
-      snacks: [menuItems[16], menuItems[17]],
     },
     {
       id: "wednesday",
@@ -296,7 +250,6 @@ export interface MenuItem {
       breakfast: [menuItems[2], menuItems[4], menuItems[17]],
       lunch: [menuItems[6], menuItems[9], menuItems[7]],
       dinner: [menuItems[11], menuItems[14], menuItems[12]],
-      snacks: [menuItems[16], menuItems[17]],
     },
     {
       id: "thursday",
@@ -304,7 +257,6 @@ export interface MenuItem {
       breakfast: [menuItems[3], menuItems[0], menuItems[17]],
       lunch: [menuItems[8], menuItems[9], menuItems[6]],
       dinner: [menuItems[13], menuItems[14], menuItems[11]],
-      snacks: [menuItems[16], menuItems[17]],
     },
     {
       id: "friday",
@@ -312,7 +264,6 @@ export interface MenuItem {
       breakfast: [menuItems[4], menuItems[1], menuItems[17]],
       lunch: [menuItems[5], menuItems[9], menuItems[8]],
       dinner: [menuItems[12], menuItems[14], menuItems[13]],
-      snacks: [menuItems[16], menuItems[17]],
     },
     {
       id: "saturday",
@@ -320,7 +271,6 @@ export interface MenuItem {
       breakfast: [menuItems[0], menuItems[2], menuItems[17]],
       lunch: [menuItems[7], menuItems[9], menuItems[5]],
       dinner: [menuItems[11], menuItems[13], menuItems[14]],
-      snacks: [menuItems[16], menuItems[17]],
     },
     {
       id: "sunday",
@@ -328,7 +278,6 @@ export interface MenuItem {
       breakfast: [menuItems[3], menuItems[4], menuItems[17]],
       lunch: [menuItems[6], menuItems[8], menuItems[9]],
       dinner: [menuItems[12], menuItems[14], menuItems[13]],
-      snacks: [menuItems[16], menuItems[17]],
     },
   ]
   
