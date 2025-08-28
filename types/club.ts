@@ -25,5 +25,6 @@ export interface Club {
   location?: string
   email?: string
   joinUrl?: string
+  matrixScore?: number
 }
 

@@ -13,7 +13,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Every Thursdays",
     "location": "A011",
     "email": "product.club@woxsen.edu.in",
-    "joinUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X-MsokbTEY1Lo0KDNo-GXxxURVhPUFZXSEpMWlBVNDRPU1lCVEU5RjlKWi4u"
+    "joinUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X-MsokbTEY1Lo0KDNo-GXxxURVhPUFZXSEpMWlBVNDRPU1lCVEU5RjlKWi4u",
+    "matrixScore":0
   },
   {
     "id": "lawclub",
