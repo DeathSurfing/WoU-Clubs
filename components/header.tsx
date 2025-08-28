@@ -19,9 +19,9 @@ const navItems = [
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
   { name: "FAQ", path: "/faq" },
+  { name: "Leaderboard", path: "/leaderboard" },
   //  { name: "Oval Menu", path: "/nutrition" },
 ];
-
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -47,9 +47,10 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="relative h-8 w-8 md:h-24 md:w-24"> {/* Reduced logo size */}
+          {/* Woxsen University Logo */}
+          <div className="relative h-14 w-14">
             {/* Light mode logo */}
             <div className="dark:hidden">
               <Image
@@ -69,9 +70,27 @@ export default function Header() {
               />
             </div>
           </div>
-          <div className="flex flex-col leading-none"> {/* Changed to leading-none */}
-            <span className="text-lg font-bold text-primary">Student</span>
-            <span className="text-lg font-bold tracking-tight -mt-1">Affairs</span> {/* Added negative margin-top */}
+
+          {/* Student Council Logo */}
+          <div className="relative h-14 w-44">
+            {/* Light mode Student Council logo */}
+            <div className="dark:hidden">
+              <Image
+                src="/SCLogoLight.webp"
+                alt="Student Council Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+            {/* Dark mode Student Council logo */}
+            <div className="hidden dark:block">
+              <Image
+                src="/SCLogoDark.webp"
+                alt="Student Council Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
           </div>
         </Link>
 
@@ -109,7 +128,7 @@ export default function Header() {
       {/* Mobile menu */}
       {isMobile && mobileMenuOpen && (
         <motion.div
-          className="absolute top-16 left-0 w-full bg-background shadow-lg"
+          className="absolute top-20 left-0 w-full bg-background shadow-lg"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
