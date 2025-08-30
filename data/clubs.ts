@@ -28,7 +28,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "thelawclub@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/cs7Ps3wSEJyoL97W7"
+    "joinUrl": "https://forms.gle/cs7Ps3wSEJyoL97W7",
+    "matrixScore":0
   },
   {
     "id": "psych-comclub",
@@ -42,7 +43,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "tuesdays 7-8",
     "location": "classroom c-115",
     "email": "genesis.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7"
+    "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7",
+    "matrixScore":0
   },
   {
     "id": "finwiz",
@@ -56,7 +58,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "finiwiz@woxsen.edu.in",
-    "joinUrl": "https://forms.office.com/r/XVq3BufvRf?origin=lprLink"
+    "joinUrl": "https://forms.office.com/r/XVq3BufvRf?origin=lprLink",
+    "matrixScore":0
   },
   {
     "id": "animalwelfare",
@@ -70,7 +73,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "awc@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/S9hz8Vwa3q9GVDxT6"
+    "joinUrl": "https://forms.gle/S9hz8Vwa3q9GVDxT6",
+    "matrixScore":0
   },
   {
     "id": "crowdcore",
@@ -84,7 +88,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "Woxsen University Campus, Hyderabad",
     "email": "crowdcore@woxsen.edu.in",
-    "joinUrl": "https://forms.office.com/r/bVuyEcLABi"
+    "joinUrl": "https://forms.office.com/r/bVuyEcLABi",
+    "matrixScore":0
   },
   {
     "id": "filmclub",
@@ -98,7 +103,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "film.club@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfiEp-_CPcm65XEaYmn6Hn1dg670dimYaZDTzgTiZJPtEDdXA/viewform?usp=header"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfiEp-_CPcm65XEaYmn6Hn1dg670dimYaZDTzgTiZJPtEDdXA/viewform?usp=header",
+    "matrixScore":0
   },
   {
     "id": "literatureclub",
@@ -112,7 +118,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Every alternate Monday",
     "location": "Woxsen University",
     "email": "literature.club@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScedNIoUY6kYdQxpojq776Mk6fKzweuyjk-7wTHzD7anNOphg/viewform?usp=dialog"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScedNIoUY6kYdQxpojq776Mk6fKzweuyjk-7wTHzD7anNOphg/viewform?usp=dialog",
+    "matrixScore":0
   },
   {
     "id": "communicationclub",
@@ -126,7 +133,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "CD.club@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScYOmBWeona_2xYTEReplZ_boFwg-96ZNi7uwS97_V9QXq-iQ/viewform?usp=header"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScYOmBWeona_2xYTEReplZ_boFwg-96ZNi7uwS97_V9QXq-iQ/viewform?usp=header",
+    "matrixScore":0
   },
   {
     "id": "interiorclub",
@@ -140,7 +148,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "interior.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/UwfeWHDkkhJprYac8"
+    "joinUrl": "https://forms.gle/UwfeWHDkkhJprYac8",
+    "matrixScore":0
   },
   {
     "id": "chitrikarana",
@@ -154,7 +163,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Once a week",
     "location": "Blue embers or classrooms",
     "email": "paparazzi@woxsen.edu.in",
-    "joinUrl": "https://forms.cloud.microsoft/r/USNh2L9RTP"
+    "joinUrl": "https://forms.cloud.microsoft/r/USNh2L9RTP",
+    "matrixScore":0
   },
   {
     "id": "architectureclub",
@@ -168,7 +178,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Flexible scheduling based on event planning and project needs.",
     "location": "Currently using an available design studio in the Lab Block.",
     "email": "aesthetrixclub@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSccQLwiwx1-Cc4-fy_Xgc_hMGF0JEjX62M7GdW829egUxuwOg/viewform?usp=sharing&ouid=102002084128315009100"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSccQLwiwx1-Cc4-fy_Xgc_hMGF0JEjX62M7GdW829egUxuwOg/viewform?usp=sharing&ouid=102002084128315009100",
+    "matrixScore":0
   },
   {
     "id": "culturalclub",
@@ -182,7 +193,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "cultural@woxsen.edu.in",
-    "joinUrl": "https://forms.office.com/r/P41EDDvTTt"
+    "joinUrl": "https://forms.office.com/r/P41EDDvTTt",
+    "matrixScore":0
   },
   {
     "id": "sustainabilityclub",
@@ -196,7 +208,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "Woxsen university",
     "email": "Sustainability@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/1cArsDX3hQVchWVIJYPn-WAS8614J1OlMP_CF_nqa_ro/viewform?usp=sf_link"
+    "joinUrl": "https://docs.google.com/forms/d/1cArsDX3hQVchWVIJYPn-WAS8614J1OlMP_CF_nqa_ro/viewform?usp=sf_link",
+    "matrixScore":0
   },
   {
     "id": "fashionclub",
@@ -210,7 +223,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "Fashion.Club@woxsen.edu.in",
-    "joinUrl": "https://forms.office.com/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X9mC6BkWol9KhUicUj9aL0BURU1JV1ZRSjNMUUhBOVRCRVpRTVRNTEhUWi4u"
+    "joinUrl": "https://forms.office.com/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X9mC6BkWol9KhUicUj9aL0BURU1JV1ZRSjNMUUhBOVRCRVpRTVRNTEhUWi4u",
+    "matrixScore":0
   },
   {
     "id": "scienceclub",
@@ -224,7 +238,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "-",
     "location": "Woxsen University",
     "email": "spectrumclub@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScCRMxSsV_xFGEU3kwxAcHjXFS-yXECRqFt_EqJA3iOBY63iQ/viewform?usp=sharing&ouid=116738673004759268485"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLScCRMxSsV_xFGEU3kwxAcHjXFS-yXECRqFt_EqJA3iOBY63iQ/viewform?usp=sharing&ouid=116738673004759268485",
+    "matrixScore":0
   },
   {
     "id": "esportsclub",
@@ -238,7 +253,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "utopiaesports@woxsen.edu.in",
-    "joinUrl": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=LSD36rPvekOhA1Bbufv3X3qPVuVPlcdEgMRozI4hAThURERQRkdaVTdYREEwVFo5RkY5WkNMM0FaUC4u&route=shorturl"
+    "joinUrl": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=LSD36rPvekOhA1Bbufv3X3qPVuVPlcdEgMRozI4hAThURERQRkdaVTdYREEwVFo5RkY5WkNMM0FaUC4u&route=shorturl",
+    "matrixScore":0
   },
   {
     "id": "musicclub",
@@ -252,7 +268,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Weekly once",
     "location": "Law Block , Room E-013",
     "email": "Music.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/Hdvskzput6AHEvSc9"
+    "joinUrl": "https://forms.gle/Hdvskzput6AHEvSc9",
+    "matrixScore":0
   },
   {
     "id": "aiclub",
@@ -266,7 +283,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "arthaverse.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/ZEHNb8uzZQ2C8mnG6"
+    "joinUrl": "https://forms.gle/ZEHNb8uzZQ2C8mnG6",
+    "matrixScore":0
   },
   {
     "id": "danceclub",
@@ -280,7 +298,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "Dance.Club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/N16KKoJd8wUYAxsq9"
+    "joinUrl": "https://forms.gle/N16KKoJd8wUYAxsq9",
+    "matrixScore":0
   },
   {
     "id": "techclub",
@@ -294,7 +313,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "We have a meeting every two weeks.",
     "location": "C-005",
     "email": "technology.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/hDMrt47qAq3cF7maA"
+    "joinUrl": "https://forms.gle/hDMrt47qAq3cF7maA",
+    "matrixScore":0
   },
   {
     "id": "opsclub",
@@ -308,7 +328,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "tantra@woxsen.edu.in",
-    "joinUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X8A7-U8w9SJDvGGtWjY5FVRUNkcwQlgxODY2NkowQVJIQUYwNjVPNUtYWS4u"
+    "joinUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=LSD36rPvekOhA1Bbufv3X8A7-U8w9SJDvGGtWjY5FVRUNkcwQlgxODY2NkowQVJIQUYwNjVPNUtYWS4u",
+    "matrixScore":0
   },
   {
     "id": "rotaractu",
@@ -322,7 +343,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Every thursdays",
     "location": "Lecture halls",
     "email": "Rotaract.club@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSf-nhwZ12N3T3ry4rRSvH9GOQblBDxZgklq6RtFNZVz_AwOkg/viewform?usp=dialog"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSf-nhwZ12N3T3ry4rRSvH9GOQblBDxZgklq6RtFNZVz_AwOkg/viewform?usp=dialog",
+    "matrixScore":0
   },
   {
     "id": "entrepreneurshipclub",
@@ -336,7 +358,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "nan",
     "location": "nan",
     "email": "Ignite@woxsen.edu.in",
-    "joinUrl": "https://forms.office.com/r/qpsLVNFUmN"
+    "joinUrl": "https://forms.office.com/r/qpsLVNFUmN",
+    "matrixScore":0
   },
   {
     "id": "mdc",
@@ -350,7 +373,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "2-3 times in a month",
     "location": "nan",
     "email": "marketing.directors@woxsen.edu.in",
-    "joinUrl": "https://forms.office.com/r/zB9TQmASmB"
+    "joinUrl": "https://forms.office.com/r/zB9TQmASmB",
+    "matrixScore":0
   },
   {
     "id": "psychologyclub",
@@ -364,7 +388,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Every Tuesday",
     "location": "C-115",
     "email": "genesis.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7"
+    "joinUrl": "https://forms.gle/T3KdYVG68vted2KG7",
+    "matrixScore":0
   },
   {
     "id": "debateclub",
@@ -378,7 +403,8 @@ export const clubsData: Club[] = [
     "meetingSchedule": "Weekly Once",
     "location": "Blu/Law Block",
     "email": "wdc@woxsen.edu.in",
-    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSd_YxFRwoNkJbeIBPrMg8zFpYP1Vsv1ahA6orRpD8Qzd-W5Vw/viewform"
+    "joinUrl": "https://docs.google.com/forms/d/e/1FAIpQLSd_YxFRwoNkJbeIBPrMg8zFpYP1Vsv1ahA6orRpD8Qzd-W5Vw/viewform",
+    "matrixScore":0
   },
   {
     "id": "artclub",
@@ -392,6 +418,7 @@ export const clubsData: Club[] = [
     "meetingSchedule": "1 or 2 meetings in a month (as per event)",
     "location": "nan",
     "email": "skribble.club@woxsen.edu.in",
-    "joinUrl": "https://forms.gle/WKntPd3iMY8rSVtS6"
+    "joinUrl": "https://forms.gle/WKntPd3iMY8rSVtS6",
+    "matrixScore":0
   }
 ];
