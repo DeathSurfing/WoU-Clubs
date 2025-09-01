@@ -181,7 +181,7 @@ export default function AboutPage() {
                 {
                   question: "Can I be part of multiple clubs?",
                   answer:
-                    "Many students participate in multiple clubs based on their interests. We encourage you to explore different clubs, especially in your first year, to find communities that resonate with you.",
+                    "No a student may only be a executive of one club. Although, many students participate as Volunteers in multiple clubs based on their interests. We encourage you to explore different clubs, especially in your first year, to find communities that resonate with you.",
                 },
               ].map((faq, index) => (
                 <motion.div
