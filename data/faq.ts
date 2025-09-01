@@ -34,7 +34,7 @@ export interface FAQItem {
       id: "faq-4",
       question: "How can I contact the Student Council with questions or concerns?",
       answer:
-        "You can contact the Student Council through multiple channels: email at studentcouncil@woxsen.edu.in, through our social media accounts, by visiting our office during office hours (Monday-Friday, 10 AM - 4 PM), or by approaching any council member directly. We also have a suggestion box located outside our office for anonymous feedback.",
+        "You can contact the Student Council through multiple channels: email at studentcouncil@woxsen.edu.in, through our social media accounts, by visiting our office during office hours (Monday-Friday, 10 AM - 10 PM), or by approaching any council member directly. We also have a suggestion box located outside our office for anonymous feedback.",
       category: "council",
     },
     {
@@ -57,7 +57,7 @@ export interface FAQItem {
       id: "faq-7",
       question: "How can I find out about upcoming events organized by the Student Council?",
       answer:
-        "Information about upcoming events is shared through multiple channels: the official Student Council website, our social media accounts (Instagram, Facebook, and Twitter), digital notice boards across campus, email newsletters, and the Woxsen University mobile app. You can also subscribe to our event calendar for automatic updates.",
+        "Information about upcoming events is shared through multiple channels: the official Student Council website, our social media accounts (Instagram, Linkedin and on our website), digital notice boards across campus, email newsletters, and the Woxsen University mobile app. You can also subscribe to our event calendar for automatic updates.",
       category: "events",
     },
     {
@@ -87,7 +87,7 @@ export interface FAQItem {
       id: "faq-11",
       question: "How can clubs request funding from the Student Council?",
       answer:
-        "Registered clubs can request funding by submitting a detailed budget proposal through our online portal at least three weeks before the funds are needed. The proposal should include the purpose of the funding, itemized expenses, expected outcomes, and how it benefits the student body. The Finance Committee reviews all requests and allocates funds based on availability and merit.",
+        "Registered clubs can request funding by submitting a detailed budget proposal through our online portal at least three weeks before the funds are needed. The proposal should include the purpose of the funding, itemized expenses, expected outcomes, and how it benefits the student body. The Treasury Committee reviews all requests and allocates funds based on availability and merit.",
       category: "resources",
     },
     {
