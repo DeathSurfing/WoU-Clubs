@@ -347,6 +347,18 @@ export const councilData: OrgNode = {
 // Team members data
 export const teamMembers: TeamMember[] = [
     {
+    id: "president-pranjal-das",
+    name: "Pranjal Das",
+    role: "President",
+    department: "MBA",
+    year: "Second Year",
+    photo: "/photos/pranjal-das.webp",
+    bio: "Pranjal, the Student Council President, believes campus life should be equal parts learning and laughter. She loves bringing students together through fresh ideas, events, and initiatives that make Woxsen feel like home. Always approachable, she’s here to ensure every student’s journey is exciting, memorable, and full of good vibes.",
+    quote: "Your friendly neighbourhood president!",
+    email: "Pranjal.das_2026@woxsen.edu.in",
+    linkedin: "http://linkedin.com/in/pranjal-das-abb926222",
+    },
+    {
     id: "senior-vice-president",
     name: "Chris Jose",
     role: "Senior Vice President",
