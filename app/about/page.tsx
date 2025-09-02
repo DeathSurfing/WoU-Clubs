@@ -31,10 +31,9 @@ export default function AboutPage() {
         <section className="mb-16">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
             <div>
-              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">About Woxsen University Clubs</h1>
+              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">About Woxsen University Student Affairs</h1>
               <p className="mb-6 text-lg text-muted-foreground">
-                Woxsen University offers a diverse range of clubs and activities designed to enhance the student
-                experience, foster personal growth, and build a vibrant campus community.
+                Woxsen University Student Affairs serves as the university’s student council, representing the voice of the student body and driving initiatives that enhance campus life. Focused on leadership, engagement, and community building, it ensures every student feels supported and empowered.
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="flex items-center gap-2">
@@ -181,7 +180,7 @@ export default function AboutPage() {
                 {
                   question: "Can I be part of multiple clubs?",
                   answer:
-                    "Many students participate in multiple clubs based on their interests. We encourage you to explore different clubs, especially in your first year, to find communities that resonate with you.",
+                    "No a student may only be a executive of one club. Although, many students participate as Volunteers in multiple clubs based on their interests. We encourage you to explore different clubs, especially in your first year, to find communities that resonate with you.",
                 },
               ].map((faq, index) => (
                 <motion.div
