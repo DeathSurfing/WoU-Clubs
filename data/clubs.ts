@@ -53,8 +53,7 @@ export const clubsData: Club[] = [
     "shortDescription": "To promote financial theory and practical exposure.",
     "description": "Our club aims to provide pathway for the students to make them financially empowered, capable of making informed financial choices and possess the skills to achieve their financial goals.",
     "image": "/logos/finwizclub_logo.webp",
-    "coverImage": "
-  ",
+    "coverImage": "/cover_photos/finwizclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "nan",
     "location": "nan",
