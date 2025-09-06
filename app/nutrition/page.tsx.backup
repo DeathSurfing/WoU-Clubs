@@ -37,8 +37,11 @@ export default function NutritionPage() {
     const breakfast = filterMenuItems(dayMenu.breakfast).map((item) => ({ ...item, mealType: "Breakfast" }))
     const lunch = filterMenuItems(dayMenu.lunch).map((item) => ({ ...item, mealType: "Lunch" }))
     const dinner = filterMenuItems(dayMenu.dinner).map((item) => ({ ...item, mealType: "Dinner" }))
+    const snacks = dayMenu.snacks
+      ? filterMenuItems(dayMenu.snacks).map((item) => ({ ...item, mealType: "Snacks" }))
+      : []
 
-    return [...breakfast, ...lunch, ...dinner]
+    return [...breakfast, ...lunch, ...dinner, ...snacks]
   }
 
   // Get meals based on selected meal type
@@ -54,6 +57,9 @@ export default function NutritionPage() {
     }
     if (selectedMeal === "dinner") {
       return filterMenuItems(dayMenu.dinner).map((item) => ({ ...item, mealType: "Dinner" }))
+    }
+    if (selectedMeal === "snacks" && dayMenu.snacks) {
+      return filterMenuItems(dayMenu.snacks).map((item) => ({ ...item, mealType: "Snacks" }))
     }
 
     return []
@@ -131,6 +137,7 @@ export default function NutritionPage() {
                 <SelectItem value="breakfast">Breakfast</SelectItem>
                 <SelectItem value="lunch">Lunch</SelectItem>
                 <SelectItem value="dinner">Dinner</SelectItem>
+                <SelectItem value="snacks">Snacks</SelectItem>
               </SelectContent>
             </Select>
           </div>
