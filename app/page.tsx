@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select"
 import ClubCard from "@/components/club-card"
 import { clubsData } from "@/data/clubs"
-import { councilData } from "@/data/student-council"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -23,17 +22,6 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [randomMembers, setRandomMembers] = useState([])
 
-  // Get all council members from all tiers
-  const getAllCouncilMembers = () => {
-    return councilData.children?.flatMap(tier => tier.children || []) || []
-  }
-
-  // Select random members when component mounts
-  useEffect(() => {
-    const allMembers = getAllCouncilMembers()
-    const shuffled = [...allMembers].sort(() => 0.5 - Math.random())
-    setRandomMembers(shuffled.slice(0, 4))
-  }, [])
 
   const categories = [
     "All",
