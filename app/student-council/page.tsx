@@ -1,15 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Search, Filter, ChevronUp, Info } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Search, Filter, ChevronUp, X, Mail, Linkedin, Twitter } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Mail, Linkedin, Twitter } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import Image from "next/image"
 import { teamMembers } from "@/data/student-council"
 
@@ -21,6 +20,7 @@ export default function StudentCouncilPage() {
   const [filteredMembers, setFilteredMembers] = useState([])
   const [activeTab, setActiveTab] = useState("team")
   const [isClient, setIsClient] = useState(false)
+  const [selectedMember, setSelectedMember] = useState(null)
 
   // Get unique departments, roles, and years from team members data
   const departments = ["All", ...Array.from(new Set(teamMembers.map((m) => m.department)))].sort()
@@ -29,7 +29,7 @@ export default function StudentCouncilPage() {
 
   useEffect(() => {
     setIsClient(true)
-    setFilteredMembers(teamMembers) // Initialize with all members
+    setFilteredMembers(teamMembers)
   }, [])
 
   useEffect(() => {
@@ -104,7 +104,6 @@ export default function StudentCouncilPage() {
           </p>
         </motion.div>
 
-        {/* Single Tab for Meet the Team */}
         <Tabs defaultValue="team" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-1 md:w-auto">
             <TabsTrigger value="team">Meet the Team</TabsTrigger>
@@ -223,11 +222,12 @@ export default function StudentCouncilPage() {
                 {filteredMembers.map((member) => (
                   <motion.div
                     key={member.id}
-                    className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                    className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                     whileHover={{ y: -5 }}
+                    onClick={() => setSelectedMember(member)}
                   >
                     <div className="relative h-64 w-full">
                       <Image
@@ -245,69 +245,9 @@ export default function StudentCouncilPage() {
                       <p className="text-sm text-muted-foreground">{member.department}</p>
                       <p className="mt-2 text-sm">{member.year}</p>
 
-                      <div className="mt-4 space-y-2">
-                        {member.bio && <p className="text-sm text-muted-foreground line-clamp-3">{member.bio}</p>}
-                        {member.quote && (
-                          <div className="mt-3 italic text-sm border-l-2 border-gray-300 pl-2">
-                            "{member.quote}"
-                          </div>
-                        )}
-
-                        <div className="flex justify-between items-center mt-4">
-                          <div className="flex space-x-2">
-                            {member.email && (
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button variant="outline" size="icon" asChild>
-                                      <a href={`mailto:${member.email}`} aria-label="Email">
-                                        <Mail className="h-4 w-4" />
-                                      </a>
-                                    </Button>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>Email</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            )}
-
-                            {member.linkedin && (
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button variant="outline" size="icon" asChild>
-                                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                                        <Linkedin className="h-4 w-4" />
-                                      </a>
-                                    </Button>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>LinkedIn</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            )}
-
-                            {member.twitter && (
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button variant="outline" size="icon" asChild>
-                                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                                        <Twitter className="h-4 w-4" />
-                                      </a>
-                                    </Button>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>Twitter</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            )}
-                          </div>
-                        </div>
-                      </div>
+                      {member.bio && (
+                        <p className="mt-3 text-sm text-muted-foreground line-clamp-3">{member.bio}</p>
+                      )}
                     </div>
                   </motion.div>
                 ))}
@@ -325,6 +265,82 @@ export default function StudentCouncilPage() {
             )}
           </TabsContent>
         </Tabs>
+
+        {/* Member Detail Modal */}
+        <Dialog open={!!selectedMember} onOpenChange={(open) => !open && setSelectedMember(null)}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            {selectedMember && (
+              <div className="space-y-6">
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div className="relative w-full md:w-48 h-64 md:h-48 flex-shrink-0 rounded-lg overflow-hidden">
+                    <Image
+                      src={selectedMember.photo || "/placeholder.svg?height=300&width=300&text=Photo"}
+                      alt={selectedMember.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 300px"
+                    />
+                  </div>
+
+                  <div className="flex-1">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl">{selectedMember.name}</DialogTitle>
+                    </DialogHeader>
+                    <div className="mt-2 space-y-2">
+                      <Badge className="bg-[#EE495C]">{selectedMember.role}</Badge>
+                      <p className="text-sm text-muted-foreground">{selectedMember.department}</p>
+                      <p className="text-sm font-medium">{selectedMember.year}</p>
+                    </div>
+
+                    <div className="flex gap-2 mt-4">
+                      {selectedMember.email && (
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={`mailto:${selectedMember.email}`} aria-label="Email">
+                            <Mail className="h-4 w-4 mr-2" />
+                            Email
+                          </a>
+                        </Button>
+                      )}
+
+                      {selectedMember.linkedin && (
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <Linkedin className="h-4 w-4 mr-2" />
+                            LinkedIn
+                          </a>
+                        </Button>
+                      )}
+
+                      {selectedMember.twitter && (
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <Twitter className="h-4 w-4 mr-2" />
+                            Twitter
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {selectedMember.bio && (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">About</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{selectedMember.bio}</p>
+                    </div>
+                  )}
+
+                  {selectedMember.quote && (
+                    <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-[#EE495C]">
+                      <p className="text-sm italic">"{selectedMember.quote}"</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )
