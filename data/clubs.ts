@@ -412,7 +412,7 @@ export const clubsData: Club[] = [
     "category": "Academic",
     "shortDescription": "JanSpandan is a student-led political science club at Woxsen University that fosters critical thinking, civic engagement, and informed discourse on political and social issues. Through debates, discussions, workshops, and community outreach, the club aims to cultivate a deeper understanding of political systems, encourage active citizenship, and empower students to become thoughtful leaders in their communities.",
     "description": "JanSpandan is a student-led political science club at Woxsen University that fosters critical thinking, civic engagement, and informed discourse on political and social issues. Through debates, discussions, workshops, and community outreach, the club aims to cultivate a deeper understanding of political systems, encourage active citizenship, and empower students to become thoughtful leaders in their communities.",
-    "image": "/logos/Janspandan_logo.webp",
+    "image": "/logos/Janspandanclub_logo.webp",
     "coverImage": "/cover_photos/janspandanclub_coverphoto.webp",
     "memberCount": "",
     "meetingSchedule": "",
