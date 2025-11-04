@@ -1,6 +1,8 @@
 import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
+// I want to cry
+
 export async function GET(request: Request) {
   try {
     const client = await clientPromise;
