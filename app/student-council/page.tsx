@@ -31,13 +31,21 @@ export default function StudentCouncilPage() {
       try {
         const res = await fetch("/api/student-council")
         const data = await res.json()
-        setMembers(data)
-        setFilteredMembers(data)
+        
+        // Sort by photoPosition
+        const sortedData = data.sort((a: any, b: any) => {
+          const posA = a.photoPosition ?? Infinity
+          const posB = b.photoPosition ?? Infinity
+          return posA - posB
+        })
+        
+        setMembers(sortedData)
+        setFilteredMembers(sortedData)
 
         // Create dropdown filters dynamically
-        const dep = ["All", ...new Set(data.map((m: any) => m.department))].sort()
-        const role = ["All", ...new Set(data.map((m: any) => m.role))].sort()
-        const year = ["All", ...new Set(data.map((m: any) => m.year))].sort()
+        const dep = ["All", ...new Set(sortedData.map((m: any) => m.department))].sort()
+        const role = ["All", ...new Set(sortedData.map((m: any) => m.role))].sort()
+        const year = ["All", ...new Set(sortedData.map((m: any) => m.year))].sort()
 
         setDepartments(dep)
         setRoles(role)
@@ -76,6 +84,13 @@ export default function StudentCouncilPage() {
     if (selectedYear !== "All") {
       filtered = filtered.filter((m) => m.year === selectedYear)
     }
+
+    // Maintain photoPosition ordering after filtering
+    filtered.sort((a, b) => {
+      const posA = a.photoPosition ?? Infinity
+      const posB = b.photoPosition ?? Infinity
+      return posA - posB
+    })
 
     setFilteredMembers(filtered)
   }, [searchQuery, selectedDepartment, selectedRole, selectedYear, members])
