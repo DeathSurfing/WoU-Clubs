@@ -11,56 +11,79 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DatePicker } from "@/components/ui/date-picker"
 import EventCard from "@/components/events/event-card"
-import { eventsData } from "@/data/events"
-import { clubsData } from "@/data/clubs"
-
-// Get unique categories from events data
-const categories = ["All", ...Array.from(new Set(eventsData.map((event) => event.category)))].sort()
-
-// Get unique clubs from clubs data
-const clubs = [{ id: "all", name: "All Clubs" }, ...clubsData.map((club) => ({ id: club.id, name: club.name }))]
 
 export default function EventsPage() {
+  const [events, setEvents] = useState<any[]>([])
+  const [clubs, setClubs] = useState<{ id: string; name: string }[]>([])
+  const [categories, setCategories] = useState<string[]>(["All"])
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedClub, setSelectedClub] = useState("all")
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
-  const [activeTab, setActiveTab] = useState("upcoming") // Changed default to "upcoming"
-  const [filteredEvents, setFilteredEvents] = useState(eventsData)
+  const [activeTab, setActiveTab] = useState("upcoming")
+  const [filteredEvents, setFilteredEvents] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const eventsPerPage = 9
 
-  // Filter events based on search, category, club, date, and tab
+  // Fetch data dynamically from APIs
   useEffect(() => {
-    let filtered = [...eventsData]
+    const fetchData = async () => {
+      try {
+        console.log("🌐 Fetching events and clubs dynamically...")
 
-    // Filter by search query
+        const [eventsRes, clubsRes] = await Promise.all([
+          fetch("/api/events"),
+          fetch("/api/clubs"),
+        ])
+
+        if (!eventsRes.ok) throw new Error(`Events fetch failed: ${eventsRes.status}`)
+        if (!clubsRes.ok) throw new Error(`Clubs fetch failed: ${clubsRes.status}`)
+
+        const eventsData = await eventsRes.json()
+        const clubsData = await clubsRes.json()
+
+        console.log(`✅ Fetched ${eventsData.length} events, ${clubsData.length} clubs`)
+
+        setEvents(eventsData)
+        setClubs([{ id: "all", name: "All Clubs" }, ...clubsData.map((club: any) => ({ id: club.id, name: club.name }))])
+
+        // Extract unique categories
+        const uniqueCategories = ["All", ...new Set(eventsData.map((event: any) => event.category))].sort()
+        setCategories(uniqueCategories)
+        setFilteredEvents(eventsData)
+      } catch (err) {
+        console.error("❌ Error fetching data:", err)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // Filtering logic
+  useEffect(() => {
+    let filtered = [...events]
+
     if (searchQuery) {
       filtered = filtered.filter(
         (event) =>
-          event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          event.location.toLowerCase().includes(searchQuery.toLowerCase()),
+          event.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.location?.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     }
 
-    // Filter by category
     if (selectedCategory !== "All") {
       filtered = filtered.filter((event) => event.category === selectedCategory)
     }
 
-    // Filter by club
     if (selectedClub !== "all") {
       filtered = filtered.filter((event) => event.clubId === selectedClub)
     }
 
-    // Filter by date
     if (selectedDate) {
       filtered = filtered.filter((event) => {
         const eventStartDate = parseISO(event.startDate)
         const eventEndDate = event.endDate ? parseISO(event.endDate) : eventStartDate
-
-        // Check if the selected date falls within the event's date range
         return (
           isSameDay(selectedDate, eventStartDate) ||
           isSameDay(selectedDate, eventEndDate) ||
@@ -69,7 +92,6 @@ export default function EventsPage() {
       })
     }
 
-    // Filter by tab (all, upcoming, past, today)
     const now = new Date()
     if (activeTab === "upcoming") {
       filtered = filtered.filter(
@@ -82,9 +104,7 @@ export default function EventsPage() {
     } else if (activeTab === "today") {
       filtered = filtered.filter((event) => isToday(parseISO(event.startDate)))
     }
-    // "all" tab doesn't filter by date status
 
-    // Sort events by date (upcoming first for "all" and "upcoming" tabs, recent first for "past" tab)
     filtered.sort((a, b) => {
       if (activeTab === "past") {
         return parseISO(b.startDate).getTime() - parseISO(a.startDate).getTime()
@@ -93,14 +113,12 @@ export default function EventsPage() {
     })
 
     setFilteredEvents(filtered)
-    setCurrentPage(1) // Reset to first page when filters change
-  }, [searchQuery, selectedCategory, selectedClub, selectedDate, activeTab])
+    setCurrentPage(1)
+  }, [searchQuery, selectedCategory, selectedClub, selectedDate, activeTab, events])
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage)
   const currentEvents = filteredEvents.slice((currentPage - 1) * eventsPerPage, currentPage * eventsPerPage)
 
-  // Reset all filters
   const resetFilters = () => {
     setSearchQuery("")
     setSelectedCategory("All")
@@ -108,7 +126,6 @@ export default function EventsPage() {
     setSelectedDate(undefined)
   }
 
-  // Check if any filters are active
   const hasActiveFilters = searchQuery || selectedCategory !== "All" || selectedClub !== "all" || selectedDate
 
   return (
@@ -126,7 +143,6 @@ export default function EventsPage() {
           </p>
         </motion.div>
 
-        {/* Tabs for event timeline */}
         <Tabs defaultValue="upcoming" value={activeTab} onValueChange={setActiveTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-4 md:w-auto">
             <TabsTrigger value="all">All Events</TabsTrigger>
@@ -136,7 +152,6 @@ export default function EventsPage() {
           </TabsList>
         </Tabs>
 
-        {/* Search and Filter Section */}
         <div className="mb-8 space-y-4">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
@@ -183,7 +198,6 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {/* Active filters */}
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center">
@@ -226,7 +240,6 @@ export default function EventsPage() {
           )}
         </div>
 
-        {/* Events Grid */}
         {currentEvents.length > 0 ? (
           <>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -245,7 +258,6 @@ export default function EventsPage() {
               </AnimatePresence>
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="mt-12 flex justify-center">
                 <div className="flex space-x-2">
@@ -290,10 +302,10 @@ export default function EventsPage() {
               {activeTab === "all"
                 ? "There are no events matching your criteria."
                 : activeTab === "upcoming"
-                  ? "There are no upcoming events matching your criteria."
-                  : activeTab === "today"
-                    ? "There are no events happening today matching your criteria."
-                    : "There are no past events matching your criteria."}
+                ? "There are no upcoming events matching your criteria."
+                : activeTab === "today"
+                ? "There are no events happening today matching your criteria."
+                : "There are no past events matching your criteria."}
             </p>
             {hasActiveFilters && (
               <Button variant="outline" onClick={resetFilters}>

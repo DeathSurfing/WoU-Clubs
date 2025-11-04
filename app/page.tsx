@@ -13,28 +13,45 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import ClubCard from "@/components/club-card"
-import { clubsData } from "@/data/clubs"
 import Link from "next/link"
 import Image from "next/image"
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
-  const [randomMembers, setRandomMembers] = useState([])
+  const [clubs, setClubs] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
+  useEffect(() => {
+    async function fetchClubs() {
+      try {
+        const res = await fetch("/api/clubs", { cache: "no-store" })
+        if (!res.ok) throw new Error("Failed to fetch clubs")
+        const data = await res.json()
+        setClubs(data)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchClubs()
+  }, [])
 
   const categories = [
     "All",
-    ...Array.from(new Set(clubsData.map((club) => club.category))),
+    ...Array.from(new Set(clubs.map((club) => club.category))),
   ].sort()
 
-  const filteredClubs = clubsData.filter((club) => {
+  const filteredClubs = clubs.filter((club) => {
     const matchesSearch =
       club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       club.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       club.description.toLowerCase().includes(searchQuery.toLowerCase())
 
-    const matchesCategory = selectedCategory === "All" || club.category === selectedCategory
+    const matchesCategory =
+      selectedCategory === "All" || club.category === selectedCategory
 
     return matchesSearch && matchesCategory
   })
@@ -166,7 +183,7 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-4 mt-4">
                   <div className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-[#EE495C]" />
-                    <span> 10+ Departments</span>
+                    <span>10+ Departments</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Award className="h-5 w-5 text-[#EE495C]" />
@@ -204,6 +221,7 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Search and Filters */}
           <div className="mx-auto mb-12 max-w-xl">
             <div className="grid gap-4 md:grid-cols-4">
               <div className="relative md:col-span-3">
@@ -232,25 +250,27 @@ export default function Home() {
           </div>
 
           {/* Club Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredClubs.length > 0 ? (
-              filteredClubs.slice(0, 6).map((club, index) => (
+          {loading ? (
+            <div className="text-center py-12 text-muted-foreground">Loading clubs...</div>
+          ) : filteredClubs.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredClubs.slice(0, 6).map((club, index) => (
                 <motion.div
-                  key={club.id}
+                  key={club._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <ClubCard club={club} />
                 </motion.div>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <h3 className="text-xl font-medium mb-2">No clubs found</h3>
-                <p className="text-muted-foreground">Try adjusting your search query</p>
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <h3 className="text-xl font-medium mb-2">No clubs found</h3>
+              <p className="text-muted-foreground">Try adjusting your search query</p>
+            </div>
+          )}
 
           {filteredClubs.length > 6 && (
             <div className="mt-8 text-center">

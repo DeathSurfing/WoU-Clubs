@@ -9,22 +9,45 @@ import { ArrowLeft, Calendar, Mail, MapPin, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { clubsData } from "@/data/clubs"
-import { eventsData } from "@/data/events"
 import { format } from "date-fns"
 import type { Club } from "@/types/club"
+import type { Event } from "@/types/event"
 import ClubCard from "@/components/club-card"
 
 export default function ClubPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = use(params)
   const [club, setClub] = useState<Club | null>(null)
+  const [clubEvents, setClubEvents] = useState<Event[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simulate data fetching
-    const foundClub = clubsData.find((c) => c.id === unwrappedParams.id)
-    setClub(foundClub || null)
-    setIsLoading(false)
+    async function fetchClubData() {
+      try {
+        console.log("🔹 Fetching club:", unwrappedParams.id)
+        const [clubRes, eventsRes] = await Promise.all([
+          fetch(`/api/clubs/${unwrappedParams.id}`, { cache: "no-store" }),
+          fetch(`/api/events?clubId=${unwrappedParams.id}`, { cache: "no-store" }),
+        ])
+
+        if (!clubRes.ok) throw new Error(`Club fetch failed (${clubRes.status})`)
+        if (!eventsRes.ok) throw new Error(`Events fetch failed (${eventsRes.status})`)
+
+        const clubData = await clubRes.json()
+        const eventsData = await eventsRes.json()
+
+        console.log("✅ Club data received:", clubData)
+        console.log("✅ Events data received:", eventsData)
+
+        setClub(clubData)
+        setClubEvents(eventsData)
+      } catch (err) {
+        console.error("💥 Error fetching club or events:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchClubData()
   }, [unwrappedParams.id])
 
   if (isLoading) {
@@ -41,8 +64,6 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
   if (!club) {
     return notFound()
   }
-
-  const clubEvents = eventsData.filter(event => event.clubId === club.id)
 
   return (
     <div className="pt-16">
@@ -97,7 +118,9 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                       </p>
                       <h3>What We Do</h3>
                       <ul>
-                        {club.activities?.map((activity, index) => <li key={index}>{activity}</li>) || (
+                        {club.activities?.length ? (
+                          club.activities.map((activity, index) => <li key={index}>{activity}</li>)
+                        ) : (
                           <>
                             <li>Regular meetings and workshops</li>
                             <li>Special events and competitions</li>
@@ -128,7 +151,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                             <div>
                               <h3 className="text-xl font-semibold">{event.title}</h3>
                               <p className="text-sm text-muted-foreground">
-                                {format(event.startDate, "MMMM d, yyyy")}
+                                {format(new Date(event.startDate), "MMMM d, yyyy")}
                                 {event.startTime && ` • ${event.startTime}`}
                                 {event.endTime && ` - ${event.endTime}`}
                                 {event.location && ` • ${event.location}`}
@@ -144,8 +167,14 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                                   />
                                 </div>
                               )}
-                              <Button className="mt-4 bg-[#EE495C] hover:bg-[#EE495C]/90" size="sm">
-                                Register
+                              <Button
+                                className="mt-4 bg-[#EE495C] hover:bg-[#EE495C]/90"
+                                size="sm"
+                                asChild
+                              >
+                                <a href={event.registerUrl || "#"} target="_blank">
+                                  Register
+                                </a>
                               </Button>
                             </div>
                           </div>
@@ -167,22 +196,26 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   >
                     <h2 className="mb-4 text-2xl font-bold">Club Members</h2>
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                      {club.members?.map((member, index) => (
-                        <div key={index} className="flex items-center gap-4 rounded-lg border p-4">
-                          <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                            <Image
-                              src={member.avatar || "/placeholder.svg?height=100&width=100"}
-                              alt={member.name}
-                              fill
-                              className="object-cover"
-                            />
+                      {club.members?.length ? (
+                        club.members.map((member, index) => (
+                          <div key={index} className="flex items-center gap-4 rounded-lg border p-4">
+                            <div className="relative h-12 w-12 overflow-hidden rounded-full">
+                              <Image
+                                src={member.avatar || "/placeholder.svg?height=100&width=100"}
+                                alt={member.name}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div>
+                              <h3 className="font-medium">{member.name}</h3>
+                              <p className="text-sm text-muted-foreground">{member.role}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-medium">{member.name}</h3>
-                            <p className="text-sm text-muted-foreground">{member.role}</p>
-                          </div>
-                        </div>
-                      )) || <p className="col-span-full text-muted-foreground">Member information not available.</p>}
+                        ))
+                      ) : (
+                        <p className="col-span-full text-muted-foreground">Member information not available.</p>
+                      )}
                     </div>
                   </motion.div>
                 </TabsContent>
@@ -196,16 +229,20 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   >
                     <h2 className="mb-4 text-2xl font-bold">Gallery</h2>
                     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-                      {club.gallery?.map((image, index) => (
-                        <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
-                          <Image
-                            src={image || "/placeholder.svg?height=300&width=300"}
-                            alt={`Gallery image ${index + 1}`}
-                            fill
-                            className="object-cover transition-transform duration-300 hover:scale-105"
-                          />
-                        </div>
-                      )) || <p className="col-span-full text-muted-foreground">No gallery images available.</p>}
+                      {club.gallery?.length ? (
+                        club.gallery.map((image, index) => (
+                          <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
+                            <Image
+                              src={image || "/placeholder.svg?height=300&width=300"}
+                              alt={`Gallery image ${index + 1}`}
+                              fill
+                              className="object-cover transition-transform duration-300 hover:scale-105"
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <p className="col-span-full text-muted-foreground">No gallery images available.</p>
+                      )}
                     </div>
                   </motion.div>
                 </TabsContent>
@@ -219,42 +256,42 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   Join This Club
                 </h2>
                 <div className="mb-6 space-y-4">
-                  {club.memberCount && club.memberCount.toLowerCase?.() !== "nan" && (
+                  {club.memberCount && (
                     <div className="flex items-center gap-3">
                       <Users className="h-5 w-5 text-muted-foreground" />
                       <span>{club.memberCount || "25+"} members</span>
                     </div>
                   )}
 
-                  {club.meetingSchedule && club.meetingSchedule.toLowerCase?.() !== "nan" && (
+                  {club.meetingSchedule && (
                     <div className="flex items-center gap-3">
                       <Calendar className="h-5 w-5 text-muted-foreground" />
-                      <span>Meets {club.meetingSchedule || "weekly"}</span>
+                      <span>Meets {club.meetingSchedule}</span>
                     </div>
                   )}
 
-                  {club.location && club.location.toLowerCase() !== "nan" && (
+                  {club.location && (
                     <div className="flex items-center gap-3">
                       <MapPin className="h-5 w-5 text-muted-foreground" />
                       <span>{club.location}</span>
                     </div>
                   )}
 
-                  {club.email && club.email.toLowerCase() !== "nan" && (
+                  {club.email && (
                     <div className="flex items-center gap-3">
                       <Mail className="h-5 w-5 text-muted-foreground" />
                       <a
-                        href={`mailto:${club.email || "studentaffairs@woxsen.edu.in"}`}
+                        href={`mailto:${club.email}`}
                         className="hover:text-primary"
                       >
-                        {club.email || "studentaffairs@woxsen.edu.in"}
+                        {club.email}
                       </a>
                     </div>
                   )}
                 </div>
 
                 <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
-                  <a href={club.joinUrl || '/noregistrationrequired'}>Apply to Join</a>
+                  <a href={club.joinUrl || "/noregistrationrequired"}>Apply to Join</a>
                 </Button>
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                   Open for all Woxsen University students
@@ -270,19 +307,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
         <div className="container">
           <h2 className="mb-8 text-2xl font-bold">Similar Clubs You Might Like</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {clubsData
-              .filter((c) => c.category === club.category && c.id !== club.id)
-              .slice(0, 3)
-              .map((relatedClub, index) => (
-                <motion.div
-                  key={relatedClub.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <ClubCard club={relatedClub} />
-                </motion.div>
-              ))}
+            {/* You can replace this with an API call if needed */}
           </div>
         </div>
       </section>

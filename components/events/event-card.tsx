@@ -7,27 +7,37 @@ import { format, parseISO } from "date-fns"
 import { Calendar, Clock, MapPin } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import type { Event } from "@/types/event"
-import { clubsData } from "@/data/clubs"
 
 interface EventCardProps {
   event: Event
 }
 
 export default function EventCard({ event }: EventCardProps) {
-  // Find the club that's hosting this event
-  const club = clubsData.find((club) => club.id === event.clubId)
+  // Fallback for club name — prefer dynamic data from the event object
+  const clubName = event.clubName || "Woxsen University"
 
   // Format date and time
   const formattedDate = format(parseISO(event.startDate), "MMM dd, yyyy")
-  const startTime = event.startTime ? format(parseISO(`2023-01-01T${event.startTime}`), "h:mm a") : ""
-  const endTime = event.endTime ? format(parseISO(`2023-01-01T${event.endTime}`), "h:mm a") : ""
+  const startTime = event.startTime
+    ? format(parseISO(`2023-01-01T${event.startTime}`), "h:mm a")
+    : ""
+  const endTime = event.endTime
+    ? format(parseISO(`2023-01-01T${event.endTime}`), "h:mm a")
+    : ""
 
-  // Check if event is happening today
-  const isToday = format(parseISO(event.startDate), "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd")
-
-  // Check if event is in the past
+  // Check if event is today or past
+  const isToday =
+    format(parseISO(event.startDate), "yyyy-MM-dd") ===
+    format(new Date(), "yyyy-MM-dd")
   const isPast = parseISO(event.endDate || event.startDate) < new Date()
 
   return (
@@ -41,7 +51,15 @@ export default function EventCard({ event }: EventCardProps) {
             className="object-cover transition-transform duration-300 hover:scale-105"
           />
           <div className="absolute right-2 top-2 flex flex-col gap-2">
-            <Badge className={isPast ? "bg-muted-foreground" : isToday ? "bg-green-500" : "bg-[#EE495C]"}>
+            <Badge
+              className={
+                isPast
+                  ? "bg-muted-foreground"
+                  : isToday
+                  ? "bg-green-500"
+                  : "bg-[#EE495C]"
+              }
+            >
               {isPast ? "Past" : isToday ? "Today" : "Upcoming"}
             </Badge>
             {event.category && (
@@ -56,7 +74,9 @@ export default function EventCard({ event }: EventCardProps) {
           <div className="flex items-start justify-between">
             <div>
               <CardTitle className="line-clamp-2">{event.title}</CardTitle>
-              <CardDescription className="mt-1">Hosted by {club?.name || "Woxsen University"}</CardDescription>
+              <CardDescription className="mt-1">
+                Hosted by {clubName}
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -84,15 +104,21 @@ export default function EventCard({ event }: EventCardProps) {
             </div>
           </div>
 
-          <p className="line-clamp-2 text-sm text-muted-foreground">{event.description}</p>
+          <p className="line-clamp-2 text-sm text-muted-foreground">
+            {event.description}
+          </p>
         </CardContent>
 
         <CardFooter className="flex justify-between">
           <Button variant="outline" size="sm" asChild>
             <Link href={`/events/${event.id}`}>Learn More</Link>
           </Button>
-          <Button size="sm" className="bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
-            <Link href={event.registerUrl || '/noregistrationrequired'}>
+          <Button
+            size="sm"
+            className="bg-[#EE495C] hover:bg-[#EE495C]/90"
+            asChild
+          >
+            <Link href={event.registerUrl || "/noregistrationrequired"}>
               Register
             </Link>
           </Button>
@@ -101,4 +127,3 @@ export default function EventCard({ event }: EventCardProps) {
     </motion.div>
   )
 }
-

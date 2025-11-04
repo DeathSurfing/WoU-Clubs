@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Search, Filter, ChevronUp, X, Mail, Linkedin, Twitter } from "lucide-react"
+import { motion } from "framer-motion"
+import { Search, Filter, ChevronUp, Mail, Linkedin, Twitter } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -10,32 +10,51 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import Image from "next/image"
-import { teamMembers } from "@/data/student-council"
 
 export default function StudentCouncilPage() {
+  const [members, setMembers] = useState<any[]>([])
+  const [filteredMembers, setFilteredMembers] = useState<any[]>([])
+  const [departments, setDepartments] = useState<string[]>(["All"])
+  const [roles, setRoles] = useState<string[]>(["All"])
+  const [years, setYears] = useState<string[]>(["All"])
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
   const [selectedRole, setSelectedRole] = useState("All")
   const [selectedYear, setSelectedYear] = useState("All")
-  const [filteredMembers, setFilteredMembers] = useState([])
   const [activeTab, setActiveTab] = useState("team")
-  const [isClient, setIsClient] = useState(false)
-  const [selectedMember, setSelectedMember] = useState(null)
+  const [selectedMember, setSelectedMember] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-  // Get unique departments, roles, and years from team members data
-  const departments = ["All", ...Array.from(new Set(teamMembers.map((m) => m.department)))].sort()
-  const roles = ["All", ...Array.from(new Set(teamMembers.map((m) => m.role)))].sort()
-  const years = ["All", ...Array.from(new Set(teamMembers.map((m) => m.year)))].sort()
-
+  // ✅ Fetch from API
   useEffect(() => {
-    setIsClient(true)
-    setFilteredMembers(teamMembers)
+    async function fetchMembers() {
+      try {
+        const res = await fetch("/api/student-council")
+        const data = await res.json()
+        setMembers(data)
+        setFilteredMembers(data)
+
+        // Create dropdown filters dynamically
+        const dep = ["All", ...new Set(data.map((m: any) => m.department))].sort()
+        const role = ["All", ...new Set(data.map((m: any) => m.role))].sort()
+        const year = ["All", ...new Set(data.map((m: any) => m.year))].sort()
+
+        setDepartments(dep)
+        setRoles(role)
+        setYears(year)
+      } catch (err) {
+        console.error("Error fetching council members:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMembers()
   }, [])
 
+  // ✅ Filtering logic
   useEffect(() => {
-    if (!isClient) return
-
-    let filtered = [...teamMembers]
+    let filtered = [...members]
 
     if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase().trim()
@@ -59,7 +78,7 @@ export default function StudentCouncilPage() {
     }
 
     setFilteredMembers(filtered)
-  }, [searchQuery, selectedDepartment, selectedRole, selectedYear, isClient])
+  }, [searchQuery, selectedDepartment, selectedRole, selectedYear, members])
 
   const resetFilters = () => {
     setSearchQuery("")
@@ -71,20 +90,10 @@ export default function StudentCouncilPage() {
   const hasActiveFilters =
     searchQuery || selectedDepartment !== "All" || selectedRole !== "All" || selectedYear !== "All"
 
-  if (!isClient) {
+  if (loading) {
     return (
-      <div className="pt-24 pb-16">
-        <div className="container">
-          <div className="mb-12">
-            <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Student Council</h1>
-            <p className="text-lg text-muted-foreground">
-              Meet the dedicated student leaders who represent and advocate for the Woxsen University student body
-            </p>
-          </div>
-          <div className="h-[400px] flex items-center justify-center">
-            <p>Loading...</p>
-          </div>
-        </div>
+      <div className="pt-24 pb-16 flex justify-center items-center min-h-[60vh]">
+        <p>Loading student council members...</p>
       </div>
     )
   }
@@ -110,7 +119,7 @@ export default function StudentCouncilPage() {
           </TabsList>
 
           <TabsContent value="team" className="space-y-8">
-            {/* Search and Filter */}
+            {/* Search + Filters */}
             <div className="mb-8 space-y-4">
               <div className="flex flex-col gap-4 md:flex-row">
                 <div className="relative flex-1">
@@ -126,7 +135,7 @@ export default function StudentCouncilPage() {
 
                 <div className="grid grid-cols-3 gap-4">
                   <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger>
                       <SelectValue placeholder="Department" />
                     </SelectTrigger>
                     <SelectContent>
@@ -139,7 +148,7 @@ export default function StudentCouncilPage() {
                   </Select>
 
                   <Select value={selectedRole} onValueChange={setSelectedRole}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger>
                       <SelectValue placeholder="Role" />
                     </SelectTrigger>
                     <SelectContent>
@@ -152,7 +161,7 @@ export default function StudentCouncilPage() {
                   </Select>
 
                   <Select value={selectedYear} onValueChange={setSelectedYear}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger>
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -168,42 +177,45 @@ export default function StudentCouncilPage() {
 
               {hasActiveFilters && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <div className="flex items-center">
-                    <Filter className="mr-2 h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">Active filters:</span>
-                  </div>
+                  <Filter className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Active filters:</span>
 
                   {searchQuery && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary">
                       Search: {searchQuery}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => setSearchQuery("")}>
+                      <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => setSearchQuery("")}>
                         <ChevronUp className="h-3 w-3" />
                       </Button>
                     </Badge>
                   )}
 
                   {selectedDepartment !== "All" && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary">
                       Department: {selectedDepartment}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => setSelectedDepartment("All")}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-4 w-4 ml-1"
+                        onClick={() => setSelectedDepartment("All")}
+                      >
                         <ChevronUp className="h-3 w-3" />
                       </Button>
                     </Badge>
                   )}
 
                   {selectedRole !== "All" && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary">
                       Role: {selectedRole}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => setSelectedRole("All")}>
+                      <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => setSelectedRole("All")}>
                         <ChevronUp className="h-3 w-3" />
                       </Button>
                     </Badge>
                   )}
 
                   {selectedYear !== "All" && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary">
                       Year: {selectedYear}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => setSelectedYear("All")}>
+                      <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => setSelectedYear("All")}>
                         <ChevronUp className="h-3 w-3" />
                       </Button>
                     </Badge>
@@ -221,7 +233,7 @@ export default function StudentCouncilPage() {
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredMembers.map((member) => (
                   <motion.div
-                    key={member.id}
+                    key={member._id}
                     className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -235,7 +247,6 @@ export default function StudentCouncilPage() {
                         alt={member.name}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <Badge className="absolute right-2 top-2 bg-[#EE495C]">{member.role}</Badge>
                     </div>
@@ -266,7 +277,7 @@ export default function StudentCouncilPage() {
           </TabsContent>
         </Tabs>
 
-        {/* Member Detail Modal */}
+        {/* Member Modal */}
         <Dialog open={!!selectedMember} onOpenChange={(open) => !open && setSelectedMember(null)}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             {selectedMember && (
@@ -278,7 +289,6 @@ export default function StudentCouncilPage() {
                       alt={selectedMember.name}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 300px"
                     />
                   </div>
 
@@ -295,25 +305,23 @@ export default function StudentCouncilPage() {
                     <div className="flex gap-2 mt-4">
                       {selectedMember.email && (
                         <Button variant="outline" size="sm" asChild>
-                          <a href={`mailto:${selectedMember.email}`} aria-label="Email">
+                          <a href={`mailto:${selectedMember.email}`}>
                             <Mail className="h-4 w-4 mr-2" />
                             Email
                           </a>
                         </Button>
                       )}
-
                       {selectedMember.linkedin && (
                         <Button variant="outline" size="sm" asChild>
-                          <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                          <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer">
                             <Linkedin className="h-4 w-4 mr-2" />
                             LinkedIn
                           </a>
                         </Button>
                       )}
-
                       {selectedMember.twitter && (
                         <Button variant="outline" size="sm" asChild>
-                          <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                          <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer">
                             <Twitter className="h-4 w-4 mr-2" />
                             Twitter
                           </a>
@@ -323,20 +331,18 @@ export default function StudentCouncilPage() {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  {selectedMember.bio && (
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">About</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{selectedMember.bio}</p>
-                    </div>
-                  )}
+                {selectedMember.bio && (
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">About</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{selectedMember.bio}</p>
+                  </div>
+                )}
 
-                  {selectedMember.quote && (
-                    <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-[#EE495C]">
-                      <p className="text-sm italic">"{selectedMember.quote}"</p>
-                    </div>
-                  )}
-                </div>
+                {selectedMember.quote && (
+                  <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-[#EE495C]">
+                    <p className="text-sm italic">"{selectedMember.quote}"</p>
+                  </div>
+                )}
               </div>
             )}
           </DialogContent>

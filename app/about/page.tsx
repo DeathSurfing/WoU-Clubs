@@ -1,29 +1,64 @@
 "use client"
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { 
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import Image from "next/image"
+import {
   BookOpen,
   Palette,
-  BookText,
   Music,
   Gamepad,
-  Camera,
-  Gauge,
-  HeartHandshake,
-  Users,    
-  Award,    
-  Calendar,
   Leaf,
   Cpu,
   Briefcase,
   Coins,
-  Scale
-} from "lucide-react";
+  Scale,
+  Users,
+  Award,
+  Calendar,
+} from "lucide-react"
 
-  import { clubsData } from "@/data/clubs";
+interface Club {
+  id: string
+  name: string
+  category: string
+}
 
 export default function AboutPage() {
+  const [clubs, setClubs] = useState<Club[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchClubs() {
+      try {
+        console.log("📡 Fetching clubs for About page...")
+        const res = await fetch("/api/clubs")
+        if (!res.ok) throw new Error(`Failed to fetch clubs: ${res.status}`)
+        const data = await res.json()
+        console.log(`✅ Loaded ${data.length} clubs`)
+        setClubs(data)
+      } catch (err) {
+        console.error("❌ Error fetching clubs:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchClubs()
+  }, [])
+
+  const categories = [
+    { name: "Sustainability & Environment", icon: Leaf },
+    { name: "Technology & Engineering", icon: Cpu },
+    { name: "Academic", icon: BookOpen },
+    { name: "Architecture & Design", icon: Palette },
+    { name: "Art & Culture", icon: Music },
+    { name: "Business & Entrepreneurship", icon: Briefcase },
+    { name: "Finance & Investing", icon: Coins },
+    { name: "Law & Policy", icon: Scale },
+    { name: "Sports & Gaming", icon: Gamepad },
+  ]
+
   return (
     <div className="pt-24">
       <div className="container">
@@ -31,14 +66,20 @@ export default function AboutPage() {
         <section className="mb-16">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
             <div>
-              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">About Woxsen University Student Affairs</h1>
+              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+                About Woxsen University Student Affairs
+              </h1>
               <p className="mb-6 text-lg text-muted-foreground">
-                Woxsen University Student Affairs serves as the university’s student council, representing the voice of the student body and driving initiatives that enhance campus life. Focused on leadership, engagement, and community building, it ensures every student feels supported and empowered.
+                Woxsen University Student Affairs serves as the university’s student council, representing the voice of
+                the student body and driving initiatives that enhance campus life. Focused on leadership, engagement,
+                and community building, it ensures every student feels supported and empowered.
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-[#EE495C]" />
-                  <span>26+ Active Clubs</span>
+                  <span>
+                    {loading ? "..." : clubs.length}+ Active Clubs
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-[#EE495C]" />
@@ -77,36 +118,30 @@ export default function AboutPage() {
                 to holistic student development.
               </p>
               <div className="grid gap-8 md:grid-cols-3">
-                <motion.div
-                  className="rounded-lg bg-background p-6 shadow-sm"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <h3 className="mb-2 text-xl font-bold">Explore</h3>
-                  <p className="text-muted-foreground">
-                    Discover new interests and passions through diverse club activities
-                  </p>
-                </motion.div>
-                <motion.div
-                  className="rounded-lg bg-background p-6 shadow-sm"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <h3 className="mb-2 text-xl font-bold">Connect</h3>
-                  <p className="text-muted-foreground">
-                    Build meaningful relationships with peers who share your interests
-                  </p>
-                </motion.div>
-                <motion.div
-                  className="rounded-lg bg-background p-6 shadow-sm"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <h3 className="mb-2 text-xl font-bold">Lead</h3>
-                  <p className="text-muted-foreground">
-                    Develop leadership skills by organizing events and managing club activities
-                  </p>
-                </motion.div>
+                {[
+                  {
+                    title: "Explore",
+                    desc: "Discover new interests and passions through diverse club activities",
+                  },
+                  {
+                    title: "Connect",
+                    desc: "Build meaningful relationships with peers who share your interests",
+                  },
+                  {
+                    title: "Lead",
+                    desc: "Develop leadership skills by organizing events and managing club activities",
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    className="rounded-lg bg-background p-6 shadow-sm"
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <h3 className="mb-2 text-xl font-bold">{item.title}</h3>
+                    <p className="text-muted-foreground">{item.desc}</p>
+                  </motion.div>
+                ))}
               </div>
             </div>
           </div>
@@ -116,20 +151,8 @@ export default function AboutPage() {
         <section className="mb-16">
           <h2 className="mb-8 text-3xl font-bold text-center">Club Categories</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              { name: "Sustainability & Environment", icon: Leaf },
-              { name: "Technology & Engineering", icon: Cpu },
-              { name: "Academic", icon: BookOpen },
-              { name: "Architecture & Design", icon: Palette },
-              { name: "Art & Culture", icon: Music },
-              { name: "Business & Entrepreneurship", icon: Briefcase },
-              { name: "Finance & Investing", icon: Coins },
-              { name: "Law & Policy", icon: Scale },
-              { name: "Sports & Gaming", icon: Gamepad },
-            ].map((category, index) => {
-              // Count clubs in this category
-              const count = clubsData.filter(club => club.category === category.name).length;
-              
+            {categories.map((category, index) => {
+              const count = clubs.filter((c) => c.category === category.name).length
               return (
                 <motion.div
                   key={category.name}
@@ -143,13 +166,14 @@ export default function AboutPage() {
                     <category.icon className="h-6 w-6" />
                   </div>
                   <h3 className="mb-2 text-xl font-bold">{category.name}</h3>
-                  <p className="text-muted-foreground">{count} {count === 1 ? 'club' : 'clubs'}</p>
+                  <p className="text-muted-foreground">
+                    {loading ? "..." : count} {count === 1 ? "club" : "clubs"}
+                  </p>
                 </motion.div>
-              );
+              )
             })}
           </div>
         </section>
-
 
         {/* FAQ Section */}
         <section className="mb-16">
@@ -160,27 +184,27 @@ export default function AboutPage() {
                 {
                   question: "How can I join a club?",
                   answer:
-                    "To join a club, you can visit the club's page on our website and click the 'Join Club' button. You'll be asked to fill out a brief application form. Alternatively, you can attend club meetings which are typically open to all students.",
+                    "Visit the club's page and click 'Join Club'. You’ll fill a short application or attend open meetings.",
                 },
                 {
                   question: "Can I start a new club?",
                   answer:
-                    "Yes! If you have an idea for a new club, you'll need to gather at least 10 interested students, find a faculty advisor, and submit a club proposal to the Student Activities Office. The proposal should include the club's purpose, planned activities, and a basic budget.",
+                    "Yes! Gather 10 interested students, a faculty advisor, and submit a proposal to the Student Affairs Office.",
                 },
                 {
                   question: "Are there any fees to join clubs?",
                   answer:
-                    "Most clubs at Woxsen University are free to join. Some specialized clubs may have nominal fees to cover materials or activities. Any fees will be clearly indicated on the club's page.",
+                    "Most clubs are free to join. Some may have nominal fees for materials or special events.",
                 },
                 {
                   question: "How much time commitment is expected?",
                   answer:
-                    "Time commitment varies by club. Most clubs meet weekly or bi-weekly for 1-2 hours. Additional time may be required for special events or projects. Club leaders typically have higher time commitments.",
+                    "Most clubs meet weekly or bi-weekly for 1–2 hours. Leaders may have more responsibilities.",
                 },
                 {
                   question: "Can I be part of multiple clubs?",
                   answer:
-                    "No a student may only be a executive of one club. Although, many students participate as Volunteers in multiple clubs based on their interests. We encourage you to explore different clubs, especially in your first year, to find communities that resonate with you.",
+                    "You can only be an executive of one club, but can volunteer in multiple based on your interests.",
                 },
               ].map((faq, index) => (
                 <motion.div
@@ -225,4 +249,3 @@ export default function AboutPage() {
     </div>
   )
 }
-

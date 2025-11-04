@@ -1,99 +1,57 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { eventsData } from "@/data/events"
-import { clubsData } from "@/data/clubs"
-import { format, parseISO, isAfter } from 'date-fns'
-import EventPageContent from './EventPageContent'
-import type { Event, Club } from "@/types/event"
+import { format, parseISO, isAfter } from "date-fns"
+import EventPageContent from "@/components/events/event-page-content"
 
-export async function generateStaticParams() {
-  return eventsData.map((event) => ({
-    id: event.id,
-  }))
-}
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/events/${params.id}`,
+    { cache: "no-store" }
+  )
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const event = eventsData.find((e) => e.id === params.id)
-  if (!event) return {
-    title: "Event Not Found",
-    description: "The event you're looking for doesn't exist",
-  }
-
-  const club = clubsData.find((club) => club.id === event.clubId)
-  
-  return {
-    title: `${event.title} | Woxsen Events`,
-    description: event.description || 'Join this event at Woxsen University',
-    keywords: [
-      event.title,
-      event.category,
-      club?.name,
-      'Woxsen University',
-      'events',
-      'campus activities'
-    ].filter(Boolean),
-    openGraph: {
-      title: event.title,
-      description: event.description || '',
-      url: `https://woxsen.edu.in/events/${event.id}`,
-      siteName: 'Woxsen University',
-      images: [
-        {
-          url: event.image || "/default-event-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: event.title,
-        }
-      ],
-      locale: 'en_US',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: event.title,
-      description: event.description || '',
-      images: [event.image || "/default-event-image.jpg"],
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
-  }
-}
-
-export default function EventPage({ params }: { params: { id: string } }) {
-  const event = eventsData.find((e) => e.id === params.id)
-  if (!event) notFound()
-
-  const club = clubsData.find((c) => c.id === event.clubId)
-  
-  // Pre-calculate values to pass to client component
-  const formattedStartDate = format(parseISO(event.startDate), "MMMM dd, yyyy")
-  const formattedEndDate = event.endDate ? format(parseISO(event.endDate), "MMMM dd, yyyy") : null
-  
-  // Helper function to safely format time
-  const formatTime = (timeString: string) => {
-    try {
-      return format(parseISO(`2023-01-01T${timeString}`), "h:mm a")
-    } catch {
-      return timeString // fallback to original string if parsing fails
+  if (!res.ok) {
+    return {
+      title: "Event Not Found",
     }
   }
-  
-  const startTime = event.startTime ? formatTime(event.startTime) : ""
-  const endTime = event.endTime ? formatTime(event.endTime) : ""
-  
-  const now = new Date()
-  const eventDate = parseISO(event.startDate)
-  const isUpcoming = isAfter(eventDate, now)
-  
-  const isRegistrationOpen = !event.registrationDeadline || 
-    isAfter(parseISO(event.registrationDeadline), now)
+
+  const event = await res.json()
+  return {
+    title: event.title || "Event Details",
+  }
+}
+
+export default async function EventPage({ params }: { params: { id: string } }) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/events/${params.id}`,
+    { cache: "no-store" }
+  )
+
+  if (!res.ok) {
+    return (
+      <div className="container py-20 text-center">
+        <h1 className="text-3xl font-bold">Event not found</h1>
+        <p className="text-muted-foreground mt-2">This event may have been removed or doesn't exist.</p>
+      </div>
+    )
+  }
+
+  const event = await res.json()
+
+  // format and helpers
+  const formattedStartDate = format(parseISO(event.startDate), "MMMM dd, yyyy")
+  const formattedEndDate = event.endDate ? format(parseISO(event.endDate), "MMMM dd, yyyy") : null
+
+  const startTime = event.startTime || ""
+  const endTime = event.endTime || ""
+  const isUpcoming = isAfter(parseISO(event.endDate || event.startDate), new Date())
+
+  const isRegistrationOpen =
+    !event.registrationDeadline ||
+    isAfter(parseISO(event.registrationDeadline), new Date())
 
   return (
-    <EventPageContent 
+    <EventPageContent
       event={event}
-      club={club}
+      club={event.club}
       formattedStartDate={formattedStartDate}
       formattedEndDate={formattedEndDate}
       startTime={startTime}
