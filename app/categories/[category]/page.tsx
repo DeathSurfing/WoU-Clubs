@@ -7,11 +7,7 @@ import { Search, ArrowLeft } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import ClubCard from "@/components/club-card"
-import { clubsData } from "@/data/clubs"
 import type { Club } from "@/types/club"
-
-// Get unique categories from club data (lowercase for URL matching)
-const validCategories = Array.from(new Set(clubsData.map((club) => club.category.toLowerCase())))
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
   const [clubs, setClubs] = useState<Club[]>([])
@@ -19,28 +15,42 @@ export default function CategoryPage({ params }: { params: { category: string } 
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  // Format category for display (capitalize first letter)
   const category = params.category.charAt(0).toUpperCase() + params.category.slice(1)
 
   useEffect(() => {
-    if (!validCategories.includes(params.category.toLowerCase())) {
-      return
+    async function fetchClubs() {
+      try {
+        setIsLoading(true)
+        console.log("🔍 Fetching clubs for category:", params.category)
+
+        const res = await fetch(
+          `/api/clubs?category=${encodeURIComponent(params.category)}`,
+          { cache: "no-store" }
+        )
+
+        if (!res.ok) {
+          console.warn("⚠️ Invalid category:", params.category)
+          setIsLoading(false)
+          return notFound()
+        }
+
+        const data = await res.json()
+        console.log("✅ Clubs fetched:", data.length)
+        setClubs(data)
+      } catch (error) {
+        console.error("❌ Error fetching clubs:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
 
-    // Filter clubs by category
-    const categoryClubs = clubsData.filter((club) => club.category.toLowerCase() === params.category.toLowerCase())
-    setClubs(categoryClubs)
-    setIsLoading(false)
+    fetchClubs()
   }, [params.category])
-
-  if (!validCategories.includes(params.category.toLowerCase()) && !isLoading) {
-    return notFound()
-  }
 
   const filteredClubs = clubs.filter(
     (club) =>
       club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      club.description.toLowerCase().includes(searchQuery.toLowerCase()),
+      club.description.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   return (
@@ -110,4 +120,3 @@ export default function CategoryPage({ params }: { params: { category: string } 
     </div>
   )
 }
-

@@ -1,7 +1,6 @@
 // app/sitemap.xml/route.ts
 import { NextResponse } from 'next/server';
-import { clubsData } from '@/data/clubs';
-import { eventsData } from '@/data/events';
+import clientPromise from '@/lib/mongodb';
 import { isAfter, parseISO } from 'date-fns';
 
 const DOMAIN = 'https://woxsenstudentcouncil.com';
@@ -18,7 +17,7 @@ export async function GET() {
     { name: "Oval Menu", path: "/nutrition" },
   ];
 
-  // Generate static URLs from navItems
+  // 🧭 Static pages
   const staticUrls = navItems.map(
     (item) => `
       <url>
@@ -30,35 +29,51 @@ export async function GET() {
     `
   );
 
-  const clubUrls = clubsData.map(
-    (club) => `
-      <url>
-        <loc>${DOMAIN}/clubs/${club.id}</loc>
-        <lastmod>${new Date().toISOString()}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-      </url>
-    `
-  );
+  let clubUrls: string[] = [];
+  let eventUrls: string[] = [];
 
-  const eventUrls = eventsData
-    // Only include upcoming events or recent past events (last 3 months)
-    .filter(event => {
+  try {
+    const client = await clientPromise;
+    const db = client.db("woxsen");
+
+    // 🏛 Clubs
+    const clubs = await db.collection("clubs").find({}).toArray();
+    clubUrls = clubs.map(
+      (club) => `
+        <url>
+          <loc>${DOMAIN}/clubs/${club.slug || club._id}</loc>
+          <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>monthly</changefreq>
+          <priority>0.7</priority>
+        </url>
+      `
+    );
+
+    // 🎉 Events
+    const events = await db.collection("events").find({}).toArray();
+
+    const filteredEvents = events.filter(event => {
+      if (!event.startDate) return false;
       const eventDate = parseISO(event.startDate);
       const threeMonthsAgo = new Date();
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
       return isAfter(eventDate, threeMonthsAgo);
-    })
-    .map(
+    });
+
+    eventUrls = filteredEvents.map(
       (event) => `
         <url>
-          <loc>${DOMAIN}/events/${event.id}</loc>
+          <loc>${DOMAIN}/events/${event.slug || event._id}</loc>
           <lastmod>${new Date().toISOString()}</lastmod>
           <changefreq>weekly</changefreq>
           <priority>0.7</priority>
         </url>
       `
     );
+
+  } catch (error) {
+    console.error("❌ Error generating sitemap:", error);
+  }
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
