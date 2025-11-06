@@ -7,24 +7,42 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    console.log("📥 [API] /api/events/[id] called with ID:", id);
+    console.log("📥 [API] Fetch event by id:", id);
 
     const client = await clientPromise;
     const db = client.db("woxsen");
 
-    // 🔍 Try to find by numeric/string id instead of _id
-    const event = await db.collection("events").findOne({ id: id });
-
-    console.log("📦 Event fetched:", event);
+    const event = await db.collection("events").findOne(
+      { id },
+      {
+        projection: {
+          _id: 0,
+          id: 1,
+          title: 1,
+          description: 1,
+          image: 1,
+          startDate: 1,
+          startTime: 1,
+          endDate: 1,
+          endTime: 1,
+          location: 1,
+          category: 1,
+          clubId: 1,
+          registerUrl: 1,
+          isFeatured: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      }
+    );
 
     if (!event) {
-      console.warn("⚠️ Event not found for ID:", id);
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
 
     return NextResponse.json(event);
   } catch (error) {
-    console.error("❌ Error in /api/events/[id]:", error);
+    console.error("❌ API error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -9,13 +9,16 @@ export async function GET(req: Request) {
     const client = await clientPromise;
     const db = client.db("woxsen");
 
-    const query = category ? { category: { $regex: `^${category}$`, $options: "i" } } : {};
+    const query = category ? { category: category.toLowerCase() } : {};
 
-    const clubs = await db.collection("clubs").find(query).toArray();
+    const clubs = await db
+      .collection("clubs")
+      .find(query)
+      .project({ name: 1, id: 1, category: 1, logo: 1, image: 1, description: 1 }) // ✅ image field added
+      .toArray();
 
     return NextResponse.json(clubs);
   } catch (error) {
-    console.error("Error fetching clubs:", error);
     return NextResponse.json({ error: "Error fetching clubs" }, { status: 500 });
   }
 }
