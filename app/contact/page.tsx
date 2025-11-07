@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, Phone, MapPin } from "lucide-react"
@@ -21,6 +20,8 @@ export default function ContactPage() {
     e.preventDefault()
     setFormState({ ...formState, loading: true })
 
+    window.umami?.track("contact_form_submit_start")
+
     // Simulate form submission
     setTimeout(() => {
       setFormState({
@@ -31,6 +32,7 @@ export default function ContactPage() {
         submitted: true,
         loading: false,
       })
+      window.umami?.track("contact_form_submit_success")
     }, 1500)
   }
 
@@ -38,18 +40,23 @@ export default function ContactPage() {
     <div className="pt-24">
       <div className="container">
         {/* Hero Section */}
-        <section className="mb-16">
-          <div className="text-center">
+        <section className="mb-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Contact Us</h1>
             <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
               Have questions about our clubs or need assistance? We're here to help!
             </p>
-          </div>
+          </motion.div>
         </section>
 
         {/* Contact Information */}
         <section className="mb-16">
           <div className="grid gap-8 md:grid-cols-3">
+            {/* Email */}
             <motion.div
               className="flex flex-col items-center rounded-lg border p-6 text-center"
               initial={{ opacity: 0, y: 20 }}
@@ -62,11 +69,16 @@ export default function ContactPage() {
               </div>
               <h3 className="mb-2 text-xl font-bold">Email</h3>
               <p className="mb-4 text-muted-foreground">For general inquiries</p>
-              <a href="mailto:studentaffairs@woxsen.edu.in" className="text-primary hover:underline">
-              studentaffairs@woxsen.edu.in
+              <a
+                href="mailto:studentaffairs@woxsen.edu.in"
+                className="text-primary hover:underline"
+                data-umami-event="contact_email_click"
+              >
+                studentaffairs@woxsen.edu.in
               </a>
             </motion.div>
 
+            {/* Phone */}
             <motion.div
               className="flex flex-col items-center rounded-lg border p-6 text-center"
               initial={{ opacity: 0, y: 20 }}
@@ -79,11 +91,16 @@ export default function ContactPage() {
               </div>
               <h3 className="mb-2 text-xl font-bold">Phone</h3>
               <p className="mb-4 text-muted-foreground">Monday to Friday, 9am to 6pm</p>
-              <a href="tel:+919866023123" className="text-primary hover:underline">
-              +91 98660 23123
+              <a
+                href="tel:+919866023123"
+                className="text-primary hover:underline"
+                data-umami-event="contact_phone_click"
+              >
+                +91 98660 23123
               </a>
             </motion.div>
 
+            {/* Location */}
             <motion.div
               className="flex flex-col items-center rounded-lg border p-6 text-center"
               initial={{ opacity: 0, y: 20 }}
@@ -107,7 +124,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Contact Form and Map */}
+        {/* Map Section */}
         <section className="mb-16">
           <div className="grid gap-8 lg:grid-cols-2">
             <div className="rounded-lg border p-6">
@@ -145,19 +162,17 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Map Placeholder */}
             <div className="rounded-lg border overflow-hidden">
-              <div className="h-full w-full">
-                {/* Placeholder for map - in a real implementation, you would use a map component */}
-                <div className="flex h-full w-full items-center justify-center bg-muted p-6">
-                  <div className="text-center">
-                    <MapPin className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <h3 className="mt-4 text-xl font-bold">Woxsen University</h3>
-                    <p className="mt-2 text-muted-foreground">
-                      Kamkole, Sadasivpet
-                      <br />
-                      Hyderabad, Telangana
-                    </p>
-                  </div>
+              <div className="flex h-full w-full items-center justify-center bg-muted p-6">
+                <div className="text-center">
+                  <MapPin className="mx-auto h-12 w-12 text-muted-foreground" />
+                  <h3 className="mt-4 text-xl font-bold">Woxsen University</h3>
+                  <p className="mt-2 text-muted-foreground">
+                    Kamkole, Sadasivpet
+                    <br />
+                    Hyderabad, Telangana
+                  </p>
                 </div>
               </div>
             </div>
@@ -192,6 +207,8 @@ export default function ContactPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  data-umami-event="faq_item_view"
+                  data-umami-event-question={faq.question}
                 >
                   <h3 className="mb-2 text-lg font-bold">{faq.question}</h3>
                   <p className="text-muted-foreground">{faq.answer}</p>
@@ -209,12 +226,13 @@ export default function ContactPage() {
               The Student Activities Office is open Monday through Friday from 9am to 5pm. Drop by to learn more about
               our clubs and activities!
             </p>
-            <Button 
-              className="bg-[#EE495C] hover:bg-[#EE495C]/90" 
+            <Button
+              className="bg-[#EE495C] hover:bg-[#EE495C]/90"
               size="lg"
               asChild
+              data-umami-event="schedule_appointment_click"
             >
-              <a href={`mailto:studentaffairs@woxsen.edu.in?subject=Schedule an appointment`}>
+              <a href="mailto:studentaffairs@woxsen.edu.in?subject=Schedule an appointment">
                 Schedule an appointment
               </a>
             </Button>
@@ -224,4 +242,3 @@ export default function ContactPage() {
     </div>
   )
 }
-
