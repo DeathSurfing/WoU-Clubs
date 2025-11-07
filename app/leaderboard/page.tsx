@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
-  Card, CardContent, CardDescription, CardHeader, CardTitle
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+  Card, CardContent,
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
   Pagination,
   PaginationContent,
@@ -15,80 +15,76 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Trophy, Users, MapPin, Calendar, Mail, ExternalLink } from 'lucide-react';
+} from "@/components/ui/pagination"
+import { Trophy, Users, MapPin, Calendar, Mail, ExternalLink } from 'lucide-react'
 
 const getRankIcon = (rank: number) => {
   switch (rank) {
     case 1:
-      return <Trophy className="h-6 w-6 text-yellow-500" />;
+      return <Trophy className="h-6 w-6 text-yellow-500" />
     case 2:
-      return <Trophy className="h-6 w-6 text-gray-400" />;
+      return <Trophy className="h-6 w-6 text-gray-400" />
     case 3:
-      return <Trophy className="h-6 w-6 text-amber-600" />;
+      return <Trophy className="h-6 w-6 text-amber-600" />
     default:
       return (
         <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-sm font-medium">
           {rank}
         </div>
-      );
+      )
   }
-};
+}
 
 const getInitials = (name: string) =>
-  name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
+  name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2)
 
 const hasValidValue = (value: any) =>
   value &&
   value !== '' &&
   value.toString().toLowerCase() !== 'n/a' &&
   value.toString().toLowerCase() !== 'nan' &&
-  value.toString().trim() !== '';
+  value.toString().trim() !== ''
 
 const getMatrixScore = (score: any) => {
   if (!score || score === '' || ['n/a', 'nan'].includes(score.toString().toLowerCase())) {
-    return 0;
+    return 0
   }
-  const numScore = parseInt(score);
-  return isNaN(numScore) ? 0 : numScore;
-};
+  const numScore = parseInt(score)
+  return isNaN(numScore) ? 0 : numScore
+}
 
 export default function ClubsLeaderboard() {
-  const [clubs, setClubs] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [clubs, setClubs] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 5
 
-  // Fetch data dynamically
+  // ✅ Fetch data dynamically
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        console.log("📡 Fetching clubs from /api/clubs...");
-        const res = await fetch('/api/clubs');
-        if (!res.ok) {
-          throw new Error(`Failed to fetch clubs (status ${res.status})`);
-        }
-        const data = await res.json();
-        console.log("✅ Clubs fetched:", data);
-        setClubs(data);
+        const res = await fetch('/api/clubs')
+        if (!res.ok) throw new Error(`Failed to fetch clubs (status ${res.status})`)
+        const data = await res.json()
+        setClubs(data)
       } catch (err: any) {
-        console.error("❌ Error fetching clubs:", err.message);
-        setError(err.message);
+        console.error("❌ Error fetching clubs:", err.message)
+        setError(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchClubs();
-  }, []);
+    fetchClubs()
+  }, [])
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen text-muted-foreground">
         ⏳ Loading club data...
       </div>
-    );
+    )
   }
 
   if (error) {
@@ -96,23 +92,23 @@ export default function ClubsLeaderboard() {
       <div className="flex items-center justify-center min-h-screen text-red-500">
         ⚠️ Failed to load clubs: {error}
       </div>
-    );
+    )
   }
 
-  // Sort & paginate
+  // ✅ Sort & paginate
   const processedClubs = clubs.map(club => ({
     ...club,
     matrixScore: getMatrixScore(club.matrixScore),
-  }));
+  }))
 
-  const sortedClubs = processedClubs.sort((a, b) => b.matrixScore - a.matrixScore);
-  const totalPages = Math.ceil(sortedClubs.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentClubs = sortedClubs.slice(startIndex, startIndex + itemsPerPage);
+  const sortedClubs = processedClubs.sort((a, b) => b.matrixScore - a.matrixScore)
+  const totalPages = Math.ceil(sortedClubs.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const currentClubs = sortedClubs.slice(startIndex, startIndex + itemsPerPage)
 
   const generatePaginationItems = () => {
-    const items = [];
-    const maxVisiblePages = 5;
+    const items = []
+    const maxVisiblePages = 5
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
@@ -122,11 +118,12 @@ export default function ClubsLeaderboard() {
               onClick={() => setCurrentPage(i)}
               isActive={currentPage === i}
               className="cursor-pointer"
+              data-track={`leaderboard_page_${i}`}
             >
               {i}
             </PaginationLink>
           </PaginationItem>
-        );
+        )
       }
     } else {
       items.push(
@@ -135,16 +132,17 @@ export default function ClubsLeaderboard() {
             onClick={() => setCurrentPage(1)}
             isActive={currentPage === 1}
             className="cursor-pointer"
+            data-track="leaderboard_page_1"
           >
             1
           </PaginationLink>
         </PaginationItem>
-      );
+      )
 
-      if (currentPage > 3) items.push(<PaginationEllipsis key="ellipsis1" />);
+      if (currentPage > 3) items.push(<PaginationEllipsis key="ellipsis1" />)
 
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
+      const start = Math.max(2, currentPage - 1)
+      const end = Math.min(totalPages - 1, currentPage + 1)
 
       for (let i = start; i <= end; i++) {
         items.push(
@@ -153,14 +151,15 @@ export default function ClubsLeaderboard() {
               onClick={() => setCurrentPage(i)}
               isActive={currentPage === i}
               className="cursor-pointer"
+              data-track={`leaderboard_page_${i}`}
             >
               {i}
             </PaginationLink>
           </PaginationItem>
-        );
+        )
       }
 
-      if (currentPage < totalPages - 2) items.push(<PaginationEllipsis key="ellipsis2" />);
+      if (currentPage < totalPages - 2) items.push(<PaginationEllipsis key="ellipsis2" />)
 
       items.push(
         <PaginationItem key={totalPages}>
@@ -168,19 +167,20 @@ export default function ClubsLeaderboard() {
             onClick={() => setCurrentPage(totalPages)}
             isActive={currentPage === totalPages}
             className="cursor-pointer"
+            data-track={`leaderboard_page_${totalPages}`}
           >
             {totalPages}
           </PaginationLink>
         </PaginationItem>
-      );
+      )
     }
 
-    return items;
-  };
+    return items
+  }
 
   return (
-    <div className="min-h-screen bg-background pt-12 p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="bg-background pt-24 pb-16">
+      <div className="container mx-auto space-y-10 px-4">
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-2">
@@ -192,36 +192,8 @@ export default function ClubsLeaderboard() {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="text-2xl font-bold">{sortedClubs.length}</div>
-              <div className="text-sm text-muted-foreground">Total Clubs</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="text-2xl font-bold">
-                {sortedClubs.reduce((sum, club) => sum + (parseInt(club.memberCount) || 0), 0)}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Members</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="text-2xl font-bold">
-                {sortedClubs.length > 0
-                  ? Math.round(sortedClubs.reduce((sum, c) => sum + c.matrixScore, 0) / sortedClubs.length)
-                  : 0}
-              </div>
-              <div className="text-sm text-muted-foreground">Average Score</div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Leaderboard */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {currentClubs.length === 0 ? (
             <Card>
               <CardContent className="p-12 text-center text-muted-foreground">
@@ -230,14 +202,18 @@ export default function ClubsLeaderboard() {
             </Card>
           ) : (
             currentClubs.map((club, index) => {
-              const globalRank = startIndex + index + 1;
-              const isTopThree = globalRank <= 3;
+              const globalRank = startIndex + index + 1
+              const isTopThree = globalRank <= 3
 
               return (
-                <Card key={club.id} className={`hover:shadow-lg ${isTopThree ? 'ring-2 ring-primary/20' : ''}`}>
-                  <CardContent className="p-6 flex gap-4 items-start">
+                <Card
+                  key={club.id}
+                  className={`hover:shadow-lg transition-all ${isTopThree ? 'ring-2 ring-primary/20' : ''}`}
+                  data-track={`view_club_${club.id ?? club.name.replace(/\s+/g, "_").toLowerCase()}`}
+                >
+                  <CardContent className="p-6 flex flex-col sm:flex-row gap-4 sm:items-start">
                     {/* Rank */}
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col items-center gap-1 sm:pt-2">
                       {getRankIcon(globalRank)}
                       <span className="text-xs text-muted-foreground font-medium">#{globalRank}</span>
                     </div>
@@ -250,8 +226,8 @@ export default function ClubsLeaderboard() {
 
                     {/* Info */}
                     <div className="flex-grow min-w-0">
-                      <div className="flex justify-between items-start mb-3">
-                        <div>
+                      <div className="flex justify-between items-start mb-3 flex-wrap">
+                        <div className="min-w-[200px]">
                           <h3 className="text-xl font-semibold">{club.name}</h3>
                           {hasValidValue(club.category) && (
                             <Badge variant="secondary">{club.category}</Badge>
@@ -294,6 +270,7 @@ export default function ClubsLeaderboard() {
                           <Button
                             variant={isTopThree ? "default" : "outline"}
                             size="sm"
+                            data-track={`join_club_${club.id ?? club.name.replace(/\s+/g, "_").toLowerCase()}`}
                             onClick={() => window.open(club.joinUrl, '_blank')}
                           >
                             <ExternalLink className="h-4 w-4" /> Join Club
@@ -303,24 +280,26 @@ export default function ClubsLeaderboard() {
                     </div>
                   </CardContent>
                 </Card>
-              );
+              )
             })
           )}
         </div>
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-8">
             <Pagination>
               <PaginationContent>
                 <PaginationPrevious
                   onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                   className={`cursor-pointer ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}`}
+                  data-track="leaderboard_page_prev"
                 />
                 {generatePaginationItems()}
                 <PaginationNext
                   onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                   className={`cursor-pointer ${currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}`}
+                  data-track="leaderboard_page_next"
                 />
               </PaginationContent>
             </Pagination>
@@ -328,5 +307,5 @@ export default function ClubsLeaderboard() {
         )}
       </div>
     </div>
-  );
+  )
 }
