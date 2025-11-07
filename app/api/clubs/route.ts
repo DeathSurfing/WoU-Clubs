@@ -11,13 +11,11 @@ export async function GET(req: Request) {
     const normalizedCategory = category?.toLowerCase() || "all"
     const cacheKey = `clubs:${normalizedCategory}`
 
-    console.log(`🎯 [API] Fetch clubs — category: ${normalizedCategory}`)
 
     // 1️⃣ Try Redis cache first
     try {
       const cached = await redis.get(cacheKey)
       if (cached) {
-        console.log(`⚡ Cache HIT for ${cacheKey}`)
         return NextResponse.json(JSON.parse(cached), {
           headers: { "X-Cache": "HIT" },
         })
@@ -69,7 +67,6 @@ export async function GET(req: Request) {
       .setex(cacheKey, 900, JSON.stringify(transformed))
       .catch((err) => console.warn("⚠️ Redis cache set failed:", err))
 
-    console.log(`✅ Clubs fetched from MongoDB (${clubs.length} results)`)
 
     return NextResponse.json(transformed, {
       headers: { "X-Cache": "MISS" },

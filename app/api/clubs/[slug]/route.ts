@@ -15,13 +15,11 @@ export async function GET(
     const id = decodeURIComponent(slug).toLowerCase()
     const cacheKey = `club:${id}`
 
-    console.log(`🏛️ [API] Fetching Club → ${id}`)
 
     // 1️⃣ Try Redis cache first
     try {
       const cached = await redis.get(cacheKey)
       if (cached) {
-        console.log(`⚡ Cache HIT → ${cacheKey}`)
         return NextResponse.json(JSON.parse(cached), {
           headers: { "X-Cache": "HIT" },
         })
@@ -74,7 +72,6 @@ export async function GET(
       .setex(cacheKey, 900, JSON.stringify(transformed))
       .catch((err) => console.warn("⚠️ Redis cache set failed:", err))
 
-    console.log(`✅ [API] Club fetched from MongoDB → ${club.name}`)
 
     return NextResponse.json(transformed, {
       headers: {
@@ -83,7 +80,6 @@ export async function GET(
       },
     })
   } catch (err) {
-    console.error("💥 [API ERROR] Club fetch failed:", err)
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

@@ -9,14 +9,12 @@ export async function GET(
   const { id } = await params // ✅ await the params
 
   const cacheKey = `event:${id}`
-  console.log(`🎟️ [API] Fetching event: ${id}`)
 
   try {
     // 1️⃣ Try Redis cache first
     try {
       const cached = await redis.get(cacheKey)
       if (cached) {
-        console.log(`⚡ Cache HIT for ${cacheKey}`)
         return NextResponse.json(JSON.parse(cached), {
           headers: { "X-Cache": "HIT" },
         })
@@ -63,7 +61,6 @@ export async function GET(
       .setex(cacheKey, 600, JSON.stringify(event))
       .catch((err) => console.warn("⚠️ Redis cache set failed:", err))
 
-    console.log(`✅ Event fetched from MongoDB: ${id}`)
     return NextResponse.json(event, { headers: { "X-Cache": "MISS" } })
   } catch (error) {
     console.error(`💥 [API ERROR] Event fetch failed for ${id}:`, error)

@@ -8,7 +8,6 @@ export async function GET(
 ) {
   try {
     const { collection, id } = await params
-    console.log("🚀 [Image API] Hit:", { collection, id })
 
     const allowed = ["clubs", "events", "studentcouncil"]
     if (!allowed.includes(collection)) {
@@ -21,13 +20,11 @@ export async function GET(
     // 1️⃣ Try Redis cache first
     const cached = await redis.get(cacheKey)
     if (cached) {
-      console.log("⚡ Cache HIT → Serving from Redis")
       return new NextResponse(Buffer.from(cached, "base64"), {
         headers: { "Content-Type": "image/webp", "X-Cache": "HIT" },
       })
     }
 
-    console.log("🪣 Cache MISS → Fetching from MongoDB")
 
     // 2️⃣ MongoDB lookup
     const client = await clientPromise
@@ -53,11 +50,9 @@ export async function GET(
       return NextResponse.json({ error: "Image not found" }, { status: 404 })
     }
 
-    console.log("🧩 Found image field, cleaning base64 prefix…")
 
     const base64 = base64Field.replace(/^data:image\/\w+;base64,/, "")
     await redis.setex(cacheKey, 86400, base64)
-    console.log(`💾 Cached ${cacheKey}`)
 
     return new NextResponse(Buffer.from(base64, "base64"), {
       headers: { "Content-Type": "image/webp", "X-Cache": "MISS" },
