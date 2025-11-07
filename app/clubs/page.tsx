@@ -47,8 +47,8 @@ export default function ClubsPage() {
     if (searchQuery) {
       filtered = filtered.filter(
         (club) =>
-          club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          club.description.toLowerCase().includes(searchQuery.toLowerCase())
+          club.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          club.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -64,11 +64,9 @@ export default function ClubsPage() {
   }, [searchQuery, selectedCategory, activeCategories, clubs]);
 
   const toggleCategory = (category: string) => {
-    if (activeCategories.includes(category)) {
-      setActiveCategories(activeCategories.filter((c) => c !== category));
-    } else {
-      setActiveCategories([...activeCategories, category]);
-    }
+    setActiveCategories((prev) =>
+      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+    );
     setSelectedCategory("All");
   };
 
@@ -150,7 +148,7 @@ export default function ClubsPage() {
           {filteredClubs.length > 0 ? (
             filteredClubs.map((club, index) => (
               <motion.div
-                key={club._id}
+                key={club.id || club._id || `club-${index}`} // ✅ FIXED unique key
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}

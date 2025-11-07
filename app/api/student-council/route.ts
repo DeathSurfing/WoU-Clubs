@@ -1,8 +1,20 @@
 import clientPromise from "@/lib/mongodb";
+import redis from "@/lib/redis";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  const cacheKey = "studentcouncil:all";
+
   try {
+    // 1️⃣ Try Redis cache first
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      return NextResponse.json(JSON.parse(cached), {
+        headers: { "X-Cache": "HIT" },
+      });
+    }
+
+    // 2️⃣ Fallback → MongoDB
     const client = await clientPromise;
     const db = client.db("woxsen");
 
@@ -12,7 +24,7 @@ export async function GET() {
       .project({
         // 🔹 Core Identifiers
         _id: 1,
-        id: 1, // unique slug
+        id: 1,
         name: 1,
         fullName: 1,
         rollNumber: 1,
@@ -34,10 +46,10 @@ export async function GET() {
         positionTitle: 1,
         designation: 1,
         team: 1,
-        category: 1, // “Core Team”, “Board Member”, etc.
+        category: 1,
         committee: 1,
         responsibilities: 1,
-        tags: 1, // e.g. ["Leadership", "Tech", "Events"]
+        tags: 1,
 
         // 🔹 Media & Visuals
         photo: 1,
@@ -69,7 +81,7 @@ export async function GET() {
         personalWebsite: 1,
         youtube: 1,
         emailPublic: 1,
-        socials: 1, // nested object { linkedin, twitter, etc. }
+        socials: 1,
 
         // 🔹 System Metadata
         createdAt: 1,
@@ -90,7 +102,7 @@ export async function GET() {
         endorsements: 1,
         influenceScore: 1,
 
-        // 🔹 Optional Extended Fields
+        // 🔹 Extended Fields
         skills: 1,
         interests: 1,
         hobbies: 1,
@@ -107,7 +119,12 @@ export async function GET() {
       .sort({ sortOrder: 1, photoPosition: 1 })
       .toArray();
 
-    return NextResponse.json(members);
+    // 3️⃣ Cache results in Redis for 10 minutes (600s)
+    await redis.setex(cacheKey, 600, JSON.stringify(members));
+
+    return NextResponse.json(members, {
+      headers: { "X-Cache": "MISS" },
+    });
   } catch (err) {
     console.error("[StudentCouncil API Error]", err);
     return NextResponse.json(
