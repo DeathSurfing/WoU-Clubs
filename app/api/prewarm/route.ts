@@ -4,6 +4,7 @@ export async function GET() {
   const BASE_URL =
     process.env.NEXT_PUBLIC_BASE_URL ||
     process.env.NEXT_PUBLIC_SECOND_URL ||
+    process.env.NEXT_PUBLIC_ADMIN_PANEL||
     "http://localhost:3000"; // fallback for local dev
 
   const endpoints = [
