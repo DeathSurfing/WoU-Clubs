@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const BASE_URL =
     process.env.NEXT_PUBLIC_BASE_URL ||
-    process.env.VERCEL_URL ||
+    process.env.NEXT_PUBLIC_SECOND_URL ||
     "http://localhost:3000"; // fallback for local dev
 
   const endpoints = [
