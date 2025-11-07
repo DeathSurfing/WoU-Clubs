@@ -17,16 +17,20 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
   const category = params.category.charAt(0).toUpperCase() + params.category.slice(1)
 
+  // ✅ Track page view
+  useEffect(() => {
+    window.umami?.track("category_page_view", { category: params.category })
+  }, [params.category])
+
   useEffect(() => {
     async function fetchClubs() {
       try {
         setIsLoading(true)
         console.log("🔍 Fetching clubs for category:", params.category)
 
-        const res = await fetch(
-          `/api/clubs?category=${encodeURIComponent(params.category)}`,
-          { cache: "no-store" }
-        )
+        const res = await fetch(`/api/clubs?category=${encodeURIComponent(params.category)}`, {
+          cache: "no-store",
+        })
 
         if (!res.ok) {
           console.warn("⚠️ Invalid category:", params.category)
@@ -36,9 +40,16 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
         const data = await res.json()
         console.log("✅ Clubs fetched:", data.length)
+
         setClubs(data)
+        // ✅ Track successful fetch
+        window.umami?.track("category_clubs_fetched", {
+          category: params.category,
+          count: data.length,
+        })
       } catch (error) {
         console.error("❌ Error fetching clubs:", error)
+        window.umami?.track("category_fetch_error", { category: params.category })
       } finally {
         setIsLoading(false)
       }
@@ -53,11 +64,27 @@ export default function CategoryPage({ params }: { params: { category: string } 
       club.description.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchQuery(value)
+    if (value.trim() !== "") {
+      window.umami?.track("category_club_search", { query: value, category: params.category })
+    }
+  }
+
   return (
     <div className="pt-24">
       <div className="container">
+        {/* Back + Header */}
         <div className="mb-6">
-          <Button variant="ghost" className="mb-4 flex items-center text-sm" onClick={() => router.back()}>
+          <Button
+            variant="ghost"
+            className="mb-4 flex items-center text-sm"
+            onClick={() => {
+              router.back()
+              window.umami?.track("category_back_click", { category: params.category })
+            }}
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Button>
@@ -67,7 +94,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
           </p>
         </div>
 
-        {/* Search */}
+        {/* Search Bar */}
         <div className="mb-12 max-w-xl">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
@@ -76,7 +103,8 @@ export default function CategoryPage({ params }: { params: { category: string } 
               placeholder={`Search ${params.category} clubs...`}
               className="pl-10"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearch}
+              data-umami-event="category_search_input"
             />
           </div>
         </div>
@@ -84,18 +112,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
         {/* Club Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
           {isLoading ? (
-            // Loading skeleton
+            // Skeleton Loader
             Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="rounded-lg border p-4 space-y-4">
                 <div className="h-48 w-full bg-muted animate-pulse rounded-md"></div>
                 <div className="h-6 w-3/4 bg-muted animate-pulse rounded-md"></div>
                 <div className="h-4 w-full bg-muted animate-pulse rounded-md"></div>
-                <div className="h-4 w-full bg-muted animate-pulse rounded-md"></div>
                 <div className="h-4 w-2/3 bg-muted animate-pulse rounded-md"></div>
-                <div className="flex justify-between">
-                  <div className="h-9 w-24 bg-muted animate-pulse rounded-md"></div>
-                  <div className="h-9 w-24 bg-muted animate-pulse rounded-md"></div>
-                </div>
               </div>
             ))
           ) : filteredClubs.length > 0 ? (
@@ -105,6 +128,9 @@ export default function CategoryPage({ params }: { params: { category: string } 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => window.umami?.track("category_club_card_click", { club: club.name, category: params.category })}
+                data-umami-event="category_club_card_view"
+                data-umami-event-name={club.name}
               >
                 <ClubCard club={club} />
               </motion.div>
@@ -112,7 +138,16 @@ export default function CategoryPage({ params }: { params: { category: string } 
           ) : (
             <div className="col-span-full py-12 text-center">
               <h3 className="text-xl font-medium mb-2">No clubs found</h3>
-              <p className="text-muted-foreground">Try adjusting your search query</p>
+              <p className="text-muted-foreground mb-6">Try adjusting your search query</p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchQuery("")
+                  window.umami?.track("category_reset_search", { category: params.category })
+                }}
+              >
+                Reset Search
+              </Button>
             </div>
           )}
         </div>
