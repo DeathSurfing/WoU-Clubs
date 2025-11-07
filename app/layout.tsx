@@ -1,12 +1,8 @@
-import type React from "react"
 import type { Metadata } from "next"
 import { Work_Sans } from "next/font/google"
+import Script from "next/script"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import { Toaster } from "@/components/ui/toaster"
-import Script from "next/script" 
+import ClientLayout from "./ClientLayout"
 
 export const metadata: Metadata = {
   title: "Woxsen Student Council | Clubs & Leadership",
@@ -67,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* ✅ Umami Analytics Script */}
+        {/* ✅ Global Umami Analytics */}
         <Script
           async
           src="https://analytics.woxsenstudentcouncil.com/script.js"
@@ -75,20 +71,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${workSans.variable} font-sans`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="woxsen-theme"
-        >
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-        </ThemeProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   )
