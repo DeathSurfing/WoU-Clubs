@@ -20,8 +20,7 @@ const navItems = [
   { name: "Contact", path: "/contact" },
   { name: "FAQ", path: "/faq" },
   { name: "Leaderboard", path: "/leaderboard" },
-  //  { name: "Oval Menu", path: "/nutrition" },
-];
+]
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -29,7 +28,10 @@ export default function Header() {
   const pathname = usePathname()
   const isMobile = useMobile()
 
+  // ✅ Track header mount and scroll
   useEffect(() => {
+    window.umami?.track("header_loaded")
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 10)
     }
@@ -37,91 +39,101 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  const handleNavClick = (itemName: string, path: string) => {
+    window.umami?.track("nav_link_click", { name: itemName, path })
+    if (isMobile) setMobileMenuOpen(false)
+  }
+
+  const handleLogoClick = (target: string) => {
+    window.umami?.track("logo_click", { target })
+  }
+
+  const handleMenuToggle = () => {
+    const newState = !mobileMenuOpen
+    setMobileMenuOpen(newState)
+    window.umami?.track(newState ? "mobile_menu_opened" : "mobile_menu_closed")
+  }
+
   return (
     <motion.header
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300",
-        scrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent",
+        scrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <div className="container flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link
+          href="/"
+          className="flex items-center space-x-2"
+          onClick={() => handleLogoClick("home")}
+        >
           {/* Woxsen University Logo */}
           <div className="relative h-14 w-14">
-            {/* Light mode logo */}
             <div className="dark:hidden">
-              <Image
-                src="/WoxsenLight.webp"
-                alt="Woxsen University Logo"
-                fill
-                className="object-contain"
-              />
+              <Image src="/WoxsenLight.webp" alt="Woxsen University Logo" fill className="object-contain" />
             </div>
-            {/* Dark mode logo */}
             <div className="hidden dark:block">
-              <Image
-                src="/WoxsenDark.webp"
-                alt="Woxsen University Logo"
-                fill
-                className="object-contain"
-              />
+              <Image src="/WoxsenDark.webp" alt="Woxsen University Logo" fill className="object-contain" />
             </div>
           </div>
 
           {/* Student Council Logo */}
-          <div className="relative h-14 w-44">
-            {/* Light mode Student Council logo */}
+          <div
+            className="relative h-14 w-44"
+            onClick={() => handleLogoClick("student_council")}
+          >
             <div className="dark:hidden">
-              <Image
-                src="/SCLogoLight.webp"
-                alt="Student Council Logo"
-                fill
-                className="object-contain"
-              />
+              <Image src="/SCLogoLight.webp" alt="Student Council Logo" fill className="object-contain" />
             </div>
-            {/* Dark mode Student Council logo */}
             <div className="hidden dark:block">
-              <Image
-                src="/SCLogoDark.webp"
-                alt="Student Council Logo"
-                fill
-                className="object-contain"
-              />
+              <Image src="/SCLogoDark.webp" alt="Student Council Logo" fill className="object-contain" />
             </div>
           </div>
         </Link>
 
-        {isMobile ? (
-          <div className="flex items-center gap-2">
-            <ModeToggle />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
-        ) : (
+        {/* Desktop Navigation */}
+        {!isMobile ? (
           <nav className="flex items-center gap-6">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
+                onClick={() => handleNavClick(item.name, item.path)}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary",
-                  pathname === item.path ? "text-primary" : "text-muted-foreground",
+                  pathname === item.path ? "text-primary" : "text-muted-foreground"
                 )}
               >
                 {item.name}
               </Link>
             ))}
-            <ModeToggle />
+            <div
+              onClick={() => window.umami?.track("theme_toggle_click")}
+              className="cursor-pointer"
+            >
+              <ModeToggle />
+            </div>
           </nav>
+        ) : (
+          <div className="flex items-center gap-2">
+            <div
+              onClick={() => window.umami?.track("theme_toggle_click")}
+              className="cursor-pointer"
+            >
+              <ModeToggle />
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleMenuToggle}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         )}
       </div>
 
@@ -141,9 +153,9 @@ export default function Header() {
                 href={item.path}
                 className={cn(
                   "py-3 text-sm font-medium transition-colors hover:text-primary",
-                  pathname === item.path ? "text-primary" : "text-muted-foreground",
+                  pathname === item.path ? "text-primary" : "text-muted-foreground"
                 )}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => handleNavClick(item.name, item.path)}
               >
                 {item.name}
               </Link>
