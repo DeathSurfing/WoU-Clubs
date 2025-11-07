@@ -5,11 +5,25 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowLeft, Calendar, Clock, MapPin, Users, Share2, ExternalLink, Check } from "lucide-react"
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
+  Share2,
+  ExternalLink,
+  Check,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useToast } from "@/components/ui/use-toast"
 import EventCard from "@/components/events/event-card"
 import type { Event, Club } from "@/types/event"
@@ -41,13 +55,23 @@ export default function EventPageContent({
   const router = useRouter()
   const { toast } = useToast()
 
-  // ✅ Fetch related events dynamically from API
+  // ✅ Track when event page is viewed
+  useEffect(() => {
+    if (event?.title) {
+      window.umami?.track("event_view", {
+        title: event.title,
+        category: event.category,
+        club: club?.name,
+      })
+    }
+  }, [event, club])
+
+  // ✅ Fetch related events dynamically
   useEffect(() => {
     const fetchRelatedEvents = async () => {
       try {
         const res = await fetch("/api/events")
         const allEvents = await res.json()
-
         const related = allEvents
           .filter(
             (e: any) =>
@@ -62,7 +86,6 @@ export default function EventPageContent({
         console.error("Error loading related events:", err)
       }
     }
-
     fetchRelatedEvents()
   }, [event._id, event.category, event.clubId])
 
@@ -70,6 +93,7 @@ export default function EventPageContent({
     try {
       await navigator.clipboard.writeText(window.location.href)
       setIsCopied(true)
+      window.umami?.track("event_share", { title: event.title })
       toast({
         title: "Link copied to clipboard",
         description: "You can now share this event with others",
@@ -85,6 +109,7 @@ export default function EventPageContent({
   }
 
   const handleBackClick = () => {
+    window.umami?.track("event_back_click", { from: "event_page" })
     if (window.history.length > 1) router.back()
     else router.push("/events")
   }
@@ -98,13 +123,12 @@ export default function EventPageContent({
     const endDateTime = event.endTime
       ? `${eventStartDate}T${event.endTime}:00`
       : event.endDate
-        ? `${event.endDate}T23:59:59`
-        : `${eventStartDate}T23:59:59`
+      ? `${event.endDate}T23:59:59`
+      : `${eventStartDate}T23:59:59`
 
     const details = encodeURIComponent(event.description || "")
     const location = encodeURIComponent(event.location || "")
     const title = encodeURIComponent(event.title || "")
-
     const formatForGoogle = (dateTime: string) => dateTime.replace(/[-:]/g, "") + "Z"
 
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatForGoogle(
@@ -121,8 +145,8 @@ export default function EventPageContent({
     const endDateTime = event.endTime
       ? `${eventStartDate.replace(/-/g, "")}T${event.endTime.replace(/:/g, "")}00`
       : event.endDate
-        ? `${event.endDate.replace(/-/g, "")}T235959`
-        : `${eventStartDate.replace(/-/g, "")}T235959`
+      ? `${event.endDate.replace(/-/g, "")}T235959`
+      : `${eventStartDate.replace(/-/g, "")}T235959`
 
     const icsContent = [
       "BEGIN:VCALENDAR",
@@ -142,7 +166,6 @@ export default function EventPageContent({
 
     const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" })
     const url = URL.createObjectURL(blob)
-
     const link = document.createElement("a")
     link.href = url
     link.setAttribute(
@@ -153,6 +176,7 @@ export default function EventPageContent({
     link.click()
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
+    window.umami?.track("event_add_to_calendar", { title: event.title })
   }
 
   const registrationUrl =
@@ -163,18 +187,19 @@ export default function EventPageContent({
     <div className="pt-16">
       {/* Header */}
       <section className="relative h-[50vh] min-h-[400px]">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40 z-10" />
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url('${event.image || "/placeholder.svg?height=800&width=1600&text=Event"}')`,
           }}
-        ></div>
+        />
         <div className="container relative z-20 flex h-full flex-col justify-end pb-12 text-white">
           <Button
             variant="ghost"
             className="mb-4 w-fit text-white/80 hover:text-white hover:bg-white/10"
             onClick={handleBackClick}
+            data-umami-event="event_back_click"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to events
@@ -205,13 +230,10 @@ export default function EventPageContent({
       <section className="py-12">
         <div className="container">
           <div className="grid gap-12 lg:grid-cols-3">
-            {/* Event details section */}
+            {/* Main Details */}
             <div className="lg:col-span-2 space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
+              {/* About */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 <h2 className="mb-4 text-2xl font-bold">About the Event</h2>
                 <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
                   {event.description}
@@ -220,29 +242,23 @@ export default function EventPageContent({
 
               <Separator />
 
-              {/* Event info cards */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
+              {/* Event Info */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 <h2 className="mb-4 text-2xl font-bold">Event Details</h2>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
+                  <div>
+                    <div className="flex items-start gap-3 mb-4">
                       <Calendar className="mt-1 h-5 w-5 text-primary" />
                       <div>
                         <h3 className="font-medium">Date</h3>
                         <p className="text-muted-foreground">
                           {formattedStartDate}
-                          {formattedEndDate &&
-                            formattedEndDate !== formattedStartDate && (
-                              <> to {formattedEndDate}</>
-                            )}
+                          {formattedEndDate && formattedEndDate !== formattedStartDate && (
+                            <> to {formattedEndDate}</>
+                          )}
                         </p>
                       </div>
                     </div>
-
                     {(startTime || endTime) && (
                       <div className="flex items-start gap-3">
                         <Clock className="mt-1 h-5 w-5 text-primary" />
@@ -257,88 +273,48 @@ export default function EventPageContent({
                     )}
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
+                  <div>
+                    <div className="flex items-start gap-3 mb-4">
                       <MapPin className="mt-1 h-5 w-5 text-primary" />
                       <div>
                         <h3 className="font-medium">Location</h3>
                         <p className="text-muted-foreground">{event.location}</p>
-                        {event.isVirtual && event.virtualLink && (
-                          <a
-                            href={event.virtualLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-1 flex items-center text-primary hover:underline"
-                          >
-                            Join virtually <ExternalLink className="ml-1 h-3 w-3" />
-                          </a>
-                        )}
                       </div>
                     </div>
-
-                    {(event.capacity || event.attendees) && (
-                      <div className="flex items-start gap-3">
-                        <Users className="mt-1 h-5 w-5 text-primary" />
-                        <div>
-                          <h3 className="font-medium">Attendance</h3>
-                          <p className="text-muted-foreground">
-                            {event.attendees ? `${event.attendees} registered` : ""}
-                            {event.capacity ? ` / ${event.capacity} capacity` : ""}
-                          </p>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </motion.div>
 
-              {club && (
-                <>
-                  <Separator />
-                  <div>
-                    <h2 className="mb-4 text-2xl font-bold">Organized by</h2>
-                    <div className="flex items-center gap-4">
-                      <div className="relative h-16 w-16 overflow-hidden rounded-full">
-                        <Image
-                          src={club.image || "/placeholder.svg?height=100&width=100"}
-                          alt={club.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-medium">{club.name}</h3>
-                        <p className="text-muted-foreground">{club.shortDescription}</p>
-                        <Link
-                          href={`/clubs/${club.id}`}
-                          className="mt-1 inline-block text-sm text-primary hover:underline"
-                        >
-                          View club profile
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-
+              {/* Share + Calendar */}
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" className="gap-2" onClick={shareEvent}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                  onClick={shareEvent}
+                  data-umami-event="event_share"
+                >
                   {isCopied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
                   {isCopied ? "Copied!" : "Share Event"}
                 </Button>
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" data-umami-event="event_calendar_open">
                       Add to Calendar
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => window.open(generateGoogleCalendarLink(), "_blank")}>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        window.open(generateGoogleCalendarLink(), "_blank")
+                        window.umami?.track("event_add_to_google_calendar", { title: event.title })
+                      }}
+                    >
                       Google Calendar
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={generateIcsFile}>
-                      Apple Calendar / Outlook (.ics)
+                      Apple / Outlook (.ics)
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -354,69 +330,34 @@ export default function EventPageContent({
 
                 {isUpcoming ? (
                   <>
-                    <div className="mb-6 space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="h-5 w-5 text-muted-foreground" />
-                        <span>{formattedStartDate}</span>
-                      </div>
-
-                      {(startTime || endTime) && (
-                        <div className="flex items-center gap-3">
-                          <Clock className="h-5 w-5 text-muted-foreground" />
-                          <span>
-                            {startTime}
-                            {endTime ? ` - ${endTime}` : ""}
-                          </span>
-                        </div>
-                      )}
-
-                      <div className="flex items-center gap-3">
-                        <MapPin className="h-5 w-5 text-muted-foreground" />
-                        <span>{event.location}</span>
-                      </div>
-                    </div>
-
-                    {event.registrationDeadline && (
-                      <p className="mb-4 text-sm text-muted-foreground">
-                        Registration closes on{" "}
-                        {format(parseISO(event.registrationDeadline), "MMMM dd, yyyy")}
-                      </p>
-                    )}
-
-                    {needsRegistration ? (
+                    {needsRegistration && (
                       <Button
                         className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90"
                         disabled={!isRegistrationOpen}
                         asChild
+                        data-umami-event="event_register_click"
+                        onClick={() =>
+                          window.umami?.track("event_register_click", {
+                            title: event.title,
+                            url: registrationUrl,
+                          })
+                        }
                       >
                         <a href={registrationUrl} target="_blank" rel="noopener noreferrer">
                           {isRegistrationOpen ? "Register Now" : "Registration Closed"}
                         </a>
                       </Button>
-                    ) : (
-                      <div className="text-center p-4 bg-muted/50 rounded-lg">
-                        <p className="text-muted-foreground text-sm font-medium">
-                          No registration required
-                        </p>
-                        <p className="text-muted-foreground text-xs mt-1">
-                          Just show up and join the fun!
-                        </p>
-                      </div>
                     )}
-
-                    <p className="mt-4 text-center text-sm text-muted-foreground">
-                      {event.capacity
-                        ? `Limited to ${event.capacity} participants`
-                        : "Open for all Woxsen University students"}
-                    </p>
                   </>
                 ) : (
                   <div className="text-center">
                     <p className="mb-6 text-muted-foreground">
-                      This event has already taken place. Check out our upcoming events below.
+                      This event has already taken place.
                     </p>
                     <Button asChild>
-                      <Link href="/events">View Upcoming Events</Link>
+                      <Link href="/events" data-umami-event="event_back_to_events">
+                        View Upcoming Events
+                      </Link>
                     </Button>
                   </div>
                 )}
@@ -426,7 +367,7 @@ export default function EventPageContent({
         </div>
       </section>
 
-      {/* Related events */}
+      {/* Related Events */}
       {relatedEvents.length > 0 && (
         <section className="bg-muted/50 py-12">
           <div className="container">
@@ -438,6 +379,12 @@ export default function EventPageContent({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onClick={() =>
+                    window.umami?.track("related_event_click", {
+                      title: relatedEvent.title,
+                      category: relatedEvent.category,
+                    })
+                  }
                 >
                   <EventCard event={relatedEvent} />
                 </motion.div>

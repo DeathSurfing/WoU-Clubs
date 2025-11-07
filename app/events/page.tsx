@@ -25,12 +25,10 @@ export default function EventsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const eventsPerPage = 9
 
-  // Fetch data dynamically from APIs
+  // ✅ Fetch events + clubs
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("🌐 Fetching events and clubs dynamically...")
-
         const [eventsRes, clubsRes] = await Promise.all([
           fetch("/api/events"),
           fetch("/api/clubs"),
@@ -42,13 +40,10 @@ export default function EventsPage() {
         const eventsData = await eventsRes.json()
         const clubsData = await clubsRes.json()
 
-        console.log(`✅ Fetched ${eventsData.length} events, ${clubsData.length} clubs`)
-
         setEvents(eventsData)
         setClubs([{ id: "all", name: "All Clubs" }, ...clubsData.map((club: any) => ({ id: club.id, name: club.name }))])
 
-        // Extract unique categories
-        const uniqueCategories = ["All", ...new Set(eventsData.map((event: any) => event.category))].sort()
+        const uniqueCategories = ["All", ...new Set(eventsData.map((e: any) => e.category))].sort()
         setCategories(uniqueCategories)
         setFilteredEvents(eventsData)
       } catch (err) {
@@ -59,7 +54,7 @@ export default function EventsPage() {
     fetchData()
   }, [])
 
-  // Filtering logic
+  // ✅ Filter logic
   useEffect(() => {
     let filtered = [...events]
 
@@ -68,49 +63,39 @@ export default function EventsPage() {
         (event) =>
           event.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
           event.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          event.location?.toLowerCase().includes(searchQuery.toLowerCase()),
+          event.location?.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
 
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter((event) => event.category === selectedCategory)
-    }
-
-    if (selectedClub !== "all") {
-      filtered = filtered.filter((event) => event.clubId === selectedClub)
-    }
+    if (selectedCategory !== "All") filtered = filtered.filter((e) => e.category === selectedCategory)
+    if (selectedClub !== "all") filtered = filtered.filter((e) => e.clubId === selectedClub)
 
     if (selectedDate) {
-      filtered = filtered.filter((event) => {
-        const eventStartDate = parseISO(event.startDate)
-        const eventEndDate = event.endDate ? parseISO(event.endDate) : eventStartDate
+      filtered = filtered.filter((e) => {
+        const start = parseISO(e.startDate)
+        const end = e.endDate ? parseISO(e.endDate) : start
         return (
-          isSameDay(selectedDate, eventStartDate) ||
-          isSameDay(selectedDate, eventEndDate) ||
-          (isAfter(selectedDate, eventStartDate) && isBefore(selectedDate, eventEndDate))
+          isSameDay(selectedDate, start) ||
+          isSameDay(selectedDate, end) ||
+          (isAfter(selectedDate, start) && isBefore(selectedDate, end))
         )
       })
     }
 
     const now = new Date()
-    if (activeTab === "upcoming") {
+    if (activeTab === "upcoming")
+      filtered = filtered.filter((e) => isAfter(parseISO(e.startDate), now) || isToday(parseISO(e.startDate)))
+    else if (activeTab === "past")
       filtered = filtered.filter(
-        (event) => isAfter(parseISO(event.startDate), now) || isToday(parseISO(event.startDate)),
+        (e) => isBefore(parseISO(e.endDate || e.startDate), now) && !isToday(parseISO(e.startDate))
       )
-    } else if (activeTab === "past") {
-      filtered = filtered.filter(
-        (event) => isBefore(parseISO(event.endDate || event.startDate), now) && !isToday(parseISO(event.startDate)),
-      )
-    } else if (activeTab === "today") {
-      filtered = filtered.filter((event) => isToday(parseISO(event.startDate)))
-    }
+    else if (activeTab === "today") filtered = filtered.filter((e) => isToday(parseISO(e.startDate)))
 
-    filtered.sort((a, b) => {
-      if (activeTab === "past") {
-        return parseISO(b.startDate).getTime() - parseISO(a.startDate).getTime()
-      }
-      return parseISO(a.startDate).getTime() - parseISO(b.startDate).getTime()
-    })
+    filtered.sort((a, b) =>
+      activeTab === "past"
+        ? parseISO(b.startDate).getTime() - parseISO(a.startDate).getTime()
+        : parseISO(a.startDate).getTime() - parseISO(b.startDate).getTime()
+    )
 
     setFilteredEvents(filtered)
     setCurrentPage(1)
@@ -124,34 +109,46 @@ export default function EventsPage() {
     setSelectedCategory("All")
     setSelectedClub("all")
     setSelectedDate(undefined)
+    window.umami?.track("events_clear_all_filters")
   }
 
   const hasActiveFilters = searchQuery || selectedCategory !== "All" || selectedClub !== "all" || selectedDate
 
   return (
     <div className="pt-24 pb-16">
-      <div className="container">
+      <div className="container px-4">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-12 text-center"
         >
           <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Campus Events</h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover exciting events and activities organized by Woxsen University clubs
           </p>
         </motion.div>
 
-        <Tabs defaultValue="upcoming" value={activeTab} onValueChange={setActiveTab} className="mb-8">
+        {/* Tabs */}
+        <Tabs
+          defaultValue="upcoming"
+          value={activeTab}
+          onValueChange={(tab) => {
+            setActiveTab(tab)
+            window.umami?.track("events_tab_change", { tab })
+          }}
+          className="mb-8"
+        >
           <TabsList className="grid w-full grid-cols-4 md:w-auto">
-            <TabsTrigger value="all">All Events</TabsTrigger>
-            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-            <TabsTrigger value="today">Today</TabsTrigger>
-            <TabsTrigger value="past">Past</TabsTrigger>
+            <TabsTrigger value="all" data-umami-event="events_tab_all">All Events</TabsTrigger>
+            <TabsTrigger value="upcoming" data-umami-event="events_tab_upcoming">Upcoming</TabsTrigger>
+            <TabsTrigger value="today" data-umami-event="events_tab_today">Today</TabsTrigger>
+            <TabsTrigger value="past" data-umami-event="events_tab_past">Past</TabsTrigger>
           </TabsList>
         </Tabs>
 
+        {/* Filters */}
         <div className="mb-8 space-y-4">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
@@ -161,25 +158,40 @@ export default function EventsPage() {
                 placeholder="Search events..."
                 className="pl-10"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value)
+                  window.umami?.track("events_search", { query: e.target.value })
+                }}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:flex md:w-auto">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select
+                value={selectedCategory}
+                onValueChange={(val) => {
+                  setSelectedCategory(val)
+                  window.umami?.track("events_filter_category", { category: val })
+                }}
+              >
                 <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
+                  {categories.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
 
-              <Select value={selectedClub} onValueChange={setSelectedClub}>
+              <Select
+                value={selectedClub}
+                onValueChange={(val) => {
+                  setSelectedClub(val)
+                  window.umami?.track("events_filter_club", { club: val })
+                }}
+              >
                 <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Club" />
                 </SelectTrigger>
@@ -193,7 +205,14 @@ export default function EventsPage() {
               </Select>
 
               <div className="col-span-2 md:col-span-1">
-                <DatePicker date={selectedDate} setDate={setSelectedDate} className="w-full" />
+                <DatePicker
+                  date={selectedDate}
+                  setDate={(d) => {
+                    setSelectedDate(d)
+                    if (d) window.umami?.track("events_filter_date", { date: d.toISOString() })
+                  }}
+                  className="w-full"
+                />
               </div>
             </div>
           </div>
@@ -206,40 +225,47 @@ export default function EventsPage() {
               </div>
 
               {searchQuery && (
-                <Badge variant="secondary" className="flex items-center gap-1">
+                <Badge variant="secondary" className="flex items-center gap-1" data-umami-event="events_clear_search">
                   Search: {searchQuery}
                   <X className="h-3 w-3 cursor-pointer" onClick={() => setSearchQuery("")} />
                 </Badge>
               )}
 
               {selectedCategory !== "All" && (
-                <Badge variant="secondary" className="flex items-center gap-1">
+                <Badge variant="secondary" className="flex items-center gap-1" data-umami-event="events_clear_category">
                   Category: {selectedCategory}
                   <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedCategory("All")} />
                 </Badge>
               )}
 
               {selectedClub !== "all" && (
-                <Badge variant="secondary" className="flex items-center gap-1">
+                <Badge variant="secondary" className="flex items-center gap-1" data-umami-event="events_clear_club">
                   Club: {clubs.find((c) => c.id === selectedClub)?.name}
                   <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedClub("all")} />
                 </Badge>
               )}
 
               {selectedDate && (
-                <Badge variant="secondary" className="flex items-center gap-1">
+                <Badge variant="secondary" className="flex items-center gap-1" data-umami-event="events_clear_date">
                   Date: {format(selectedDate, "MMM dd, yyyy")}
                   <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedDate(undefined)} />
                 </Badge>
               )}
 
-              <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={resetFilters}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 text-xs"
+                onClick={resetFilters}
+                data-umami-event="events_clear_all"
+              >
                 Clear all
               </Button>
             </div>
           )}
         </div>
 
+        {/* Event Grid */}
         {currentEvents.length > 0 ? (
           <>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -251,6 +277,7 @@ export default function EventsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
+                    onClick={() => window.umami?.track("events_view_event", { title: event.title })}
                   >
                     <EventCard event={event} />
                   </motion.div>
@@ -258,13 +285,17 @@ export default function EventsPage() {
               </AnimatePresence>
             </div>
 
+            {/* Pagination */}
             {totalPages > 1 && (
               <div className="mt-12 flex justify-center">
                 <div className="flex space-x-2">
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    onClick={() => {
+                      setCurrentPage((p) => Math.max(p - 1, 1))
+                      window.umami?.track("events_page_prev")
+                    }}
                     disabled={currentPage === 1}
                   >
                     &lt;
@@ -276,7 +307,10 @@ export default function EventsPage() {
                       variant="outline"
                       size="icon"
                       className={currentPage === i + 1 ? "bg-primary text-primary-foreground" : ""}
-                      onClick={() => setCurrentPage(i + 1)}
+                      onClick={() => {
+                        setCurrentPage(i + 1)
+                        window.umami?.track("events_page_click", { page: i + 1 })
+                      }}
                     >
                       {i + 1}
                     </Button>
@@ -285,7 +319,10 @@ export default function EventsPage() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    onClick={() => {
+                      setCurrentPage((p) => Math.min(p + 1, totalPages))
+                      window.umami?.track("events_page_next")
+                    }}
                     disabled={currentPage === totalPages}
                   >
                     &gt;
@@ -308,7 +345,11 @@ export default function EventsPage() {
                 : "There are no past events matching your criteria."}
             </p>
             {hasActiveFilters && (
-              <Button variant="outline" onClick={resetFilters}>
+              <Button
+                variant="outline"
+                onClick={resetFilters}
+                data-umami-event="events_reset_filters_empty_state"
+              >
                 Reset Filters
               </Button>
             )}
