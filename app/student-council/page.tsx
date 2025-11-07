@@ -1,57 +1,33 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
-import { Search, Filter, ChevronUp, Mail, Linkedin, Twitter } from "lucide-react"
+import { Search, Mail, Linkedin, Twitter } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import Image from "next/image"
+import Fuse from "fuse.js"
 
 export default function StudentCouncilPage() {
   const [members, setMembers] = useState<any[]>([])
-  const [filteredMembers, setFilteredMembers] = useState<any[]>([])
-  const [departments, setDepartments] = useState<string[]>(["All"])
-  const [roles, setRoles] = useState<string[]>(["All"])
-  const [years, setYears] = useState<string[]>(["All"])
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedDepartment, setSelectedDepartment] = useState("All")
-  const [selectedRole, setSelectedRole] = useState("All")
-  const [selectedYear, setSelectedYear] = useState("All")
-  const [activeTab, setActiveTab] = useState("team")
   const [selectedMember, setSelectedMember] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
-  // ✅ Fetch from API
+  // ✅ Fetch members from API
   useEffect(() => {
     async function fetchMembers() {
       try {
         const res = await fetch("/api/student-council")
         const data = await res.json()
-        
-        // Sort by photoPosition
-        const sortedData = data.sort((a: any, b: any) => {
-          const posA = a.photoPosition ?? Infinity
-          const posB = b.photoPosition ?? Infinity
-          return posA - posB
-        })
-        
-        setMembers(sortedData)
-        setFilteredMembers(sortedData)
 
-        // Create dropdown filters dynamically
-        const dep = ["All", ...new Set(sortedData.map((m: any) => m.department))].sort()
-        const role = ["All", ...new Set(sortedData.map((m: any) => m.role))].sort()
-        const year = ["All", ...new Set(sortedData.map((m: any) => m.year))].sort()
-
-        setDepartments(dep)
-        setRoles(role)
-        setYears(year)
+        // Sort by photoPosition for consistent layout
+        const sorted = data.sort((a: any, b: any) => (a.photoPosition ?? 9999) - (b.photoPosition ?? 9999))
+        setMembers(sorted)
       } catch (err) {
-        console.error("Error fetching council members:", err)
+        console.error("Error fetching student council:", err)
       } finally {
         setLoading(false)
       }
@@ -60,50 +36,20 @@ export default function StudentCouncilPage() {
     fetchMembers()
   }, [])
 
-  // ✅ Filtering logic
-  useEffect(() => {
-    let filtered = [...members]
+  // ✅ Setup Fuse.js fuzzy search
+  const fuse = useMemo(
+    () =>
+      new Fuse(members, {
+        keys: ["name", "role", "department", "year", "bio"],
+        threshold: 0.3, // lower = stricter match
+      }),
+    [members]
+  )
 
-    if (searchQuery.trim() !== "") {
-      const query = searchQuery.toLowerCase().trim()
-      filtered = filtered.filter(
-        (m) =>
-          m.name.toLowerCase().includes(query) ||
-          m.role.toLowerCase().includes(query) ||
-          m.department.toLowerCase().includes(query) ||
-          (m.bio && m.bio.toLowerCase().includes(query))
-      )
-    }
-
-    if (selectedDepartment !== "All") {
-      filtered = filtered.filter((m) => m.department === selectedDepartment)
-    }
-    if (selectedRole !== "All") {
-      filtered = filtered.filter((m) => m.role === selectedRole)
-    }
-    if (selectedYear !== "All") {
-      filtered = filtered.filter((m) => m.year === selectedYear)
-    }
-
-    // Maintain photoPosition ordering after filtering
-    filtered.sort((a, b) => {
-      const posA = a.photoPosition ?? Infinity
-      const posB = b.photoPosition ?? Infinity
-      return posA - posB
-    })
-
-    setFilteredMembers(filtered)
-  }, [searchQuery, selectedDepartment, selectedRole, selectedYear, members])
-
-  const resetFilters = () => {
-    setSearchQuery("")
-    setSelectedDepartment("All")
-    setSelectedRole("All")
-    setSelectedYear("All")
-  }
-
-  const hasActiveFilters =
-    searchQuery || selectedDepartment !== "All" || selectedRole !== "All" || selectedYear !== "All"
+  const filteredMembers = useMemo(() => {
+    if (!searchQuery.trim()) return members
+    return fuse.search(searchQuery).map((result) => result.item)
+  }, [searchQuery, members, fuse])
 
   if (loading) {
     return (
@@ -116,181 +62,69 @@ export default function StudentCouncilPage() {
   return (
     <div className="pt-24 pb-16">
       <div className="container">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-12 text-center"
         >
           <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Student Council</h1>
-          <p className="text-lg text-muted-foreground">
-            Meet the dedicated student leaders who represent and advocate for the Woxsen University student body
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Meet the leaders representing and shaping the student experience at Woxsen University.
           </p>
         </motion.div>
 
-        <Tabs defaultValue="team" value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-1 md:w-auto">
-            <TabsTrigger value="team">Meet the Team</TabsTrigger>
-          </TabsList>
+        {/* Search Input */}
+        <div className="relative max-w-xl mx-auto mb-12">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search by name, role, department..."
+            className="pl-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            data-track="search_council"
+          />
+        </div>
 
-          <TabsContent value="team" className="space-y-8">
-            {/* Search + Filters */}
-            <div className="mb-8 space-y-4">
-              <div className="flex flex-col gap-4 md:flex-row">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search council members..."
-                    className="pl-10"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+        {/* Members Grid */}
+        {filteredMembers.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredMembers.map((member, index) => (
+              <motion.div
+                key={member._id ?? member.id ?? `member-${index}`}
+                className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ y: -5 }}
+                onClick={() => setSelectedMember(member)}
+                data-track={`view_member_${member.id ?? member.name.replace(/\s+/g, "_").toLowerCase()}`}
+              >
+                <div className="relative h-64 w-full">
+                  <Image
+                    src={member.photo || "/placeholder.svg?height=300&width=300&text=Photo"}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
                   />
+                  <Badge className="absolute right-2 top-2 bg-[#EE495C]">{member.role}</Badge>
                 </div>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Department" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {departments.map((dep) => (
-                        <SelectItem key={dep} value={dep}>
-                          {dep}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={selectedRole} onValueChange={setSelectedRole}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {roles.map((role) => (
-                        <SelectItem key={role} value={role}>
-                          {role}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={selectedYear} onValueChange={setSelectedYear}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Year" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {years.map((year) => (
-                        <SelectItem key={year} value={year}>
-                          {year}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="p-4">
+                  <h3 className="text-xl font-bold">{member.name}</h3>
+                  <p className="text-sm text-muted-foreground">{member.department}</p>
+                  <p className="mt-1 text-sm">{member.year}</p>
                 </div>
-              </div>
-
-              {hasActiveFilters && (
-                <div className="flex flex-wrap items-center gap-2">
-                  <Filter className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Active filters:</span>
-
-                  {searchQuery && (
-                    <Badge variant="secondary">
-                      Search: {searchQuery}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => setSearchQuery("")}>
-                        <ChevronUp className="h-3 w-3" />
-                      </Button>
-                    </Badge>
-                  )}
-
-                  {selectedDepartment !== "All" && (
-                    <Badge variant="secondary">
-                      Department: {selectedDepartment}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-4 w-4 ml-1"
-                        onClick={() => setSelectedDepartment("All")}
-                      >
-                        <ChevronUp className="h-3 w-3" />
-                      </Button>
-                    </Badge>
-                  )}
-
-                  {selectedRole !== "All" && (
-                    <Badge variant="secondary">
-                      Role: {selectedRole}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => setSelectedRole("All")}>
-                        <ChevronUp className="h-3 w-3" />
-                      </Button>
-                    </Badge>
-                  )}
-
-                  {selectedYear !== "All" && (
-                    <Badge variant="secondary">
-                      Year: {selectedYear}
-                      <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => setSelectedYear("All")}>
-                        <ChevronUp className="h-3 w-3" />
-                      </Button>
-                    </Badge>
-                  )}
-
-                  <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={resetFilters}>
-                    Clear all
-                  </Button>
-                </div>
-              )}
-            </div>
-
-            {/* Team Members Grid */}
-            {filteredMembers.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredMembers.map((member) => (
-                  <motion.div
-                    key={member._id}
-                    className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    whileHover={{ y: -5 }}
-                    onClick={() => setSelectedMember(member)}
-                  >
-                    <div className="relative h-64 w-full">
-                      <Image
-                        src={member.photo || "/placeholder.svg?height=300&width=300&text=Photo"}
-                        alt={member.name}
-                        fill
-                        className="object-cover"
-                      />
-                      <Badge className="absolute right-2 top-2 bg-[#EE495C]">{member.role}</Badge>
-                    </div>
-
-                    <div className="p-4">
-                      <h3 className="text-xl font-bold">{member.name}</h3>
-                      <p className="text-sm text-muted-foreground">{member.department}</p>
-                      <p className="mt-2 text-sm">{member.year}</p>
-
-                      {member.bio && (
-                        <p className="mt-3 text-sm text-muted-foreground line-clamp-3">{member.bio}</p>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-                <h3 className="mb-2 text-xl font-medium">No council members found</h3>
-                <p className="mb-6 text-muted-foreground">Try adjusting your search or filter criteria</p>
-                {hasActiveFilters && (
-                  <Button variant="outline" onClick={resetFilters}>
-                    Reset Filters
-                  </Button>
-                )}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <h3 className="text-xl font-medium mb-2">No members found</h3>
+            <p className="text-muted-foreground mb-4">Try a different search term</p>
+          </div>
+        )}
 
         {/* Member Modal */}
         <Dialog open={!!selectedMember} onOpenChange={(open) => !open && setSelectedMember(null)}>
@@ -317,28 +151,40 @@ export default function StudentCouncilPage() {
                       <p className="text-sm font-medium">{selectedMember.year}</p>
                     </div>
 
-                    <div className="flex gap-2 mt-4">
+                    <div className="flex gap-2 mt-4 flex-wrap">
                       {selectedMember.email && (
-                        <Button variant="outline" size="sm" asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          data-track={`contact_email_${selectedMember.id ?? selectedMember.name}`}
+                        >
                           <a href={`mailto:${selectedMember.email}`}>
-                            <Mail className="h-4 w-4 mr-2" />
-                            Email
+                            <Mail className="h-4 w-4 mr-2" /> Email
                           </a>
                         </Button>
                       )}
                       {selectedMember.linkedin && (
-                        <Button variant="outline" size="sm" asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          data-track={`contact_linkedin_${selectedMember.id ?? selectedMember.name}`}
+                        >
                           <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer">
-                            <Linkedin className="h-4 w-4 mr-2" />
-                            LinkedIn
+                            <Linkedin className="h-4 w-4 mr-2" /> LinkedIn
                           </a>
                         </Button>
                       )}
                       {selectedMember.twitter && (
-                        <Button variant="outline" size="sm" asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          data-track={`contact_twitter_${selectedMember.id ?? selectedMember.name}`}
+                        >
                           <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer">
-                            <Twitter className="h-4 w-4 mr-2" />
-                            Twitter
+                            <Twitter className="h-4 w-4 mr-2" /> Twitter
                           </a>
                         </Button>
                       )}
