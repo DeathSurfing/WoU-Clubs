@@ -27,7 +27,7 @@ export default function StudentCouncilPreview() {
               src="/CouncilLead.webp"
               alt="Student Council"
               fill
-              quality={70}
+              quality={60}
               className="object-cover"
               sizes="(max-width:768px) 100vw, 50vw"
             />
