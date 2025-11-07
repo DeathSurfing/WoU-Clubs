@@ -19,6 +19,14 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
   const [club, setClub] = useState<Club | null>(null)
   const [clubEvents, setClubEvents] = useState<Event[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("about")
+
+  // ✅ Track page view
+  useEffect(() => {
+    if (unwrappedParams?.id) {
+      window.umami?.track("club_page_view", { club_id: unwrappedParams.id })
+    }
+  }, [unwrappedParams.id])
 
   useEffect(() => {
     async function fetchClubData() {
@@ -35,9 +43,6 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
         const clubData = await clubRes.json()
         const eventsData = await eventsRes.json()
 
-        console.log("✅ Club data received:", clubData)
-        console.log("✅ Events data received:", eventsData)
-
         setClub(clubData)
         setClubEvents(eventsData)
       } catch (err) {
@@ -49,6 +54,11 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
 
     fetchClubData()
   }, [unwrappedParams.id])
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+    window.umami?.track("club_tab_switch", { tab, club_id: club?.id })
+  }
 
   if (isLoading) {
     return (
@@ -78,6 +88,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
           <Link
             href="/clubs"
             className="mb-4 inline-flex items-center text-sm font-medium text-white/80 hover:text-white"
+            onClick={() => window.umami?.track("club_back_to_all_click", { club_id: club.id })}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to all clubs
@@ -93,7 +104,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
         <div className="container">
           <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <Tabs defaultValue="about">
+              <Tabs value={activeTab} onValueChange={handleTabChange}>
                 <TabsList className="mb-8">
                   <TabsTrigger value="about">About</TabsTrigger>
                   <TabsTrigger value="events">Events</TabsTrigger>
@@ -103,11 +114,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
 
                 {/* About Tab */}
                 <TabsContent value="about" className="space-y-6">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                     <h2 className="mb-4 text-2xl font-bold">About the Club</h2>
                     <div className="prose prose-lg dark:prose-invert max-w-none">
                       <p>{club.description}</p>
@@ -116,135 +123,117 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                         {club.mission ||
                           "To provide students with opportunities to develop skills, pursue interests, and build a community around shared passions."}
                       </p>
-                      <h3>What We Do</h3>
-                      <ul>
-                        {club.activities?.length ? (
-                          club.activities.map((activity, index) => <li key={index}>{activity}</li>)
-                        ) : (
-                          <>
-                            <li>Regular meetings and workshops</li>
-                            <li>Special events and competitions</li>
-                            <li>Collaborative projects</li>
-                            <li>Skill development sessions</li>
-                          </>
-                        )}
-                      </ul>
                     </div>
                   </motion.div>
                 </TabsContent>
 
                 {/* Events Tab */}
                 <TabsContent value="events" className="space-y-6">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <h2 className="mb-4 text-2xl font-bold">Upcoming Events</h2>
-                    <div className="space-y-6">
-                      {clubEvents.map((event, index) => (
-                        <div key={index} className="rounded-lg border p-6">
-                          <div className="flex items-start gap-4">
-                            <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                              <Calendar className="h-6 w-6" />
-                            </div>
-                            <div>
-                              <h3 className="text-xl font-semibold">{event.title}</h3>
-                              <p className="text-sm text-muted-foreground">
-                                {format(new Date(event.startDate), "MMMM d, yyyy")}
-                                {event.startTime && ` • ${event.startTime}`}
-                                {event.endTime && ` - ${event.endTime}`}
-                                {event.location && ` • ${event.location}`}
-                              </p>
-                              <p className="mt-2">{event.description}</p>
-                              {event.image && (
-                                <div className="mt-4 relative h-48 w-full rounded-lg overflow-hidden">
-                                  <Image
-                                    src={event.image}
-                                    alt={event.title}
-                                    fill
-                                    className="object-cover"
-                                  />
-                                </div>
-                              )}
-                              <Button
-                                className="mt-4 bg-[#EE495C] hover:bg-[#EE495C]/90"
-                                size="sm"
-                                asChild
-                              >
-                                <a href={event.registerUrl || "#"} target="_blank">
-                                  Register
-                                </a>
-                              </Button>
-                            </div>
+                  <h2 className="mb-4 text-2xl font-bold">Upcoming Events</h2>
+                  {clubEvents.length ? (
+                    clubEvents.map((event, index) => (
+                      <motion.div
+                        key={index}
+                        className="rounded-lg border p-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.05 }}
+                        data-umami-event="club_event_card_view"
+                        data-umami-event-title={event.title}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                            <Calendar className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold">{event.title}</h3>
+                            <p className="text-sm text-muted-foreground">
+                              {format(new Date(event.startDate), "MMMM d, yyyy")}
+                              {event.location && ` • ${event.location}`}
+                            </p>
+                            <p className="mt-2">{event.description}</p>
+                            {event.image && (
+                              <div className="mt-4 relative h-48 w-full rounded-lg overflow-hidden">
+                                <Image src={event.image} alt={event.title} fill className="object-cover" />
+                              </div>
+                            )}
+                            <Button
+                              className="mt-4 bg-[#EE495C] hover:bg-[#EE495C]/90"
+                              size="sm"
+                              asChild
+                              data-umami-event="club_event_register_click"
+                              data-umami-event-eventtitle={event.title}
+                            >
+                              <a href={event.registerUrl || "#"} target="_blank">
+                                Register
+                              </a>
+                            </Button>
                           </div>
                         </div>
-                      ))}
-                      {clubEvents.length === 0 && (
-                        <p className="text-muted-foreground">No upcoming events at the moment. Check back soon!</p>
-                      )}
-                    </div>
-                  </motion.div>
+                      </motion.div>
+                    ))
+                  ) : (
+                    <p className="text-muted-foreground">No upcoming events right now. Check back soon!</p>
+                  )}
                 </TabsContent>
 
                 {/* Members Tab */}
                 <TabsContent value="members" className="space-y-6">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <h2 className="mb-4 text-2xl font-bold">Club Members</h2>
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                      {club.members?.length ? (
-                        club.members.map((member, index) => (
-                          <div key={index} className="flex items-center gap-4 rounded-lg border p-4">
-                            <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                              <Image
-                                src={member.avatar || "/placeholder.svg?height=100&width=100"}
-                                alt={member.name}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div>
-                              <h3 className="font-medium">{member.name}</h3>
-                              <p className="text-sm text-muted-foreground">{member.role}</p>
-                            </div>
+                  <h2 className="mb-4 text-2xl font-bold">Club Members</h2>
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {club.members?.length ? (
+                      club.members.map((member, index) => (
+                        <motion.div
+                          key={index}
+                          className="flex items-center gap-4 rounded-lg border p-4"
+                          data-umami-event="club_member_view"
+                          data-umami-event-name={member.name}
+                        >
+                          <div className="relative h-12 w-12 overflow-hidden rounded-full">
+                            <Image
+                              src={member.avatar || "/placeholder.svg?height=100&width=100"}
+                              alt={member.name}
+                              fill
+                              className="object-cover"
+                            />
                           </div>
-                        ))
-                      ) : (
-                        <p className="col-span-full text-muted-foreground">Member information not available.</p>
-                      )}
-                    </div>
-                  </motion.div>
+                          <div>
+                            <h3 className="font-medium">{member.name}</h3>
+                            <p className="text-sm text-muted-foreground">{member.role}</p>
+                          </div>
+                        </motion.div>
+                      ))
+                    ) : (
+                      <p className="text-muted-foreground">Member information not available.</p>
+                    )}
+                  </div>
                 </TabsContent>
 
                 {/* Gallery Tab */}
                 <TabsContent value="gallery" className="space-y-6">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <h2 className="mb-4 text-2xl font-bold">Gallery</h2>
-                    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-                      {club.gallery?.length ? (
-                        club.gallery.map((image, index) => (
-                          <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
-                            <Image
-                              src={image || "/placeholder.svg?height=300&width=300"}
-                              alt={`Gallery image ${index + 1}`}
-                              fill
-                              className="object-cover transition-transform duration-300 hover:scale-105"
-                            />
-                          </div>
-                        ))
-                      ) : (
-                        <p className="col-span-full text-muted-foreground">No gallery images available.</p>
-                      )}
-                    </div>
-                  </motion.div>
+                  <h2 className="mb-4 text-2xl font-bold">Gallery</h2>
+                  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                    {club.gallery?.length ? (
+                      club.gallery.map((image, index) => (
+                        <motion.div
+                          key={index}
+                          className="relative aspect-square overflow-hidden rounded-lg"
+                          whileHover={{ scale: 1.02 }}
+                          data-umami-event="club_gallery_image_view"
+                          data-umami-event-index={index + 1}
+                        >
+                          <Image
+                            src={image || "/placeholder.svg?height=300&width=300"}
+                            alt={`Gallery image ${index + 1}`}
+                            fill
+                            className="object-cover transition-transform duration-300 hover:scale-105"
+                          />
+                        </motion.div>
+                      ))
+                    ) : (
+                      <p className="text-muted-foreground">No gallery images available.</p>
+                    )}
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
@@ -283,6 +272,7 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                       <a
                         href={`mailto:${club.email}`}
                         className="hover:text-primary"
+                        onClick={() => window.umami?.track("club_email_click", { email: club.email })}
                       >
                         {club.email}
                       </a>
@@ -290,7 +280,12 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                   )}
                 </div>
 
-                <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
+                <Button
+                  className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90"
+                  asChild
+                  data-umami-event="club_apply_click"
+                  data-umami-event-clubname={club.name}
+                >
                   <a href={club.joinUrl || "/noregistrationrequired"}>Apply to Join</a>
                 </Button>
                 <p className="mt-4 text-center text-sm text-muted-foreground">
@@ -298,16 +293,6 @@ export default function ClubPage({ params }: { params: Promise<{ id: string }> }
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Related Clubs */}
-      <section className="bg-muted/50 py-12">
-        <div className="container">
-          <h2 className="mb-8 text-2xl font-bold">Similar Clubs You Might Like</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* You can replace this with an API call if needed */}
           </div>
         </div>
       </section>

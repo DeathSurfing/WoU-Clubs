@@ -18,6 +18,11 @@ export default function ClubsPage() {
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Track page load
+  useEffect(() => {
+    window.umami?.track("clubs_page_view");
+  }, []);
+
   // Fetch clubs from API
   useEffect(() => {
     async function fetchClubs() {
@@ -64,10 +69,37 @@ export default function ClubsPage() {
   }, [searchQuery, selectedCategory, activeCategories, clubs]);
 
   const toggleCategory = (category: string) => {
-    setActiveCategories((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
-    );
+    const updated = activeCategories.includes(category)
+      ? activeCategories.filter((c) => c !== category)
+      : [...activeCategories, category];
+
+    setActiveCategories(updated);
     setSelectedCategory("All");
+
+    // ✅ Track filter interaction
+    window.umami?.track("clubs_filter_toggle", { category, active: !activeCategories.includes(category) });
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    if (value.trim().length > 0) {
+      window.umami?.track("clubs_search", { query: value });
+    }
+  };
+
+  const handleCategorySelect = (value: string) => {
+    setSelectedCategory(value);
+    setActiveCategories([]);
+    if (value !== "All") {
+      window.umami?.track("clubs_category_select", { category: value });
+    }
+  };
+
+  const resetFilters = () => {
+    setSearchQuery("");
+    setSelectedCategory("All");
+    setActiveCategories([]);
+    window.umami?.track("clubs_reset_filters");
   };
 
   if (loading) {
@@ -83,7 +115,9 @@ export default function ClubsPage() {
       <div className="container">
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold tracking-tight">All Clubs</h1>
-          <p className="text-muted-foreground">Explore all the clubs available at Woxsen University</p>
+          <p className="text-muted-foreground">
+            Explore all the clubs available at Woxsen University
+          </p>
         </div>
 
         {/* Search + Filter */}
@@ -95,16 +129,12 @@ export default function ClubsPage() {
               placeholder="Search clubs by name or keyword..."
               className="pl-10"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
+              data-umami-event="clubs_search_input"
             />
           </div>
-          <Select
-            value={selectedCategory}
-            onValueChange={(value) => {
-              setSelectedCategory(value);
-              setActiveCategories([]);
-            }}
-          >
+
+          <Select value={selectedCategory} onValueChange={handleCategorySelect}>
             <SelectTrigger>
               <SelectValue placeholder="Category" />
             </SelectTrigger>
@@ -132,12 +162,20 @@ export default function ClubsPage() {
                 variant={activeCategories.includes(category) ? "default" : "outline"}
                 className="cursor-pointer"
                 onClick={() => toggleCategory(category)}
+                data-umami-event="clubs_badge_toggle"
+                data-umami-event-category={category}
               >
                 {category}
               </Badge>
             ))}
           {activeCategories.length > 0 && (
-            <Button variant="ghost" size="sm" className="text-xs h-7" onClick={() => setActiveCategories([])}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs h-7"
+              onClick={resetFilters}
+              data-umami-event="clubs_clear_filters"
+            >
               Clear filters
             </Button>
           )}
@@ -148,10 +186,13 @@ export default function ClubsPage() {
           {filteredClubs.length > 0 ? (
             filteredClubs.map((club, index) => (
               <motion.div
-                key={club.id || club._id || `club-${index}`} // ✅ FIXED unique key
+                key={club.id || club._id || `club-${index}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
+                data-umami-event="club_card_view"
+                data-umami-event-name={club.name}
+                onClick={() => window.umami?.track("club_card_click", { club: club.name })}
               >
                 <ClubCard club={club} />
               </motion.div>
@@ -159,15 +200,10 @@ export default function ClubsPage() {
           ) : (
             <div className="col-span-full py-12 text-center">
               <h3 className="text-xl font-medium mb-2">No clubs found</h3>
-              <p className="text-muted-foreground mb-6">Try adjusting your search or filter criteria</p>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedCategory("All");
-                  setActiveCategories([]);
-                }}
-              >
+              <p className="text-muted-foreground mb-6">
+                Try adjusting your search or filter criteria
+              </p>
+              <Button variant="outline" onClick={resetFilters}>
                 Reset Filters
               </Button>
             </div>
