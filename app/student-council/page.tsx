@@ -112,15 +112,15 @@ export default function StudentCouncilPage() {
                   <Image
                     src={councilImg(member)}
                     alt={member.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                    // If the proxy 404s for some record, swap to placeholder on the fly
-                    onError={(e) => {
-                      const img = e.currentTarget as HTMLImageElement
-                      img.src = "/placeholder.svg?height=300&width=300&text=Photo"
-                    }}
+                    width={600}
+                    height={750}
+                    quality={60}
+                    className="object-cover w-full h-full"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
+                    placeholder="blur"
+                    blurDataURL="/placeholder.svg?height=10&width=10"
                   />
+
                   <Badge className="absolute right-2 top-2 bg-[#EE495C]">{member.role}</Badge>
                 </div>
                 <div className="p-4">
@@ -148,14 +148,12 @@ export default function StudentCouncilPage() {
                     <Image
                       src={councilImg(selectedMember)}
                       alt={selectedMember.name}
-                      fill
+                      width={400}
+                      height={500}
+                      quality={75}
                       className="object-cover"
-                      sizes="192px"
-                      onError={(e) => {
-                        const img = e.currentTarget as HTMLImageElement
-                        img.src = "/placeholder.svg?height=300&width=300&text=Photo"
-                      }}
                     />
+
                   </div>
 
                   <div className="flex-1">
