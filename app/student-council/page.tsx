@@ -51,6 +51,12 @@ export default function StudentCouncilPage() {
     return fuse.search(searchQuery).map((result) => result.item)
   }, [searchQuery, members, fuse])
 
+  // Helper to pick the proxied image URL (falls back to raw photo or placeholder)
+  const councilImg = (m: any) =>
+    m?.id
+      ? `/api/images/studentcouncil/${encodeURIComponent(m.id)}`
+      : m?.photo || "/placeholder.svg?height=300&width=300&text=Photo"
+
   if (loading) {
     return (
       <div className="pt-24 pb-16 flex justify-center items-center min-h-[60vh]">
@@ -104,10 +110,16 @@ export default function StudentCouncilPage() {
               >
                 <div className="relative h-64 w-full">
                   <Image
-                    src={member.photo || "/placeholder.svg?height=300&width=300&text=Photo"}
+                    src={councilImg(member)}
                     alt={member.name}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                    // If the proxy 404s for some record, swap to placeholder on the fly
+                    onError={(e) => {
+                      const img = e.currentTarget as HTMLImageElement
+                      img.src = "/placeholder.svg?height=300&width=300&text=Photo"
+                    }}
                   />
                   <Badge className="absolute right-2 top-2 bg-[#EE495C]">{member.role}</Badge>
                 </div>
@@ -134,10 +146,15 @@ export default function StudentCouncilPage() {
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="relative w-full md:w-48 h-64 md:h-48 flex-shrink-0 rounded-lg overflow-hidden">
                     <Image
-                      src={selectedMember.photo || "/placeholder.svg?height=300&width=300&text=Photo"}
+                      src={councilImg(selectedMember)}
                       alt={selectedMember.name}
                       fill
                       className="object-cover"
+                      sizes="192px"
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement
+                        img.src = "/placeholder.svg?height=300&width=300&text=Photo"
+                      }}
                     />
                   </div>
 

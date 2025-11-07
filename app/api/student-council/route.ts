@@ -1,135 +1,68 @@
-import clientPromise from "@/lib/mongodb";
-import redis from "@/lib/redis";
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
+import clientPromise from "@/lib/mongodb"
+import redis from "@/lib/redis"
+
+export const revalidate = 600 // optional static hint for ISR if deployed on Vercel
 
 export async function GET() {
-  const cacheKey = "studentcouncil:all";
+  const cacheKey = "studentcouncil:all"
 
   try {
-    // 1️⃣ Try Redis cache first
-    const cached = await redis.get(cacheKey);
+    // ✅ 1. Try Redis cache first
+    const cached = await redis.get(cacheKey)
     if (cached) {
       return NextResponse.json(JSON.parse(cached), {
         headers: { "X-Cache": "HIT" },
-      });
+      })
     }
 
-    // 2️⃣ Fallback → MongoDB
-    const client = await clientPromise;
-    const db = client.db("woxsen");
+    // ✅ 2. Connect to Mongo
+    const client = await clientPromise
+    const db = client.db("woxsen")
 
+    // ✅ 3. Fetch only essential data (no photo base64)
     const members = await db
       .collection("studentcouncil")
-      .find()
-      .project({
-        // 🔹 Core Identifiers
-        _id: 1,
-        id: 1,
-        name: 1,
-        fullName: 1,
-        rollNumber: 1,
-        email: 1,
-        phoneNumber: 1,
-
-        // 🔹 Academic / Department Info
-        department: 1,
-        departmentCode: 1,
-        specialization: 1,
-        year: 1,
-        semester: 1,
-        section: 1,
-        hostelBlock: 1,
-        roomNumber: 1,
-
-        // 🔹 Council Roles
-        role: 1,
-        positionTitle: 1,
-        designation: 1,
-        team: 1,
-        category: 1,
-        committee: 1,
-        responsibilities: 1,
-        tags: 1,
-
-        // 🔹 Media & Visuals
-        photo: 1,
-        coverImage: 1,
-        bannerImage: 1,
-        backgroundImage: 1,
-        thumbnail: 1,
-        imageCdnUrl: 1,
-        photoPosition: 1,
-
-        // 🔹 Bio, Quotes & Highlights
-        bio: 1,
-        description: 1,
-        quote: 1,
-        motto: 1,
-        achievements: 1,
-        awards: 1,
-        highlights: 1,
-        notableProjects: 1,
-        initiatives: 1,
-        contributions: 1,
-
-        // 🔹 Social Media & Contact Links
-        linkedin: 1,
-        twitter: 1,
-        instagram: 1,
-        github: 1,
-        portfolio: 1,
-        personalWebsite: 1,
-        youtube: 1,
-        emailPublic: 1,
-        socials: 1,
-
-        // 🔹 System Metadata
-        createdAt: 1,
-        updatedAt: 1,
-        createdBy: 1,
-        updatedBy: 1,
-        verified: 1,
-        isActive: 1,
-        isFeatured: 1,
-        priority: 1,
-        sortOrder: 1,
-        lastLogin: 1,
-
-        // 🔹 Engagement Metrics
-        views: 1,
-        likes: 1,
-        followers: 1,
-        endorsements: 1,
-        influenceScore: 1,
-
-        // 🔹 Extended Fields
-        skills: 1,
-        interests: 1,
-        hobbies: 1,
-        languages: 1,
-        certifications: 1,
-        experience: 1,
-        education: 1,
-        projects: 1,
-        volunteering: 1,
-        publications: 1,
-        eventsLed: 1,
-        eventsParticipated: 1,
-      })
+      .find(
+        { isActive: { $ne: false } }, // optional filter for inactive entries
+        {
+          projection: {
+            _id: 0,
+            id: 1,
+            name: 1,
+            role: 1,
+            department: 1,
+            year: 1,
+            photoPosition: 1,
+            bio: 1,
+            quote: 1,
+            email: 1,
+            linkedin: 1,
+            twitter: 1,
+            updatedAt: 1,
+          },
+        }
+      )
       .sort({ sortOrder: 1, photoPosition: 1 })
-      .toArray();
+      .toArray()
 
-    // 3️⃣ Cache results in Redis for 10 minutes (600s)
-    await redis.setex(cacheKey, 600, JSON.stringify(members));
+    // ✅ 4. Transform: inject CDN URL instead of base64
+    const transformed = members.map((m) => ({
+      ...m,
+      photo: `/api/images/studentcouncil/${m.id}`,
+    }))
 
-    return NextResponse.json(members, {
+    // ✅ 5. Cache in Redis (10 min = 600s)
+    await redis.setex(cacheKey, 600, JSON.stringify(transformed))
+
+    return NextResponse.json(transformed, {
       headers: { "X-Cache": "MISS" },
-    });
+    })
   } catch (err) {
-    console.error("[StudentCouncil API Error]", err);
+    console.error("[StudentCouncil API Error]", err)
     return NextResponse.json(
       { error: "Failed to fetch student council" },
       { status: 500 }
-    );
+    )
   }
 }
