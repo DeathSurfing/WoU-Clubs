@@ -36,7 +36,6 @@ export default function Home() {
         setLoading(false)
       }
     }
-
     fetchClubs()
   }, [])
 
@@ -94,7 +93,12 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Button className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white" size="lg" asChild>
+            <Button
+              className="w-full bg-[#EE495C] hover:bg-[#EE495C]/90 text-white"
+              size="lg"
+              asChild
+              data-track="cta_view_events"
+            >
               <a href="/events">Campus Events</a>
             </Button>
             <Button
@@ -102,6 +106,7 @@ export default function Home() {
               className="w-full border-gray-900 dark:border-white text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10"
               size="lg"
               asChild
+              data-track="cta_explore_clubs"
             >
               <a href="#explore">Explore Clubs</a>
             </Button>
@@ -162,6 +167,7 @@ export default function Home() {
                     variant="outline"
                     className="border-primary text-primary hover:bg-primary hover:text-primary-foreground dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
                     asChild
+                    data-track="cta_view_council_structure"
                   >
                     <Link href="/student-council">View Structure</Link>
                   </Button>
@@ -202,7 +208,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="flex justify-end"
               >
-                <Button className="bg-[#EE495C] hover:bg-[#EE495C]/90" asChild>
+                <Button className="bg-[#EE495C] hover:bg-[#EE495C]/90" asChild data-track="cta_meet_council">
                   <Link href="/student-council" className="flex items-center">
                     Meet the Council
                     <ChevronRight className="ml-2 h-4 w-4" />
@@ -235,9 +241,14 @@ export default function Home() {
                   className="pl-10"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  data-track="filter_search_clubs"
                 />
               </div>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+                data-track="filter_select_category"
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -259,7 +270,7 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredClubs.slice(0, 6).map((club, index) => (
                 <motion.div
-                  key={club._id ?? club.id ?? `club-${index}`} // ✅ Fix: unique key with fallbacks
+                  key={club._id ?? club.id ?? `club-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -277,7 +288,7 @@ export default function Home() {
 
           {filteredClubs.length > 6 && (
             <div className="mt-8 text-center">
-              <Button asChild className="bg-[#EE495C] hover:bg-[#EE495C]/90">
+              <Button asChild className="bg-[#EE495C] hover:bg-[#EE495C]/90" data-track="cta_view_all_clubs">
                 <a href="/clubs">View All Clubs</a>
               </Button>
             </div>
@@ -292,7 +303,12 @@ export default function Home() {
           <p className="mx-auto mb-8 max-w-2xl text-white/90">
             Take the first step towards an enriching university experience by joining one of our many clubs
           </p>
-          <Button size="lg" className="bg-white text-[#EE495C] hover:bg-white/90" asChild>
+          <Button
+            size="lg"
+            className="bg-white text-[#EE495C] hover:bg-white/90"
+            asChild
+            data-track="cta_get_started_join_club"
+          >
             <a href="/clubs">Get Started</a>
           </Button>
         </div>
