@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { revalidatePath } from "next/cache"
 
 export async function GET() {
   const BASE_URL =
@@ -7,10 +8,18 @@ export async function GET() {
     process.env.NEXT_PUBLIC_ADMIN_PANEL ||
     "http://localhost:3000" // fallback for local dev
 
-  const endpoints = [
+  // 🧩 API endpoints to refetch (server-side cache regeneration)
+  const apiEndpoints = [
     "/api/student-council",
     "/api/clubs",
     "/api/events",
+  ]
+
+  // 🧠 Frontend pages to revalidate (Next.js ISR)
+  const pagePaths = [
+    "/student-council",
+    "/clubs",
+    "/events",
   ]
 
   const results: {
@@ -19,18 +28,17 @@ export async function GET() {
     message?: string
   }[] = []
 
-  console.log("♻️ Prewarm triggered – regenerating caches...")
+  console.log("♻️ Prewarm triggered – regenerating API + page caches...")
 
-  for (const endpoint of endpoints) {
+  // 1️⃣ Refresh API caches
+  for (const endpoint of apiEndpoints) {
     const fullUrl = `${BASE_URL}${endpoint}?revalidate=1`
     try {
       console.log(`⚡ Regenerating cache for: ${fullUrl}`)
       const res = await fetch(fullUrl, {
         method: "GET",
         cache: "no-store",
-        headers: {
-          "x-prewarm-trigger": "true", // optional custom header
-        },
+        headers: { "x-prewarm-trigger": "true" },
       })
 
       if (!res.ok) {
@@ -43,7 +51,6 @@ export async function GET() {
         continue
       }
 
-      // Try to parse JSON for debugging
       let data: any = null
       try {
         data = await res.json()
@@ -64,6 +71,17 @@ export async function GET() {
         status: "error",
         message: err?.message || "Unknown error",
       })
+    }
+  }
+
+  // 2️⃣ Revalidate frontend pages (Next.js ISR)
+  console.log("🧱 Revalidating frontend pages via ISR...")
+  for (const path of pagePaths) {
+    try {
+      await revalidatePath(path)
+      console.log(`✅ Revalidated page: ${path}`)
+    } catch (err: any) {
+      console.error(`❌ Failed to revalidate page: ${path}`, err)
     }
   }
 
