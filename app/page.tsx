@@ -22,6 +22,7 @@ export default function Home() {
   const [clubs, setClubs] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
+  // ✅ Fetch clubs on mount
   useEffect(() => {
     async function fetchClubs() {
       try {
@@ -30,7 +31,7 @@ export default function Home() {
         const data = await res.json()
         setClubs(data)
       } catch (err) {
-        console.error(err)
+        console.error("❌ Error fetching clubs:", err)
       } finally {
         setLoading(false)
       }
@@ -39,16 +40,18 @@ export default function Home() {
     fetchClubs()
   }, [])
 
+  // ✅ Generate category list dynamically
   const categories = [
     "All",
-    ...Array.from(new Set(clubs.map((club) => club.category))),
+    ...Array.from(new Set(clubs.map((club) => club.category))).filter(Boolean),
   ].sort()
 
+  // ✅ Filter clubs by search and category
   const filteredClubs = clubs.filter((club) => {
     const matchesSearch =
-      club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      club.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      club.description.toLowerCase().includes(searchQuery.toLowerCase())
+      club.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      club.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      club.description?.toLowerCase().includes(searchQuery.toLowerCase())
 
     const matchesCategory =
       selectedCategory === "All" || club.category === selectedCategory
@@ -211,7 +214,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Search and Filter Section */}
+      {/* Explore Clubs Section */}
       <section id="explore" className="py-16 bg-muted/50">
         <div className="container">
           <div className="mb-12 text-center">
@@ -256,7 +259,7 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredClubs.slice(0, 6).map((club, index) => (
                 <motion.div
-                  key={club._id}
+                  key={club._id ?? club.id ?? `club-${index}`} // ✅ Fix: unique key with fallbacks
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -282,7 +285,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA Section */}
       <section className="bg-[#EE495C] py-16 text-white">
         <div className="container text-center">
           <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">Ready to Join a Club?</h2>

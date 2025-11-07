@@ -6,10 +6,12 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
+import Script from "next/script" 
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Woxsen Student Council | Clubs & Leadership",
-  description: "Explore Woxsen University’s vibrant student clubs, connect with leaders, and discover your passion through academics, arts, business, tech, and more.",
+  description:
+    "Explore Woxsen University’s vibrant student clubs, connect with leaders, and discover your passion through academics, arts, business, tech, and more.",
   keywords: [
     "Woxsen University",
     "Woxsen Student Council",
@@ -20,7 +22,7 @@ export const metadata = {
     "Cultural Clubs",
     "Technical Clubs",
     "Sports Clubs",
-    "Woxsen Events"
+    "Woxsen Events",
   ],
   authors: [{ name: "Woxsen Student Council", url: "https://woxsenstudentcouncil.com" }],
   creator: "Woxsen Student Council",
@@ -28,12 +30,13 @@ export const metadata = {
   metadataBase: new URL("https://woxsenstudentcouncil.com"),
   openGraph: {
     title: "Woxsen Student Council | Clubs & Leadership",
-    description: "Discover your passion. Join vibrant clubs. Be a part of something bigger at Woxsen University.",
+    description:
+      "Discover your passion. Join vibrant clubs. Be a part of something bigger at Woxsen University.",
     url: "https://woxsenstudentcouncil.com",
     siteName: "Woxsen Student Council",
     images: [
       {
-        url: "https://woxsenstudentcouncil.com/SCLightLogo.png", // Replace with your OG image path
+        url: "https://woxsenstudentcouncil.com/SCLightLogo.png",
         width: 1200,
         height: 630,
         alt: "Woxsen Student Council OpenGraph Image",
@@ -44,11 +47,12 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Woxsen Student Council | Clubs & Leadership",
-    description: "Join the movement of innovation, creativity, and leadership at Woxsen University.",
-    site: "@WoxsenUniversityStudentAffairs", // Replace if you have a Twitter handle
-    images: ["https://woxsenstudentcouncil.com/SCLightLogo.png"], // Replace with your OG image path
+    description:
+      "Join the movement of innovation, creativity, and leadership at Woxsen University.",
+    site: "@WoxsenUniversityStudentAffairs",
+    images: ["https://woxsenstudentcouncil.com/SCLightLogo.png"],
   },
-};
+}
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -62,6 +66,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* ✅ Umami Analytics Script */}
+        <Script
+          async
+          src="https://analytics.woxsenstudentcouncil.com/script.js"
+          data-website-id="d122e914-2b21-4111-9b83-cea52767c851"
+        />
+      </head>
       <body className={`${workSans.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
@@ -81,7 +93,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-
-import './globals.css'
