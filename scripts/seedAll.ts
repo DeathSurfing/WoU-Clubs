@@ -1,5 +1,7 @@
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 import { clubsData } from "../data/clubs";
 import { eventsData } from "../data/events";
 import { teamMembers } from "../data/student-council";
@@ -11,9 +13,11 @@ if (!uri) throw new Error("❌ MONGO_URI not found in .env file");
 
 const client = new MongoClient(uri);
 
-// Placeholder image for everything
-const PLACEHOLDER =
-  "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
+// Load placeholder image & convert to Base64
+const placeholderPath = path.join(process.cwd(), "assets", "placeholder.svg");
+const fileBuffer = fs.readFileSync(placeholderPath);
+const base64Placeholder =
+  "data:image/svg+xml;base64," + fileBuffer.toString("base64");
 
 async function run() {
   try {
@@ -33,26 +37,26 @@ async function run() {
       membersCollection.deleteMany({}),
     ]);
 
-    console.log("🎨 Applying placeholder images...");
+    console.log("🎨 Applying placeholder images (Base64)...");
 
     // --- Prepare Clubs ---
     const clubsWithImages = clubsData.map((club) => ({
       ...club,
-      image: PLACEHOLDER,
-      coverImage: PLACEHOLDER,
-      gallery: club.gallery ? club.gallery.map(() => PLACEHOLDER) : [],
+      image: base64Placeholder,
+      coverImage: base64Placeholder,
+      gallery: club.gallery ? club.gallery.map(() => base64Placeholder) : [],
     }));
 
     // --- Prepare Events ---
     const eventsWithImages = eventsData.map((event) => ({
       ...event,
-      image: PLACEHOLDER,
+      image: base64Placeholder,
     }));
 
     // --- Prepare Student Council Members ---
     const membersWithImages = teamMembers.map((member) => ({
       ...member,
-      photo: PLACEHOLDER,
+      photo: base64Placeholder,
     }));
 
     console.log("📦 Inserting data...");
@@ -63,7 +67,7 @@ async function run() {
     console.log("✅ Seeding complete!");
     console.log(`🏫 Clubs inserted: ${clubsWithImages.length}`);
     console.log(`📅 Events inserted: ${eventsWithImages.length}`);
-    console.log(`👤 Student Council members inserted: ${membersWithImages.length}`);
+    console.log(`👤 Members inserted: ${membersWithImages.length}`);
   } catch (error) {
     console.error("❌ Error seeding data:", error);
   } finally {
