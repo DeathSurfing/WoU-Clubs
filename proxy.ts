@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server";
-
 // Allowed origins for BROWSER requests
 const allowedOrigins = [
   "https://woxsenstudentcouncil.com",
@@ -7,6 +5,7 @@ const allowedOrigins = [
   "https://admin.woxsenstudentcouncil.com",
 ];
 
+// Add localhost during development
 if (process.env.NODE_ENV === "development") {
   allowedOrigins.push("http://localhost:3000");
 }
@@ -17,20 +16,25 @@ export default async function proxy(request: Request) {
 
   // Only apply CORS to API routes
   if (!pathname.startsWith("/api")) {
-    return NextResponse.next();
+    return;
   }
 
   const origin = request.headers.get("origin");
 
-  // SSR / internal fetch (no Origin) → allow
+  // Allow server-side/edge/internal fetches (no Origin header)
+  // SSR, RSC, Node fetch, Next internal calls → always allowed
   if (!origin) {
-    return NextResponse.next();
+    return;
   }
 
-  // Browser request: validate origin
+  // From here on, it's a browser request.
+
+  //  Block browsers with disallowed origins
   if (!allowedOrigins.includes(origin)) {
-    return new NextResponse(
-      JSON.stringify({ error: "CORS policy violation: Origin not allowed" }),
+    return new Response(
+      JSON.stringify({
+        error: "CORS policy violation: Origin not allowed",
+      }),
       {
         status: 403,
         headers: { "Content-Type": "application/json" },
@@ -38,28 +42,22 @@ export default async function proxy(request: Request) {
     );
   }
 
-  // Preflight
+  // Pre-build standard CORS headers
+  const corsHeaders: Record<string, string> = {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Credentials": "true",
+  };
+
   if (request.method === "OPTIONS") {
-    return new NextResponse(null, {
+    return new Response(null, {
       status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": origin,
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true",
-      },
+      headers: corsHeaders,
     });
   }
 
-  // For real browser requests, add CORS & continue routing
-  const response = NextResponse.next({
-    headers: {
-      "Access-Control-Allow-Origin": origin,
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Credentials": "true",
-    },
+  return new Response(null, {
+    headers: corsHeaders,
   });
-
-  return response;
 }
