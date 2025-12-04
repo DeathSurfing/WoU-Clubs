@@ -1,12 +1,16 @@
 [phases.setup]
-nixPkgs = ["bun"]
+# Install Bun + Node
+nixPkgs = ["bun", "nodejs_20"]
 
 [phases.install]
-cmds = ["bun install"]
+# Use Bun to install using bun.lock
+cmds = ["bun install --no-save"]
 
 [phases.build]
-cmds = ["bun run build"]
+# Build using Node (Next.js requires full worker_threads API)
+cmds = ["node ./node_modules/next/dist/bin/next build"]
 
-[start]
-cmd = "bun run start"
+[phases.start]
+# Run using Node as well
+cmd = "node ./node_modules/next/dist/bin/next start -p $PORT"
 env = { PORT = "3000" }
