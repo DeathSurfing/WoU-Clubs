@@ -8,6 +8,7 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    qualities: [60, 70, 75, 80],
     remotePatterns: [
       {
         protocol: 'https',
@@ -22,9 +23,6 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
