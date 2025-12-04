@@ -1,12 +1,12 @@
 [phases.setup]
-nixPkgs = ["nodejs_18", "pnpm"]
+nixPkgs = ["bun"]   # Use Bun runtime only
 
 [phases.install]
-cmds = ["npm install --legacy-peer-deps"]
+cmds = ["bun install"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = ["bun run build"]
 
 [phases.start]
-cmd = "npm run start"
+cmd = "bun run start"
 env = { PORT = "3000" }
