@@ -9,3 +9,5 @@ bun.lock
 .DS_Store
 public/sitemap-0.xml
 public/sitemap-0.xml
+.DS_Store
+next-env.d.ts
